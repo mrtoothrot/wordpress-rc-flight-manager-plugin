@@ -169,7 +169,7 @@ class RC_Flight_Manager_Public {
 		}
 		
 		// Get information about current user
-		$current_user = wp_get_current_user();
+		//$current_user = wp_get_current_user();
 		//$content .= "Hallo " . $current_user->user_firstname . $current_user->user_lastname;
 
 		// Testing
@@ -226,7 +226,7 @@ class RC_Flight_Manager_Public {
 		$lastMonth = "";
 		// Filling table with data
 		foreach ( $schedules as $s ) {
-			$schedule_id = "table_row_schedule_id_" . $s->schedule_id;
+			
 			//$buttonTakeoverDutyId = "buttonTakeoverDutyId_" . $d->id;
 			//$buttonSwapDutyId = "buttonSwapDutyId_" . $d->id;
 			//$buttonCancelSwapDutyId = "buttonCancelSwapDutyId_" . $d->id;
@@ -235,10 +235,11 @@ class RC_Flight_Manager_Public {
 			//$dutySelectionId = "dutySelectionId_" . $d->id;
 		
 			$date = strtotime( $s->date );
-			$formatedDate = date_i18n("D j. M", $date);
+			//$formatedDate = date_i18n("D j. M", $date);
 			$currentMonth = date_i18n("F", $date);
-			$userObj = get_userdata($s->user_id);
+			//$userObj = get_userdata($s->user_id);
 		
+			// Create a sub-header row for each month
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= "<tr>";
@@ -246,19 +247,45 @@ class RC_Flight_Manager_Public {
 				$row .= "</tr>";
 				$row .= $header;
 			}
-			$row .= "<tr id=$schedule_id>";
-			$row .= '<td><p align="center"><b>' . $formatedDate . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $s->comment . '</p></td>';
-			if ( $userObj ) {
-				$row .= "<td>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</td>";
-			}
-			else {
-				$row .= "<td></td>";
-			}
+			// append row to table
+			$table .= $row;
 
-			if ( $s->user_id == 0 ) { 
-				// if no user is entered, offer to take over this service!
-				$row .= "<td>" . $s->getTakeoverButtonHtml() . "</td>";
-			} 
+			// Create a data row for each service
+			$row_id = "table_row_schedule_id_" . $s->schedule_id;
+			$row = "";
+			$row .= "<tr id=$row_id>";
+			$row .= $s->getTableData();
+			$row .= "</tr>";
+
+			$table .= $row;
+
+
+
+			//$name = "";
+			//if ( $userObj ) {
+			//	$name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
+			//}
+			//if ( $s->user_id == 0 ) { 
+			//	// if no user is entered, offer to take over this service!
+			//	// append row to table
+			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, $s->getTakeoverButtonHtml());
+			//} 
+			//else {
+			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, "");
+			//}
+			//$row .= "<tr id=$schedule_id>";
+			//$row .= '<td><p align="center"><b>' . $formatedDate . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $s->comment . '</p></td>';
+			//if ( $userObj ) {
+			//	$row .= "<td>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</td>";
+			//}
+			//else {
+			//	$row .= "<td></td>";
+			//}
+
+			//if ( $s->user_id == 0 ) { 
+			//	// if no user is entered, offer to take over this service!
+			//	$row .= "<td>" . $s->getTakeoverButtonHtml() . "</td>";
+			//} 
 //			elseif ($d->userid == $current_user->ID) {
 //				if ($d->swap == "False") {
 //					$row .= "<td>" . $d->getSwapButtonHtml() . "</td>";
@@ -274,13 +301,13 @@ class RC_Flight_Manager_Public {
 //			
 //				$row .= "<td>" . $d->getProposeSwapButtonHtml($ownDuties) . "</td>";
 //			}
-			else {
-				$row .= "<td></td>";
-			}
-			$row .= "</tr>";
+			//else {
+			//	$row .= "<td></td>";
+			//}
+			//$row .= "</tr>";
 		
 			// append row to table
-			$table .= $row;
+			//$table .= $row;
 		
 			$lastMonth = $currentMonth;
 		};
@@ -304,27 +331,28 @@ class RC_Flight_Manager_Public {
 	    //$swap = $_POST["swap"];
 
 	    // Load Duty from DB
-	    $fms = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 	
 	    // Get current Wordpress User
 	    $current_user = wp_get_current_user();
 
 	    // Update Duty with current user
-	    //$fms->updateUser($current_user->ID);
-	    //$fms->saveToDatabase();
+	    $s->updateUser($current_user->ID);
+	    //$s->saveToDatabase();
 	
 	    // Calculate date entry
-	    $mysqldate = strtotime( $fms->date );
-	    $dutydate = date_i18n("D j. M", $mysqldate);
+	    //$mysqldate = strtotime( $s->date );
+	    //$dutydate = date_i18n("D j. M", $mysqldate);
 
 	    // Prepare new table row
-	    $row = "";
-	    $row .= "<td>$dutydate</td>";
-	    $row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
-	    $row .= "<td>" . '$fms->getSwapButtonHtml()' . "</td>";
+		//$row = "";
+		//$row .= $s->getTableData();
+	    //$row .= "<td>$dutydate</td>";
+	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
+	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
 	
-	    // return new table row
-		echo $row;
+	    // return new table data
+		echo $s->getTableData();
 		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
