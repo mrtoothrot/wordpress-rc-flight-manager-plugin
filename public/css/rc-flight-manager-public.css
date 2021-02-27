@@ -2,3 +2,18 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ /**.hidden_service_selection { display: none; }
+ 
+ .shown_service_selection { display: initial; }
+ 
+ .hidden_user_selection { display: none; }
+ 
+ .shown_user_selection { display: initial; }
+ */
+
+ .hidden { display: none; }
+ 
+button:disabled {
+    background-color: grey
+}

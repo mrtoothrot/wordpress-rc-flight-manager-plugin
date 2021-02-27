@@ -243,7 +243,7 @@ class RC_Flight_Manager_Public {
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"6\">$currentMonth</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$currentMonth</th>"; // TODO:  Better format using Theme CSS later
 				$row .= "</tr>";
 				$row .= $header;
 			}
@@ -356,5 +356,40 @@ class RC_Flight_Manager_Public {
 		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
-	 }
+	}
+
+	 function button_handover() {
+		error_log("RC_Flight_Manager_Public :: button_handover called!");
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+	    $new_user_id = $_POST["new_user"];
+	    
+	    // Load Duty from DB
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	
+	    // Get userdata for $new_user_id
+	    $new_user_obj = get_userdata($new_user_id);
+
+	    // Update Duty with current user
+	    $s->updateUser($new_user_id);
+	    //$s->saveToDatabase();
+	
+	    // Calculate date entry
+	    //$mysqldate = strtotime( $s->date );
+	    //$dutydate = date_i18n("D j. M", $mysqldate);
+
+	    // Prepare new table row
+		//$row = "";
+		//$row .= $s->getTableData();
+	    //$row .= "<td>$dutydate</td>";
+	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
+	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
+	
+	    // return new table data
+		echo $s->getTableData();
+		//echo "SUCCESSFUL! $schedule_id";
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
 }

@@ -100,4 +100,147 @@
 //	   //   jQuery(receivingElement).html(response);
 //	   //});
 	}));
+
+	// If swap button is clicked, show service selection
+	$("#table_rc_flight_manager_schedule").on("click", ".button_swap_schedule", (function() {
+		console.log("button_swap_schedule clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		var selection_id = "service_div_id_" + schedule_id;
+		console.log("schedule_id = " + schedule_id)
+		console.log("selection_id = " + selection_id)
+
+		// Hide all buttons
+		$(".button_swap_schedule").hide();
+		$(".button_handover_schedule").hide();
+		$(".button_takeover_schedule").hide();
+
+		// Hide all selections
+		$(".div_swap_schedule").addClass('hidden');
+		$(".div_handover_schedule").addClass('hidden');
+		
+		// Let buttons disappear
+		//$("#button_swap_schedule_id_" + schedule_id).hide();
+		//$("#button_handover_schedule_id_" + schedule_id).hide();
+
+		// Show selection
+		$("#" + selection_id).removeClass('hidden');
+
+	}));
+
+	// If handover button is clicked, show user selection
+	$("#table_rc_flight_manager_schedule").on("click", ".button_handover_schedule", (function() {
+		console.log("button_handover_schedule clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		var selection_id = "user_div_id_" + schedule_id;
+		console.log("schedule_id = " + schedule_id)
+		console.log("selection_id = " + selection_id)
+
+		// Hide all buttons
+		$(".button_swap_schedule").hide();
+		$(".button_handover_schedule").hide();
+		$(".button_takeover_schedule").hide();
+
+		// Hide all selections
+		$(".div_swap_schedule").addClass('hidden');
+		$(".div_handover_schedule").addClass('hidden');
+		
+		// Let buttons disappear
+		//$("#button_swap_schedule_id_" + schedule_id).hide();
+		//$("#button_handover_schedule_id_" + schedule_id).hide();
+
+		// Show selection
+		$("#" + selection_id).removeClass('hidden');
+		
+	}));
+
+	$("#table_rc_flight_manager_schedule").on("click", ".swap_disclaimer", (function() {
+		var id = $(this).attr('value');
+		//var id = $this.id;
+		console.log("swap_disclaimer " + id + " clicked!");
+		// If disclaimer is clicked, activate OK button
+		if($("#swap_disclaimer_id_" + id).is(':checked')){
+			console.log("swap_disclaimer checked!");
+			$("#swap_ok_button_id_" + id).prop("disabled",false);
+		}
+		else {
+			console.log("swap_disclaimer not checked!");
+    		$("#swap_ok_button_id_" + id).prop("disabled",true);
+		}
+	}));
+
+	$("#table_rc_flight_manager_schedule").on("click", ".handover_disclaimer", (function() {
+		var id = $(this).attr('value');
+		//var id = $this.id;
+		console.log("handover_disclaimer " + id + " clicked!");
+		// If disclaimer is clicked, activate OK button
+		if($("#handover_disclaimer_id_" + id).is(':checked')){
+			console.log("handover_disclaimer checked!");
+			$("#handover_ok_button_id_" + id).prop("disabled",false);
+		}
+		else {
+			console.log("handover_disclaimer not checked!");
+    		$("#handover_ok_button_id_" + id).prop("disabled",true);
+		}
+	}));
+
+	// If abort button is clicked go to default view
+	$("#table_rc_flight_manager_schedule").on("click", ".abort_button", (function() {
+		// Hide all selections
+		$(".div_swap_schedule").addClass('hidden');
+		$(".div_handover_schedule").addClass('hidden');
+		
+		// Show all buttons
+		$(".button_swap_schedule").show();
+		$(".button_handover_schedule").show();
+		$(".button_takeover_schedule").show();
+	}));
+
+	// If ok button is clicked, update DB
+	$("#table_rc_flight_manager_schedule").on("click", ".ok_button", (function() {
+		var id = $(this).attr('value');
+		var button_id = $(this).attr('id');
+		console.log("ok_button clicked = " + button_id);
+		
+		// Hide all selections
+		$(".div_swap_schedule").addClass('hidden');
+		$(".div_handover_schedule").addClass('hidden');
+		
+		if ($(this).hasClass("swap_ok_button")) {
+			var selection_id = "service_selection_id_" + id;
+			// Get the selected duty 
+			var selection = document.getElementById(selection_id);
+			var serviceToSwap = selection.value;
+			console.log("service_id = " + id);
+			console.log("selection_id = " + selection_id);
+			console.log("serviceToSwap = " + serviceToSwap);
+		}
+		if ($(this).hasClass("handover_ok_button")) {
+			var selection_id = "user_selection_id_" + id;
+			// Get the selected user 
+			var selection = document.getElementById(selection_id);
+			var handoverToUser = selection.value;
+			console.log("service_id = " + id);
+			console.log("selection_id = " + selection_id);
+			console.log("handoverToUser = " + handoverToUser);
+
+			var data = {
+				'action'   		: 'button_handover', // the name of your PHP function!
+				'schedule_id'   : id,		         // a random value we'd like to pass
+				'new_user' 		: handoverToUser
+			};
+			
+			$.post(ajaxurl, data, function (response) {
+				console.log("Response = " + response);
+				var receivingElement = "#table_row_schedule_id_" + id;
+				console.log("receiving HTML Element: " + receivingElement);
+				$(receivingElement).html(response);
+				// Show all buttons
+				$(".button_swap_schedule").show();
+				$(".button_handover_schedule").show();
+				$(".button_takeover_schedule").show();
+			});
+		}
+		
+	}));
+
 })( jQuery );
