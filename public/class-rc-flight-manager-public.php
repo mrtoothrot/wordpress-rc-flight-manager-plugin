@@ -146,10 +146,30 @@ class RC_Flight_Manager_Public {
 	 */
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );
+		add_shortcode('rc_flight_slot_reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
 		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
 	  }
 	
+	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
+		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
+		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
+		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
+		$content = "TEST";
+
+		// Check if user is logged in
+		if ( ! ( is_user_logged_in() ) ) {
+			// If user is not logged in, he is not allowed to see the schedule
+		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
+		}
+
+		// return content
+		return $content;
+	}
+
+
 	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null) {
 		//error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
 		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!" );
