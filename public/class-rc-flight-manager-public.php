@@ -117,7 +117,7 @@ class RC_Flight_Manager_Public {
 		 */
 
 		// Test cron-job execution by calling url: http://<wordpress-url>/wp-cron.php
-		error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
+		//error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
 		
 		// Send Test email
 		wp_mail( "mrtoothrot@gmail.com", "Test from WP-CRONJOB", "Hourly mail from cronjob!");
@@ -151,8 +151,8 @@ class RC_Flight_Manager_Public {
 	  }
 	
 	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null) {
-		error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
-
+		//error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
+		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!" );
 		// wp_enqueue_script loads the JS code if shortcode is active
 		// (see https://kinsta.com/de/blog/wp-enqueue-scripts/)
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -323,7 +323,7 @@ class RC_Flight_Manager_Public {
 
 
 	function button_takeover() {
-		error_log("RC_Flight_Manager_Public :: button_takeover called!");
+		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
@@ -359,7 +359,7 @@ class RC_Flight_Manager_Public {
 	}
 
 	 function button_handover() {
-		error_log("RC_Flight_Manager_Public :: button_handover called!");
+		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
@@ -388,6 +388,86 @@ class RC_Flight_Manager_Public {
 	
 	    // return new table data
 		echo $s->getTableData();
+		//echo "SUCCESSFUL! $schedule_id";
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function button_assign() {
+		//error_log("RC_Flight_Manager_Public :: button_assign called!");
+		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: button_assign called!" );
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+	    $new_user_id = $_POST["new_user"];
+	    
+	    // Load Duty from DB
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	
+	    // Get userdata for $new_user_id
+	    $new_user_obj = get_userdata($new_user_id);
+
+	    // Update Duty with current user
+	    $s->updateUser($new_user_id, "Yes"); // Second parameter = "Yes" => Change done by admin!
+	    //$s->saveToDatabase();
+	
+	    // Calculate date entry
+	    //$mysqldate = strtotime( $s->date );
+	    //$dutydate = date_i18n("D j. M", $mysqldate);
+
+	    // Prepare new table row
+		//$row = "";
+		//$row .= $s->getTableData();
+	    //$row .= "<td>$dutydate</td>";
+	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
+	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
+	
+	    // return new table data
+		echo $s->getTableData();
+		//echo "SUCCESSFUL! $schedule_id";
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function button_swap() {
+		//error_log("RC_Flight_Manager_Public :: button_swap called!");
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+	    $swap_schedule_id = $_POST["swap_schedule_id"];
+	    
+	    // Load Duty from DB
+		// Current user who is giving away a service
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+		// Service which will be swapped
+		$s2 = RC_Flight_Manager_Schedule::getServiceById($swap_schedule_id);
+	
+	    // Get userdata for $new_user_id
+	    //$s_user_obj = get_userdata($s->user_id);
+		//$s2_user_obj = get_userdata($s2->user_id);
+
+	    // Update Duty with new user
+		$temp = $s->user_id;
+	    $s->updateUser($s2->user_id);
+		$s2->updateUser($temp);
+	    //$s->saveToDatabase();
+	
+	    // Calculate date entry
+	    //$mysqldate = strtotime( $s->date );
+	    //$dutydate = date_i18n("D j. M", $mysqldate);
+
+	    // Prepare new table row
+		//$row = "";
+		//$row .= $s->getTableData();
+	    //$row .= "<td>$dutydate</td>";
+	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
+	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
+	
+	    // return new table data
+		echo $s->getTableData();
+		echo ":SEP:";
+		echo $s2->getTableData();
+
 		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response

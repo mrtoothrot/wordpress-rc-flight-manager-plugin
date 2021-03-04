@@ -101,6 +101,34 @@
 //	   //});
 	}));
 
+	// If assign button is clicked, show user selection
+	$("#table_rc_flight_manager_schedule").on("click", ".button_assign_schedule", (function() {
+		console.log("button_assign_schedule clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		var selection_id = "user_div_id_" + schedule_id;
+		console.log("schedule_id = " + schedule_id)
+		console.log("selection_id = " + selection_id)
+
+		// Hide all buttons
+		$(".button_swap_schedule").hide();
+		$(".button_handover_schedule").hide();
+		$(".button_takeover_schedule").hide();
+		$(".button_assign_schedule").hide();
+
+		// Hide all selections
+		$(".div_swap_schedule").addClass('hidden');
+		$(".div_handover_schedule").addClass('hidden');
+		$(".div_assign_schedule").addClass('hidden');
+		
+		// Let buttons disappear
+		//$("#button_swap_schedule_id_" + schedule_id).hide();
+		//$("#button_handover_schedule_id_" + schedule_id).hide();
+
+		// Show selection
+		$("#" + selection_id).removeClass('hidden');
+
+	}));
+
 	// If swap button is clicked, show service selection
 	$("#table_rc_flight_manager_schedule").on("click", ".button_swap_schedule", (function() {
 		console.log("button_swap_schedule clicked!");
@@ -113,6 +141,7 @@
 		$(".button_swap_schedule").hide();
 		$(".button_handover_schedule").hide();
 		$(".button_takeover_schedule").hide();
+		$(".button_assign_schedule").hide();
 
 		// Hide all selections
 		$(".div_swap_schedule").addClass('hidden');
@@ -139,6 +168,7 @@
 		$(".button_swap_schedule").hide();
 		$(".button_handover_schedule").hide();
 		$(".button_takeover_schedule").hide();
+		$(".button_assign_schedule").hide();
 
 		// Hide all selections
 		$(".div_swap_schedule").addClass('hidden');
@@ -188,11 +218,13 @@
 		// Hide all selections
 		$(".div_swap_schedule").addClass('hidden');
 		$(".div_handover_schedule").addClass('hidden');
+		$(".div_assign_schedule").addClass('hidden');
 		
 		// Show all buttons
 		$(".button_swap_schedule").show();
 		$(".button_handover_schedule").show();
 		$(".button_takeover_schedule").show();
+		$(".button_assign_schedule").show();
 	}));
 
 	// If ok button is clicked, update DB
@@ -213,6 +245,29 @@
 			console.log("service_id = " + id);
 			console.log("selection_id = " + selection_id);
 			console.log("serviceToSwap = " + serviceToSwap);
+
+			var data = {
+				'action'   			: 'button_swap', // the name of your PHP function!
+				'schedule_id'   	: id,		         // a random value we'd like to pass
+				'swap_schedule_id' 	: serviceToSwap
+			};
+			
+			$.post(ajaxurl, data, function (response) {
+				console.log("Response = " + response);
+				var responses = response.split(":SEP:", 2);
+				var receivingElement1 = "#table_row_schedule_id_" + id;
+				var receivingElement2 = "#table_row_schedule_id_" + serviceToSwap;
+				console.log("receiving HTML Element for first service: " + receivingElement1);
+				console.log("receiving HTML Element for second service: " + receivingElement2);
+				$(receivingElement1).html(responses[0]);
+				$(receivingElement2).html(responses[1]);
+				
+				// Show all buttons
+				$(".button_swap_schedule").show();
+				$(".button_handover_schedule").show();
+				$(".button_takeover_schedule").show();
+				$(".button_assign_schedule").show();
+			});
 		}
 		if ($(this).hasClass("handover_ok_button")) {
 			var selection_id = "user_selection_id_" + id;
@@ -238,6 +293,34 @@
 				$(".button_swap_schedule").show();
 				$(".button_handover_schedule").show();
 				$(".button_takeover_schedule").show();
+				$(".button_assign_schedule").show();
+			});
+		}
+		if ($(this).hasClass("assign_ok_button")) {
+			var selection_id = "user_selection_id_" + id;
+			// Get the selected user 
+			var selection = document.getElementById(selection_id);
+			var assignToUser = selection.value;
+			console.log("service_id = " + id);
+			console.log("selection_id = " + selection_id);
+			console.log("assignToUser = " + assignToUser);
+
+			var data = {
+				'action'   		: 'button_assign',   // the name of your PHP function!
+				'schedule_id'   : id,		         // a random value we'd like to pass
+				'new_user' 		: assignToUser
+			};
+			
+			$.post(ajaxurl, data, function (response) {
+				console.log("Response = " + response);
+				var receivingElement = "#table_row_schedule_id_" + id;
+				console.log("receiving HTML Element: " + receivingElement);
+				$(receivingElement).html(response);
+				// Show all buttons
+				$(".button_swap_schedule").show();
+				$(".button_handover_schedule").show();
+				$(".button_takeover_schedule").show();
+				$(".button_assign_schedule").show();
 			});
 		}
 		

@@ -63,6 +63,7 @@ class RC_Flight_Manager_Activator {
 				date date DEFAULT '0000-00-00' NOT NULL,
 	        	user_id mediumint(9),
 				comment varchar(140),
+				change_id mediumint(9),
 				UNIQUE KEY schedule_id (schedule_id)
 	    	) 
 			$charset_collate;";

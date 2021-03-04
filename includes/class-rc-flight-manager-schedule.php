@@ -33,14 +33,15 @@ class RC_Flight_Manager_Schedule {
 	//public $test = RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME;
 
 	// Methods
-    function __construct($schedule_id, $date, $user_id, $comment) {
+    function __construct($schedule_id, $date, $user_id, $comment, $change_id) {
         $this->schedule_id = $schedule_id;
         $this->date = $date;
         $this->user_id = $user_id;
         $this->comment = $comment;
+        $this->change_id = $change_id;
 	}
 
-    function logToDatabase($old_user_id) {
+    function logToDatabase($old_user_id, $by_admin = 'No' ) {
         global $wpdb;
         // Update logging table entry
         $logging_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME;
@@ -48,7 +49,7 @@ class RC_Flight_Manager_Schedule {
             $logging_table_name, 
             array( 
                 //'date'          => date(),   MySQL CURRENT_TIMESTAMP is used
-                'by_admin'      => "No",
+                'by_admin'      => $by_admin,
                 'schedule_id'   => $this->schedule_id,
                 'old_user_id'   => $old_user_id,
                 'new_user_id'   => $this->user_id,
@@ -63,6 +64,7 @@ class RC_Flight_Manager_Schedule {
                 '%s'
             ) 
         );
+        return($wpdb->insert_id);
     }
 
     function saveToDatabase() {
@@ -75,13 +77,15 @@ class RC_Flight_Manager_Schedule {
                 'schedule_id'       => $this->schedule_id,
                 'date'              => $this->date, 
                 'user_id'           => $this->user_id,
-                'comment'           => $this->comment
+                'comment'           => $this->comment,
+                'change_id'         => $this->change_id
             ), 
             array( 
                 '%d',
                 '%s', 
                 '%d', 
-                '%s'
+                '%s',
+                '%d'
             ) 
         );
     }
@@ -98,7 +102,7 @@ class RC_Flight_Manager_Schedule {
         }
         $schedules = array();
         foreach ( $list as $x ) {
-            $s = new RC_Flight_Manager_Schedule($x->schedule_id, $x->date, $x->user_id, $x->comment);
+            $s = new RC_Flight_Manager_Schedule($x->schedule_id, $x->date, $x->user_id, $x->comment, $x->change_id);
             // append new Duty to list
             array_push($schedules, $s);
         };
@@ -110,15 +114,16 @@ class RC_Flight_Manager_Schedule {
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE schedule_id=$schedule_id", OBJECT );
-        $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->userid, $result->comment);
+        $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
         return $s;
     }
 
     // Public methods
-    public function updateUser($new_id) {
+    public function updateUser( $new_id, $by_admin = 'No' ) {
+        //do_action( 'qm/debug', "by_admin = $by_admin" );
         $old_user_id = $this->user_id;
         $this->user_id = $new_id;
-        $this->logToDatabase($old_user_id);
+        $this->change_id = $this->logToDatabase($old_user_id, $by_admin);
         $this->saveToDatabase();
     }
 
@@ -132,6 +137,41 @@ class RC_Flight_Manager_Schedule {
         $html = "<button type=\"button\" id=\"$id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Dienst übernehmen</button>";
         return($html);
     }
+
+    public function getAssignButtonHtml() {
+        $current_user = wp_get_current_user();
+        $html = "";
+
+        $id = $this->schedule_id;
+        $button_id = "button_assign_schedule_id_" . $this->schedule_id;
+        //$disclaimer_id = "handover_disclaimer_id_" . $this->schedule_id;
+        $div_id = "user_div_id_" . $this->schedule_id;
+        $selection_id = "user_selection_id_" . $this->schedule_id;
+        $ok_button_id = "assign_ok_button_id_" . $this->schedule_id;
+        $abort_button_id = "assign_abort_button_id_" . $this->schedule_id;
+        $class = "button_assign_schedule";
+        $divclass = "div_assign_schedule";
+
+        // Assign Button
+        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Dienst zuweisen</button>";
+        $html .= "<div id=\"$div_id\" class =\"$divclass hidden\"><p><select id=\"$selection_id\">";
+        $users = get_users();
+        foreach ( $users as $u) {
+            if ($u->ID != 0) {
+                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+                //$date = date_i18n("D j. M", strtotime( $s->date ));
+                $html .= "<option value=\"$u->ID\">$name</option>";
+            }
+        }
+        $html .= "</select> zum Dienst einteilen.</p>";
+        // Ok / Abort buttons
+        $html .= "<button type=\"button\" id=\"$ok_button_id\" class=\"assign_ok_button ok_button\" value=\"$id\">OK</button>";
+        $html .= "<button type=\"button\" id=\"$abort_button_id\" class=\"abort_button\">Abbruch</button>";
+        $html .= "</div>";
+
+        return($html);
+    }
+
 
     public function getSwapButtonHtml() {
         $current_user = wp_get_current_user();
@@ -234,15 +274,30 @@ class RC_Flight_Manager_Schedule {
 
         if ( $this->user_id == 0 ) { 
             // if no user is entered, offer to take over this service!
-            $row .= "<td>" . $this->getTakeoverButtonHtml() . "</td>";
-        } 
+            if ( $current_user->ID == 42 ) {
+                # If user has ID 42, offer to assign a user 
+                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
+            }
+            else {
+                $row .= "<td>" . $this->getTakeoverButtonHtml() . "</td>";
+            }
+        }
         elseif ( $this->user_id == $current_user->ID ) {
-            $row .= "<td>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+            if ( $current_user->ID == 42 ) {
+                # If user has ID 42, offer to assign a user 
+                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+            }
+            else {
+                $row .= "<td>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+            }
+        }
+        elseif ( $current_user->ID == 42 ) {
+            # If user has ID 42, offer to assign a user 
+            $row .= "<td>". $this->getAssignButtonHtml() . "</td>";
         }
         else {
             $row .= "<td></td>";
         }
-
 		return $row;
 	}
 }
