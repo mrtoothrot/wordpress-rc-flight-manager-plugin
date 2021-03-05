@@ -38,6 +38,8 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'RC_FLIGHT_MANAGER_VERSION', '1.0.0' );
 define( 'RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME', 'rcfm_schedule');
 define( 'RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME', 'rcfm_logging');
+define( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME', 'rcfm_slots');
+define( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_RESERVATIONS_TABLE_NAME', 'rcfm_slotreservations');
 
 
 /**

@@ -37,6 +37,10 @@ class RC_Flight_Manager_Activator {
 		RC_Flight_Manager_Activator::create_schedule_table();
 		// Create logging table
 		RC_Flight_Manager_Activator::create_logging_table();
+		// Create flightslot table
+		RC_Flight_Manager_Activator::create_flightslot_table();
+		// Create reservations table
+		RC_Flight_Manager_Activator::create_flightslot_reservations_table();
 
 		// Scheduling CRON job to send notification emails
 		if ( ! wp_next_scheduled( 'rcfm_scheduled_notifications' ) ) {
@@ -100,5 +104,55 @@ class RC_Flight_Manager_Activator {
 
 		// Now execute SQL
 		dbDelta( $create_logging_table_sql );
+	}
+	
+	static function create_flightslot_table() {
+		// init WP DB API
+		global $wpdb;
+		$charset_collate = $wpdb->get_charset_collate();
+
+		// Define table name
+		if ( ! (defined( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME' ) ) ) {
+			return -1;
+		}
+		$flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;
+		
+		// Creating a Table with the following fields
+		// | change_id | date | by_admin | schedule_id | old_user_id | new_user_id | mail_sent |
+		
+		$create_flightslot_table_sql = 
+			"CREATE TABLE $flightslot_table_name (
+				reservation_id mediumint(9) NOT NULL AUTO_INCREMENT,
+				date date DEFAULT '0000-00-00' NOT NULL,
+				time time DEFAULT '00:00:00' NOT NULL,
+				UNIQUE KEY reservation_id (reservation_id)
+			) $charset_collate;";
+
+		// Now execute SQL
+		dbDelta( $create_flightslot_table_sql );
+	}
+
+	static function create_flightslot_reservations_table() {
+		// init WP DB API
+		global $wpdb;
+		$charset_collate = $wpdb->get_charset_collate();
+
+		// Define table name
+		if ( ! (defined( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_RESERVATIONS_TABLE_NAME' ) ) ) {
+			return -1;
+		}
+		$flightslot_reservations_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_RESERVATIONS_TABLE_NAME;
+		
+		// Creating a Table with the following fields
+		// | change_id | date | by_admin | schedule_id | old_user_id | new_user_id | mail_sent |
+		
+		$create_flightslot_reservations_table_sql = 
+			"CREATE TABLE $flightslot_reservations_table_name (
+				reservation_id mediumint(9) NOT NULL,
+				user_id mediumint(9)
+			) $charset_collate;";
+
+		// Now execute SQL
+		dbDelta( $create_flightslot_reservations_table_sql );
 	}
 }

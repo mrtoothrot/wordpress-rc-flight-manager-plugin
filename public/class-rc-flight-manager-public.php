@@ -150,6 +150,50 @@ class RC_Flight_Manager_Public {
 		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
 	  }
+
+	function init_flightslots( $date ) {
+        global $wpdb;
+        // Insert flightslots for each hour on $date
+        $flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;
+        
+		// Check if there are already entries for today
+		$rowcount = $wpdb->get_var("SELECT COUNT(*) FROM $flightslot_table_name WHERE date = '${date}'");
+		//do_action( "qm/debug", "Rows for ${date}: ${rowcount}" );
+
+		// Insert one entry for each our between 8am and 20pm
+		if ($rowcount == 0) {
+			for ($x = 8; $x <= 20; $x++) {
+				$hour = "${x}:00";
+				$wpdb->insert( 
+        		    $flightslot_table_name, 
+        		    array( 
+
+        		        'date'      => $date,
+        		        'time'   	=> $hour
+        		    ), 
+        		    array( 
+        		        '%s', 
+        		        '%s'
+        		    ) 
+        		);
+			}
+		}
+    }
+
+
+	function get_flightslots( $date ) {
+        global $wpdb;
+        // Insert flightslots for each hour on $date
+        $flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;
+        
+		// Get flightslots starting from $date
+		$list = $wpdb->get_results( "SELECT * FROM $flightslot_table_name WHERE date >= '$date'", OBJECT );
+		//do_action( "qm/debug", "Rows for ${date}: ${rowcount}" );
+
+		return($list);
+    }
+
+
 	
 	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -157,7 +201,7 @@ class RC_Flight_Manager_Public {
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
-		$content = "TEST";
+		$content = "";
 
 		// Check if user is logged in
 		if ( ! ( is_user_logged_in() ) ) {
@@ -165,6 +209,63 @@ class RC_Flight_Manager_Public {
 		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
 		}
 
+		// Update flightslots database with new slots for next 14 days if neccessary
+		$today = date("Y-m-d");
+		//do_action( "qm/debug", "Today is ${today}!" );
+		$day = $today;
+		for ($x = 0; $x <= 13; $x++) {
+			$this->init_flightslots($day);		
+			$day = date("Y-m-d", strtotime("$day +1 day"));
+			//do_action( "qm/debug", "Day is ${day}!" );
+		}
+
+		// Get flightslots starting today
+		$slots = $this->get_flightslots($today);
+
+		// Preparing the table
+	    $table = '<table id="table_rc_flight_manager_flightslots">';
+	    $table .= '<colgroup>';
+	    $table .= '<col>';
+	    $table .= '<col span="3">';
+	    $table .= '</colgroup>';
+	    $header = <<<EOT
+			<tr>
+				<th>Datum</th>
+			    <th>Zeit/in</th>
+			    <th>Buchungen</th>
+			</tr>
+			EOT;
+
+		$lastDay = "";
+		foreach ( $slots as $s ) {
+			// Create a sub-header row for each day
+			$row = "";
+			if ($s->date != $lastDay) {
+				$row .= "<tr>";
+				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$s->date</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "</tr>";
+				$row .= $header;
+			}
+			// append row to table
+			$table .= $row;
+
+			// Create a data row for each service
+			$row_id = "table_row_reservation_id_" . $s->reservation_id;
+			$row = "";
+			$row .= "<tr id=$row_id>";
+			$row .= "<td>$s->date</td><td>$s->time</td><td></td>";
+			$row .= "</tr>";
+
+			$table .= $row;
+			$lastDay = $s->date;
+		}
+
+		// end table
+		$table .= '</table>';
+	
+		// add table to content
+		$content .= $table;
+		
 		// return content
 		return $content;
 	}
@@ -330,7 +431,7 @@ class RC_Flight_Manager_Public {
 			//$table .= $row;
 		
 			$lastMonth = $currentMonth;
-		};
+		}
 		// end table
 		$table .= '</table>';
 	
