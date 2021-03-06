@@ -127,6 +127,11 @@ class RC_Flight_Manager {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-rc-flight-manager-schedule.php';
 
+		/**
+		 * The class responsible for handling of flightslot objects including persistence in DB
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-rc-flight-manager-flightslot.php';
+
 		$this->loader = new RC_Flight_Manager_Loader();
 
 	}
@@ -191,6 +196,11 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'wp_ajax_button_assign', $plugin_public, 'button_assign' );            // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_swap', $plugin_public, 'button_swap' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_swap', $plugin_public, 'button_swap' );                // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_button_book_flightslot', $plugin_public, 'button_book_flightslot' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_button_book_flightslot', $plugin_public, 'button_book_flightslot' );                // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function
+		
 		
 	}
 

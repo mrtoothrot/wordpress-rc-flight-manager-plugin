@@ -131,12 +131,12 @@ class RC_Flight_Manager_Public {
 	 * 	
 	 * @since    1.0.0
 	 */
-	function set_ajaxurl() {
-	
-	    echo '<script type="text/javascript">
-	               var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-	    </script>';
-	}
+	//function set_ajaxurl() {
+	//
+	//    echo '<script type="text/javascript">
+	//               var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+	//    </script>';
+	//}
 	
 
 	/**
@@ -151,50 +151,7 @@ class RC_Flight_Manager_Public {
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
 	  }
 
-	function init_flightslots( $date ) {
-        global $wpdb;
-        // Insert flightslots for each hour on $date
-        $flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;
-        
-		// Check if there are already entries for today
-		$rowcount = $wpdb->get_var("SELECT COUNT(*) FROM $flightslot_table_name WHERE date = '${date}'");
-		//do_action( "qm/debug", "Rows for ${date}: ${rowcount}" );
 
-		// Insert one entry for each our between 8am and 20pm
-		if ($rowcount == 0) {
-			for ($x = 8; $x <= 20; $x++) {
-				$hour = "${x}:00";
-				$wpdb->insert( 
-        		    $flightslot_table_name, 
-        		    array( 
-
-        		        'date'      => $date,
-        		        'time'   	=> $hour
-        		    ), 
-        		    array( 
-        		        '%s', 
-        		        '%s'
-        		    ) 
-        		);
-			}
-		}
-    }
-
-
-	function get_flightslots( $date ) {
-        global $wpdb;
-        // Insert flightslots for each hour on $date
-        $flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;
-        
-		// Get flightslots starting from $date
-		$list = $wpdb->get_results( "SELECT * FROM $flightslot_table_name WHERE date >= '$date'", OBJECT );
-		//do_action( "qm/debug", "Rows for ${date}: ${rowcount}" );
-
-		return($list);
-    }
-
-
-	
 	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
@@ -209,18 +166,18 @@ class RC_Flight_Manager_Public {
 		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
 		}
 
-		// Update flightslots database with new slots for next 14 days if neccessary
-		$today = date("Y-m-d");
+		// Update flightslots database with new slots for next 7 days if neccessary
+		$today = date_i18n("Y-m-d");
 		//do_action( "qm/debug", "Today is ${today}!" );
 		$day = $today;
-		for ($x = 0; $x <= 13; $x++) {
-			$this->init_flightslots($day);		
-			$day = date("Y-m-d", strtotime("$day +1 day"));
+		for ($x = 0; $x <= 6; $x++) {
+			RC_Flight_Manager_Flightslot::init_flightslots($day);		
+			$day = date_i18n("Y-m-d", strtotime("$day +1 day"));
 			//do_action( "qm/debug", "Day is ${day}!" );
 		}
 
 		// Get flightslots starting today
-		$slots = $this->get_flightslots($today);
+		$slots = RC_Flight_Manager_Flightslot::get_flightslots($today);
 
 		// Preparing the table
 	    $table = '<table id="table_rc_flight_manager_flightslots">';
@@ -230,19 +187,21 @@ class RC_Flight_Manager_Public {
 	    $table .= '</colgroup>';
 	    $header = <<<EOT
 			<tr>
-				<th>Datum</th>
-			    <th>Zeit/in</th>
-			    <th>Buchungen</th>
+			    <th><p align="center">Zeit</p></th>
+			    <th><p align="center">Buchungen</p></th>
+				<th></th>
 			</tr>
 			EOT;
 
 		$lastDay = "";
 		foreach ( $slots as $s ) {
+			do_action( "qm/debug", $s );
 			// Create a sub-header row for each day
 			$row = "";
 			if ($s->date != $lastDay) {
+				$headline_date = date_i18n("l, d. F", strtotime("$s->date"));
 				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$s->date</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$headline_date</th>"; // TODO:  Better format using Theme CSS later
 				$row .= "</tr>";
 				$row .= $header;
 			}
@@ -253,7 +212,7 @@ class RC_Flight_Manager_Public {
 			$row_id = "table_row_reservation_id_" . $s->reservation_id;
 			$row = "";
 			$row .= "<tr id=$row_id>";
-			$row .= "<td>$s->date</td><td>$s->time</td><td></td>";
+			$row .= $s->getTableData();
 			$row .= "</tr>";
 
 			$table .= $row;
@@ -593,4 +552,51 @@ class RC_Flight_Manager_Public {
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
+
+	function button_book_flightslot() {
+		// Read ID from HTTP request
+	    $reservation_id = $_POST["reservation_id"];
+
+		// Get Flightslot
+		$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
+		$arrlength = count($slot->bookings);
+		if ($arrlength >= RC_FLIGHT_MANAGER_FLIGHTSLOT_MAX_RESERVATIONS ) {
+			do_action( "qm/error", "Max reservations reached!" );
+			// Return existing table data
+			echo $slot->getTableData();
+		}
+
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
+
+		// Book slot
+	    $slot->book($current_user->ID);
+
+	    // return new table data
+		echo $slot->getTableData();
+		//echo "Test";// ${reservation_id}";
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function button_cancel_flightslot() {
+		// Read ID from HTTP request
+	    $reservation_id = $_POST["reservation_id"];
+
+		// Get Flightslot
+		$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
+
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
+
+		// Book slot
+	    $slot->cancel($current_user->ID);
+
+	    // return new table data
+		echo $slot->getTableData();
+		//echo "Test";// ${reservation_id}";
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
 }

@@ -251,7 +251,6 @@ class RC_Flight_Manager_Schedule {
     public function getTableData() {
 		// Preparation
         $formated_date = date_i18n("D j. M", strtotime( $this->date ));
-        $row_id = "table_row_schedule_id_" . $this->schedule_id;
         $userObj = get_userdata($this->user_id);
         $current_user = wp_get_current_user();
         $name = "";

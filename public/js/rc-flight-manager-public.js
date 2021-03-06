@@ -59,6 +59,7 @@
 //	// Some logging to verify if js is loaded
 	console.log("rc_flight_manager_vars.ajax_url in jQuery:");
 	console.log(rc_flight_manager_vars.ajax_url);
+	var ajaxurl = rc_flight_manager_vars.ajax_url;
 	//console.log( $ )	
 //
 	// Function called if any button with class "button_takeover_schedule" is called:
@@ -324,6 +325,50 @@
 			});
 		}
 		
+	}));
+
+	// Function called if any button with class "button_book_flightslot" is called:
+	$("#table_rc_flight_manager_flightslots").on("click", ".button_book_flightslot", (function() {
+		// Logging
+		console.log("button_book_flightslot clicked!");
+		var reservation_id = $(this).data("reservation_id");
+		console.log("reservation_id = " + reservation_id)
+
+		// Prepare AJAX request
+		var data = {
+			'action'   		: 'button_book_flightslot', // the name of your PHP function!
+			'reservation_id': reservation_id            // a random value we'd like to pass
+		};
+		
+		// Send AJAX request
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#table_row_reservation_id_" + reservation_id;
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+		});
+	}));
+
+	// Function called if any button with class "button_cancel_flightslot" is called:
+	$("#table_rc_flight_manager_flightslots").on("click", ".button_cancel_flightslot", (function() {
+		// Logging
+		console.log("button_cancel_flightslot clicked!");
+		var reservation_id = $(this).data("reservation_id");
+		console.log("reservation_id = " + reservation_id)
+
+		// Prepare AJAX request
+		var data = {
+			'action'   		: 'button_cancel_flightslot', // the name of your PHP function!
+			'reservation_id': reservation_id            // a random value we'd like to pass
+		};
+		
+		// Send AJAX request
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#table_row_reservation_id_" + reservation_id;
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+		});
 	}));
 
 })( jQuery );
