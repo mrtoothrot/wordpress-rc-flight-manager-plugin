@@ -263,7 +263,13 @@ class RC_Flight_Manager_Schedule {
 
         // Constructing the row
         $row = "";
-		$row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $this->comment . '</p></td>';
+		if ($this->comment) {
+            $row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $this->comment . '</p></td>';
+        }
+        else
+        {
+            $row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p></td>';
+        }
 		if ($this->user_id == $current_user->ID) {
             // Own name highlighted in red
             $row .= '<td style="color:#ff0000">' . $name . '</td>';
