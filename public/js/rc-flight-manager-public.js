@@ -161,7 +161,7 @@
 	$("#table_rc_flight_manager_schedule").on("click", ".button_handover_schedule", (function() {
 		console.log("button_handover_schedule clicked!");
 		var schedule_id = $(this).data("schedule_id");
-		var selection_id = "user_div_id_" + schedule_id;
+		var selection_id = "user_div_id_" + schedule_id; 
 		console.log("schedule_id = " + schedule_id)
 		console.log("selection_id = " + selection_id)
 

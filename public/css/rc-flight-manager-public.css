@@ -17,3 +17,23 @@
 button:disabled {
     background-color: grey
 }
+
+.button_takeover_schedule,
+.button_handover_schedule,
+.button_assign_schedule,
+.button_swap_schedule
+{
+	/**display: inline-block;**/
+    display: inline-table;
+	margin-bottom: 2px;
+	width: 40%;
+}
+
+.ok_button,
+.abort_button
+ {
+	/**display: inline-block;**/
+    display: inline-table;
+	margin-bottom: 0px;
+	width: 40%;
+}

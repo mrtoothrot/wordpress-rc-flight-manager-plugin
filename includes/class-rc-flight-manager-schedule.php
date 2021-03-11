@@ -133,8 +133,8 @@ class RC_Flight_Manager_Schedule {
         $id = "button_takeover_schedule_id_" . $this->schedule_id;
         $class = "button_takeover_schedule";
         // Button
-        //$html .= "<button type=\"button\" id=\"$id\" class=\"$class\" name=\"id\" value=\"$this->schedule_id\">Dienst übernehmen</button>";
-        $html = "<button type=\"button\" id=\"$id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Dienst übernehmen</button>";
+        $html = "<button type=\"button\" id=\"$id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Übernehmen</button>";
+        //$html = "<a href='javascript:void(0);' id=\"$id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Übernehmen</a>";
         return($html);
     }
 
@@ -153,7 +153,8 @@ class RC_Flight_Manager_Schedule {
         $divclass = "div_assign_schedule";
 
         // Assign Button
-        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Dienst zuweisen</button>";
+        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Einteilen</button>";
+        //$html .= "<a href='javascript:void(0);' id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Einteilen</a>";
         $html .= "<div id=\"$div_id\" class =\"$divclass hidden\"><p><select id=\"$selection_id\">";
         $users = get_users();
         foreach ( $users as $u) {
@@ -163,9 +164,9 @@ class RC_Flight_Manager_Schedule {
                 $html .= "<option value=\"$u->ID\">$name</option>";
             }
         }
-        $html .= "</select> zum Dienst einteilen.</p>";
+        $html .= "</select><br> zum Dienst einteilen.</p>";
         // Ok / Abort buttons
-        $html .= "<button type=\"button\" id=\"$ok_button_id\" class=\"assign_ok_button ok_button\" value=\"$id\">OK</button>";
+        $html .= "<button type=\"button\" id=\"$ok_button_id\" class=\"assign_ok_button ok_button\" value=\"$id\">OK</button>&nbsp;&nbsp;";
         $html .= "<button type=\"button\" id=\"$abort_button_id\" class=\"abort_button\">Abbruch</button>";
         $html .= "</div>";
 
@@ -188,23 +189,24 @@ class RC_Flight_Manager_Schedule {
         $divclass = "div_swap_schedule";
 
         // Swap Button
-        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Mit jemandem tauschen</button>";
-        $html .= "<div id=\"$div_id\" class =\"$divclass hidden\"><p><select id=\"$selection_id\">";
+        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Tauschen</button>";
+        //$html .= "<a href='javascript:void(0);' id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Tauschen</a>";
+        $html .= "<div id=\"$div_id\" class =\"$divclass hidden\"><p>Ich tausche mit:<br><select id=\"$selection_id\">";
         $schedules = RC_Flight_Manager_Schedule::getServiceList();
         foreach ( $schedules as $s) {
             if (($s->user_id != 0) && ($s->user_id != $current_user->ID)) {
                 $userObj = get_userdata($s->user_id);
                 $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
                 $date = date_i18n("D j. M", strtotime( $s->date ));
-                $html .= "<option value=\"$s->schedule_id\">Ich tausche mit $name am $date.</option>";
+                $html .= "<option value=\"$s->schedule_id\">$name am $date.</option>";
             }
         }
         $html .= "</select></p>";
         // Disclaimer
         $html .= "<input type=\"checkbox\" id=\"$disclaimer_id\" class=\"swap_disclaimer\" value=\"$id\">";
-        $html .= "<label for=\"$disclaimer_id\">Ich habe das mit der ausgewählten Person abgesprochen!</label><br>";
+        $html .= "<label for=\"$disclaimer_id\">Ich habe das mit der ausgewählten<br>Person abgesprochen!</label><br>";
         // Ok / Abort buttons
-        $html .= "<button type=\"button\" id=\"$ok_button_id\" class=\"swap_ok_button ok_button\" value=\"$id\" disabled>OK</button>";
+        $html .= "<br><button type=\"button\" id=\"$ok_button_id\" class=\"swap_ok_button ok_button\" value=\"$id\" disabled>OK</button>&nbsp;&nbsp;";
         $html .= "<button type=\"button\" id=\"$abort_button_id\" class=\"abort_button\">Abbruch</button>";
         $html .= "</div>";
 
@@ -226,7 +228,8 @@ class RC_Flight_Manager_Schedule {
         $divclass = "div_handover_schedule";
 
         // Handover Button
-        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Dienst an jemanden übergeben</button>";
+        $html .= "<button type=\"button\" id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Übergeben</button>";
+        //$html .= "<a href='javascript:void(0);' id=\"$button_id\" class=\"$class\" data-schedule_id=\"$this->schedule_id\">Übergeben</a>";
         $html .= "<div id=\"$div_id\" class =\"$divclass hidden\"><p><select id=\"$selection_id\">";
         $users = get_users();
         foreach ( $users as $u) {
@@ -236,12 +239,12 @@ class RC_Flight_Manager_Schedule {
                 $html .= "<option value=\"$u->ID\">$name</option>";
             }
         }
-        $html .= "</select> übernimmt diesen Dienst für mich.</p>";
+        $html .= "</select><br>übernimmt diesen Dienst für mich.</p>";
         // Disclaimer
         $html .= "<input type=\"checkbox\" id=\"$disclaimer_id\" class=\"handover_disclaimer\" value=\"$id\">";
-        $html .= "<label for=\"$disclaimer_id\">Ich habe das mit der ausgewählten Person abgesprochen!</label><br>";
+        $html .= "<label for=\"$disclaimer_id\">Ich habe das mit der ausgewählten<br>Person abgesprochen!</label><br>";
         // Ok / Abort buttons
-        $html .= "<button type=\"button\" id=\"$ok_button_id\" class=\"handover_ok_button ok_button\" value=\"$id\" disabled>OK</button>";
+        $html .= "<br><button type=\"button\" id=\"$ok_button_id\" class=\"handover_ok_button ok_button\" value=\"$id\" disabled>OK</button>&nbsp;&nbsp;";
         $html .= "<button type=\"button\" id=\"$abort_button_id\" class=\"abort_button\">Abbruch</button>";
         $html .= "</div>";
 
@@ -260,7 +263,7 @@ class RC_Flight_Manager_Schedule {
 
         // Constructing the row
         $row = "";
-		$row .= '<td><p align="center"><b>' . $formated_date . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $this->comment . '</p></td>';
+		$row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $this->comment . '</p></td>';
 		if ($this->user_id == $current_user->ID) {
             // Own name highlighted in red
             $row .= '<td style="color:#ff0000">' . $name . '</td>';
@@ -275,27 +278,28 @@ class RC_Flight_Manager_Schedule {
             // if no user is entered, offer to take over this service!
             if ( $current_user->ID == 42 ) {
                 # If user has ID 42, offer to assign a user 
-                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
             }
             else {
-                $row .= "<td>" . $this->getTakeoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>" . $this->getTakeoverButtonHtml() . "</td>";
             }
         }
         elseif ( $this->user_id == $current_user->ID ) {
             if ( $current_user->ID == 42 ) {
                 # If user has ID 42, offer to assign a user 
-                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+                //$row .= "<td align='center' style='min-width:300px;text-align:center'>" . "<table width='200px' style='border-collapse: collapse; border: none;'><tr style='border-collapse: collapse; border: none;'><td style='border-collapse: collapse; border: none;'>". $this->getAssignButtonHtml() . "</td></tr><tr><td>" . $this->getSwapButtonHtml() . "</td></tr><tr><td>" . $this->getHandoverButtonHtml() . "</td></tr></table></td>";
             }
             else {
-                $row .= "<td>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
             }
         }
         elseif ( $current_user->ID == 42 ) {
             # If user has ID 42, offer to assign a user 
-            $row .= "<td>". $this->getAssignButtonHtml() . "</td>";
+            $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "</td>";
         }
         else {
-            $row .= "<td></td>";
+            $row .= "<td style='min-width:300px;text-align:center'></td>";
         }
 		return $row;
 	}

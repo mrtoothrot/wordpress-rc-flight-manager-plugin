@@ -195,7 +195,7 @@ class RC_Flight_Manager_Public {
 
 		$lastDay = "";
 		foreach ( $slots as $s ) {
-			do_action( "qm/debug", $s );
+			//do_action( "qm/debug", $s );
 			// Create a sub-header row for each day
 			$row = "";
 			if ($s->date != $lastDay) {
