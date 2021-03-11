@@ -40,16 +40,16 @@ e.g.
 
 An answer to that question.
 
-**What about foo bar? =**
+**What about foo bar?**
 
 Answer to foo bar dilemma.
 
 ## Screenshots ##
 
-1. Flight Manager roster
-2. Members can swap duties between each other
-3. Other members can be assigned to a duty
-4. Flightslot reservation table
+1. Flight Manager roster - `/assets/screenshot-1.png`
+2. Members can swap duties between each other - `/assets/screenshot-2.png`
+3. Other members can be assigned to a duty - `/assets/screenshot-3.png`
+4. Flightslot reservation table - `/assets/screenshot-4.png`
 
 ## Changelog ##
 
