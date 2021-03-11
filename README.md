@@ -1,21 +1,21 @@
 # wordpress-rc-flight-manager-plugin
 
 ### Plugin Name ###
-Contributors: mrtoothrot
-Donate link: -
-Tags: flightmanager, modell-airfields, booking, schedule, roster
-Requires at least: 5.0.0
-Tested up to: 5.7.0
-Stable tag: -
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+* Contributors: mrtoothrot
+* Donate link: -
+* Tags: flightmanager, modell-airfields, booking, schedule, roster
+* Requires at least: 5.0.0
+* Tested up to: 5.7.0
+* Stable tag: -
+* License: GPLv2 or later
+* License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Wordpress plugin implementing a Flight Manager Scheduling System for Modell Airfield Clubs
 
 ## Description ##
 
-** PLEASE NOTE: This plugin is in a very early state of development! A lot of things are hard-coded and might be very special to my local club! **
-** USE AT OWN RISK! **
+**PLEASE NOTE: This plugin is in a very early state of development! A lot of things are hard-coded and might be very special to my local club!**
+**USE AT OWN RISK!**
 
 Usually modell airfields need to have a flight manager onsite while the members are flying their model planes. Normally there is a roster were each flying day is assigned to one of the members. This member is the flight manager for the day.
 
@@ -36,11 +36,11 @@ e.g.
 
 ## Frequently Asked Questions ##
 
-= A question that someone might have =
+**A question that someone might have**
 
 An answer to that question.
 
-= What about foo bar? =
+**What about foo bar? =**
 
 Answer to foo bar dilemma.
 
@@ -53,10 +53,10 @@ Answer to foo bar dilemma.
 
 ## Changelog ##
 
-= 0.1 =
+### 0.1 ###
 * Minimum viable product, only basic functionality
 
-== Upgrade Notice ==
+## Upgrade Notice ##
 
-= 0.1 =
+### 0.1 ###
 Initial version
