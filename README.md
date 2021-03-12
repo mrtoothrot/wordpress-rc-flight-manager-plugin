@@ -53,6 +53,10 @@ Answer to foo bar dilemma.
 
 ## Changelog ##
 
+### 0.2 ###
+* Implemented basic email notification two and 14 days before scheduled date
+* Email text still hard-coded
+
 ### 0.1 ###
 * Minimum viable product, only basic functionality
 

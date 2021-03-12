@@ -110,18 +110,69 @@ class RC_Flight_Manager_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function rcfm_send_notifications() {
+	//public function rcfm_send_notifications() {
+//
+	//	/**
+	//	 * Defines the CRON to send notification mails.
+	//	 */
+//
+	//	// Test cron-job execution by calling url: http://<wordpress-url>/wp-cron.php
+	//	//error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
+	//	
+	//	// Send Test email
+	//	wp_mail( "mrtoothrot@gmail.com", "Test from WP-CRONJOB", "Hourly mail from cronjob!");
+//
+	//}
 
+
+	public function rcfm_send_daily_flightmanager_notification_email() {
+		error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
 		/**
 		 * Defines the CRON to send notification mails.
 		 */
+		//wp_mail("mrtoothrot@gmail.com", "New Test from WP-CRONJOB", "Daily mail from cronjob!");
 
-		// Test cron-job execution by calling url: http://<wordpress-url>/wp-cron.php
-		//error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
+		// Calculating dates
+		$today = date_i18n("Y-m-d");
+		$in_2_days = date_i18n("Y-m-d", strtotime("$today +2 days"));
+		$in_14_days = date_i18n("Y-m-d", strtotime("$today +14 days"));
 		
-		// Send Test email
-		wp_mail( "mrtoothrot@gmail.com", "Test from WP-CRONJOB", "Hourly mail from cronjob!");
+		// Get the service in two days
+		$services = array(RC_Flight_Manager_Schedule::getServiceByDate($in_2_days), RC_Flight_Manager_Schedule::getServiceByDate($in_14_days));
 
+		foreach($services as $service){
+			if ( !is_null($service) ) {
+				// Get User data
+				$userObj = get_userdata($service->user_id);
+				$name = esc_html( $userObj->user_firstname );// . " " . esc_html( $userObj->user_lastname );
+
+				// Prepare notification
+				//TODO:
+				$email_receiver = "mrtoothrot@gmail.com";
+				//$email_receiver = $userObj->user_email;
+				$date = date_i18n("d. F", strtotime($service->date));
+				$email_subject = "MBC - Dein Flugleiterdienst am $date";
+				$email_headers = array('Content-Type: text/html; charset=UTF-8');
+				$email_body = <<<EOT
+<html>
+<body>
+<p>Hallo $name!</p>
+<p>Du bist für den $date zum Flugleiterdienst eingetragen! Bitte denke daran den Dienst wahrzunehmen!</p>
+<p>Solltest Du verhindert sein, bitte sorge rechtzeitig für eine Vertretung und trage die Änderung im <a href='https://www.mbc-hanau-ronneburg.de/flugleiter-dienstplan/'>Flugleiter-Dienstplan</a> ein. Nähere Informationen über deine Aufgaben als Flugleiter findest Du <a href='https://www.mbc-hanau-ronneburg.de/flugleiterdienst/'>auf unserer Webseite.</a></p>
+<p></p>
+<p>Diese E-Mail wurde automatisiert aus unserem Flugleiter-Dienstplan versendet.<br>Bitte nicht auf diese E-Mail antworten!</p>
+<p>--</p>
+<p><img src='https://www.mbc-hanau-ronneburg.de/wp-content/uploads/2019/11/MBC-Logo-300ppi-e1575132912576.png'></img></p>
+<p><b>MBC Hanau-Ronneburg e.V.</b><br>
+<a href='https://www.mbc-hanau-ronneburg.de'>www.mbc-hanau-ronneburg.de</a></p>
+</body>
+</html>
+EOT;
+
+				// Finally sending the email
+				wp_mail($email_receiver, $email_subject, $email_body, $email_headers);
+			}
+		}
 	}
 
 	/**
@@ -146,11 +197,24 @@ class RC_Flight_Manager_Public {
 	 */
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );
-		add_shortcode('rc_flight_slot_reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
+		add_shortcode('rc-flight-slot-reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
+		add_shortcode('rc-flight-manager-debug', array( $this, 'shortcode_rc_flight_manager_debug') );
 		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
-	  }
+	}
 
+	public function shortcode_rc_flight_manager_debug( $atts = [], $content = null) {
+		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
+		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
+		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		
+		do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
+
+		// Return content
+		return($content);
+
+	}
 
 	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -263,11 +327,11 @@ class RC_Flight_Manager_Public {
 		//error_log( 'Hello World!' );
 
 		// Test CRON
-		//if ( ! wp_next_scheduled( 'rcfm_scheduled_notifications' ) ) {
+		//if ( ! wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' ) ) {
 		//	$content .= "<p>Cron not scheduled!</p>";
 		//}
 		//else {
-		//	$timestamp = wp_next_scheduled( 'rcfm_scheduled_notifications' );
+		//	$timestamp = wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' );
 		//	$time = strftime  ("%d/%m/%Y %H:%M:%S", $timestamp);
 		//	$content .= "<p>Cron is scheduled:</p>";
 		//	$content .= "<p>Next run: $time (unix: $timestamp)</p>";

@@ -114,8 +114,26 @@ class RC_Flight_Manager_Schedule {
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE schedule_id=$schedule_id", OBJECT );
-        $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
-        return $s;
+        if ( !is_null($result) ) {
+            $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
+            return $s;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public static function getServiceByDate($date) {
+        global $wpdb;
+        $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
+        $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE date='$date'", OBJECT );
+        if ( !is_null($result) ) {
+            $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
+            return $s;
+        }
+        else {
+            return NULL;
+        }
     }
 
     // Public methods

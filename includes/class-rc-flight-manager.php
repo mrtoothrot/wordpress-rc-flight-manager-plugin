@@ -185,7 +185,8 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'init', $plugin_public, 'register_shortcodes' );
 
 		// Add hook for cron??
-		$this->loader->add_action( 'rcfm_scheduled_notifications', $plugin_public, 'rcfm_send_notifications' );
+		//$this->loader->add_action( 'rcfm_scheduled_notifications', $plugin_public, 'rcfm_send_notifications' );
+		$this->loader->add_action( 'rcfm_send_daily_flightmanager_notification', $plugin_public, 'rcfm_send_daily_flightmanager_notification_email' );
 
 		// Add hook for AJAX calls
 		$this->loader->add_action( 'wp_ajax_nopriv_button_takeover', $plugin_public, 'button_takeover' ); // for ALL users

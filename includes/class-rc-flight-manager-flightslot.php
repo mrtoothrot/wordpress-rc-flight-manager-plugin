@@ -90,7 +90,13 @@ class RC_Flight_Manager_Flightslot {
         global $wpdb;
         $flightslot_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME;		
         $result = $wpdb->get_row( "SELECT * FROM $flightslot_table_name WHERE reservation_id=$reservation_id", OBJECT );
-        $s = new RC_Flight_Manager_Flightslot($result->reservation_id, $result->date, $result->time);
+        if ( !is_null($result) ) {
+            $s = new RC_Flight_Manager_Flightslot($result->reservation_id, $result->date, $result->time);
+            return $s;
+        }
+        else {
+            return NULL;
+        }
         return $s;
     }
 

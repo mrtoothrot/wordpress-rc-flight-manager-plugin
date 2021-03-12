@@ -32,9 +32,9 @@ class RC_Flight_Manager_Deactivator {
 	public static function deactivate() {
 		// Unscheduling CRON job to send notification emails
 		// Get timestamp of next planed execution
-		$timestamp = wp_next_scheduled( 'rcfm_scheduled_notifications' );
+		$timestamp = wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' );
 		// Unscheduling next and all following occurences
-		wp_unschedule_event( $timestamp, 'rcfm_scheduled_notifications' );
+		wp_unschedule_event( $timestamp, 'rcfm_send_daily_flightmanager_notification' );
 	}
 
 }
