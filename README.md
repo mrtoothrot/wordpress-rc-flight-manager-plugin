@@ -34,6 +34,19 @@ e.g.
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Create a page and use the shortcodes [rc-flight-manager-schedule] (for the flight manager scheduling part) or [rc_flight_slot_reservation] (for the flightslot reservation part)
 
+## Usage ##
+
+Place the shortcode [rc-flight-manager-schedule] on any page on which you want to show the flight manager roster.
+
+Use the shortcode parameter "months=" to specify how many months starting from current month are displayed in the roster.
+
+Example:
+    `[rc-flight-manager-schedule months=3]`
+
+Enter the required dates for which a flight manager needs to be assigned to the database table `$wpdb->prefix_rcfm_schedule`.
+
+Currently this needs to be done using SQL or you favourite DB administration tool. A wordpress settings page for the plugin is not yet available.
+
 ## Frequently Asked Questions ##
 
 **A question that someone might have**
@@ -54,6 +67,8 @@ Answer to foo bar dilemma.
 ## Changelog ##
 
 ### 0.2 ###
+* Shortcode can be configured to only show services in the next x months 
+* Duties are now sorted by date when creating the roster table.
 * Implemented basic email notification two and 14 days before scheduled date
 * Email text still hard-coded
 

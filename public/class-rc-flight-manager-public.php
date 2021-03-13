@@ -210,7 +210,15 @@ EOT;
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		
 		do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
-
+		$today = date_i18n("Y-m-d");
+		$months = 15;
+        $this_month = date_i18n("Y-m");
+        $start_this_month = $this_month . "-01";
+        $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+		$content .= "<p>$today</p>";
+		$content .= "<p>$this_month</p>";
+		$content .= "<p>$start_this_month</p>";
+		$content .= "<p>$end_month</p>";
 		// Return content
 		return($content);
 
@@ -294,9 +302,18 @@ EOT;
 	}
 
 
-	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null) {
+	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null, $tag = '') {
 		//error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
-		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!" );
+		
+		// normalize attribute keys, lowercase
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+		// Get attribute 'months':
+		$display_months = NULL;
+		if (array_key_exists('months', $atts)) {
+			$display_months = $atts['months'];
+		}
+
 		// wp_enqueue_script loads the JS code if shortcode is active
 		// (see https://kinsta.com/de/blog/wp-enqueue-scripts/)
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -304,7 +321,7 @@ EOT;
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
-		$content = "";
+		//$content = "<h2>Showing $display_months months</h2>";
 
 		// Check if user is logged in
 		if ( ! ( is_user_logged_in() ) ) {
@@ -312,46 +329,8 @@ EOT;
 		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
 		}
 		
-		// Get information about current user
-		//$current_user = wp_get_current_user();
-		//$content .= "Hallo " . $current_user->user_firstname . $current_user->user_lastname;
-
-		// Testing
-		//$sched = new RC_Flight_Manager_Schedule(1, "2021-01-01", 42, "test");
-		//$content .= "sched: " . $sched->schedule_id . $sched->date . $sched->user_id . $sched->comment . "<br>";
-		//$content .= "<p><b>TEST ERROR LOG Hello World</b></p>";
-		//$content .= "<p>$sched->test</p>";
-
-		// Test error log:
-		//error_log("Called shortcode function!");
-		//error_log( 'Hello World!' );
-
-		// Test CRON
-		//if ( ! wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' ) ) {
-		//	$content .= "<p>Cron not scheduled!</p>";
-		//}
-		//else {
-		//	$timestamp = wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' );
-		//	$time = strftime  ("%d/%m/%Y %H:%M:%S", $timestamp);
-		//	$content .= "<p>Cron is scheduled:</p>";
-		//	$content .= "<p>Next run: $time (unix: $timestamp)</p>";
-		//	
-		//}
-		// List all cronjobs
-		//$crons = _get_cron_array();
-		//	$content .= "<p>";
-		//	foreach ($crons as $c) {
-		//		$content .= "<b>Cron entry:</b><br>";
-		//		$content .= print_r($c, true);
-		//		$content .= '<br>';
-		//	}
-		//	$content .= "</p>";
-		
-		// send an email now!
-		//wp_mail( "mrtoothrot@gmail.com", "Flight Manager schedule table loaded!","This is just a test!");
-
 		// Load all schedules from DB
-		$schedules = RC_Flight_Manager_Schedule::getServiceList();
+		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
 		
 	    // Preparing the table
 	    $table = '<table id="table_rc_flight_manager_schedule">';
@@ -370,18 +349,8 @@ EOT;
 		$lastMonth = "";
 		// Filling table with data
 		foreach ( $schedules as $s ) {
-			
-			//$buttonTakeoverDutyId = "buttonTakeoverDutyId_" . $d->id;
-			//$buttonSwapDutyId = "buttonSwapDutyId_" . $d->id;
-			//$buttonCancelSwapDutyId = "buttonCancelSwapDutyId_" . $d->id;
-			//$buttonProposeSwapDutyId = "buttonProposeSwapDutyId_" . $d->id;
-			//$textareaDutyId = "textareaDutyId_" . $d->id;
-			//$dutySelectionId = "dutySelectionId_" . $d->id;
-		
 			$date = strtotime( $s->date );
-			//$formatedDate = date_i18n("D j. M", $date);
 			$currentMonth = date_i18n("F", $date);
-			//$userObj = get_userdata($s->user_id);
 		
 			// Create a sub-header row for each month
 			$row = "";
@@ -400,59 +369,9 @@ EOT;
 			$row .= "<tr id=$row_id>";
 			$row .= $s->getTableData();
 			$row .= "</tr>";
-
+			
+			// Appending row to table
 			$table .= $row;
-
-
-
-			//$name = "";
-			//if ( $userObj ) {
-			//	$name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
-			//}
-			//if ( $s->user_id == 0 ) { 
-			//	// if no user is entered, offer to take over this service!
-			//	// append row to table
-			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, $s->getTakeoverButtonHtml());
-			//} 
-			//else {
-			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, "");
-			//}
-			//$row .= "<tr id=$schedule_id>";
-			//$row .= '<td><p align="center"><b>' . $formatedDate . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $s->comment . '</p></td>';
-			//if ( $userObj ) {
-			//	$row .= "<td>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</td>";
-			//}
-			//else {
-			//	$row .= "<td></td>";
-			//}
-
-			//if ( $s->user_id == 0 ) { 
-			//	// if no user is entered, offer to take over this service!
-			//	$row .= "<td>" . $s->getTakeoverButtonHtml() . "</td>";
-			//} 
-//			elseif ($d->userid == $current_user->ID) {
-//				if ($d->swap == "False") {
-//					$row .= "<td>" . $d->getSwapButtonHtml() . "</td>";
-//				}
-//				else {
-//					$row .= "<td>" . $d->getCancelSwapButtonHtml() . "</td>";
-//				}
-//			}
-//			elseif ($d->swap == "True") {
-//			
-//				// get List of own duties
-//				$ownDuties = FlightManagerService::getServiceList($current_user->ID);
-//			
-//				$row .= "<td>" . $d->getProposeSwapButtonHtml($ownDuties) . "</td>";
-//			}
-			//else {
-			//	$row .= "<td></td>";
-			//}
-			//$row .= "</tr>";
-		
-			// append row to table
-			//$table .= $row;
-		
 			$lastMonth = $currentMonth;
 		}
 		// end table
