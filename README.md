@@ -36,7 +36,7 @@ e.g.
 
 ## Usage ##
 
-Place the shortcode [rc-flight-manager-schedule] on any page on which you want to show the flight manager roster.
+Place the shortcode `[rc-flight-manager-schedule]` on any page on which you want to show the flight manager roster.
 
 Use the shortcode parameter "months=" to specify how many months starting from current month are displayed in the roster.
 

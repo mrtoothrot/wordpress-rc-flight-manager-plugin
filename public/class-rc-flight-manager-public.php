@@ -110,28 +110,11 @@ class RC_Flight_Manager_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	//public function rcfm_send_notifications() {
-//
-	//	/**
-	//	 * Defines the CRON to send notification mails.
-	//	 */
-//
-	//	// Test cron-job execution by calling url: http://<wordpress-url>/wp-cron.php
-	//	//error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
-	//	
-	//	// Send Test email
-	//	wp_mail( "mrtoothrot@gmail.com", "Test from WP-CRONJOB", "Hourly mail from cronjob!");
-//
-	//}
-
-
 	public function rcfm_send_daily_flightmanager_notification_email() {
 		error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
 		/**
 		 * Defines the CRON to send notification mails.
 		 */
-		//wp_mail("mrtoothrot@gmail.com", "New Test from WP-CRONJOB", "Daily mail from cronjob!");
-
 		// Calculating dates
 		$today = date_i18n("Y-m-d");
 		$in_2_days = date_i18n("Y-m-d", strtotime("$today +2 days"));
@@ -148,8 +131,8 @@ class RC_Flight_Manager_Public {
 
 				// Prepare notification
 				//TODO:
-				$email_receiver = "mrtoothrot@gmail.com";
-				//$email_receiver = $userObj->user_email;
+				$email_receiver = array("mrtoothrot@gmail.com");
+				//$email_receiver = array("mrtoothrot@gmail.com", $userObj->user_email);
 				$date = date_i18n("d. F", strtotime($service->date));
 				$email_subject = "MBC - Dein Flugleiterdienst am $date";
 				$email_headers = array('Content-Type: text/html; charset=UTF-8');
