@@ -127,23 +127,25 @@ class RC_Flight_Manager_Public {
 			if ( !is_null($service) ) {
 				// Get User data
 				$userObj = get_userdata($service->user_id);
-				$name = esc_html( $userObj->user_firstname );// . " " . esc_html( $userObj->user_lastname );
 
-				// Prepare notification
-				//TODO:
-				$email_receiver = array("mrtoothrot@gmail.com");
-				//$email_receiver = array("mrtoothrot@gmail.com", $userObj->user_email);
-				$date = date_i18n("d. F", strtotime($service->date));
-				$email_subject = "MBC - Dein Flugleiterdienst am $date";
-				$email_headers = array('Content-Type: text/html; charset=UTF-8');
-				$email_body = <<<EOT
+				if ($userObj) {
+					$name = esc_html( $userObj->user_firstname );// . " " . esc_html( $userObj->user_lastname );
+
+					// Prepare notification
+					//TODO:
+					$email_receiver = array("webmaster@mbc-hanau-ronneburg.de");
+					//$email_receiver = array("webmaster@mbc-hanau-ronneburg.de", $userObj->user_email);
+					$date = date_i18n("d. F", strtotime($service->date));
+					$email_subject = "MBC Hanau-Ronneburg e.V. - Erinnerung an deinen Flugleiterdienst am $date";
+					$email_headers = array('Content-Type: text/html; charset=UTF-8');
+					$email_body = <<<EOT
 <html>
 <body>
 <p>Hallo $name!</p>
-<p>Du bist für den $date zum Flugleiterdienst eingetragen! Bitte denke daran den Dienst wahrzunehmen!</p>
-<p>Solltest Du verhindert sein, bitte sorge rechtzeitig für eine Vertretung und trage die Änderung im <a href='https://www.mbc-hanau-ronneburg.de/flugleiter-dienstplan/'>Flugleiter-Dienstplan</a> ein. Nähere Informationen über deine Aufgaben als Flugleiter findest Du <a href='https://www.mbc-hanau-ronneburg.de/flugleiterdienst/'>auf unserer Webseite.</a></p>
+<p>Du bist für den $date zum Flugleiterdienst eingetragen! Bitte denke daran, den Dienst wahrzunehmen!</p>
+<p>Solltest Du verhindert sein, sorge bitte rechtzeitig für eine Vertretung und trage die Änderung im <a href='https://www.mbc-hanau-ronneburg.de/flugleiter-dienstplan/'>Flugleiter-Dienstplan</a> ein. Nähere Informationen über deine Aufgaben als Flugleiter:in findest Du <a href='https://www.mbc-hanau-ronneburg.de/flugleiterdienst/'>auf unserer Webseite.</a></p>
 <p></p>
-<p>Diese E-Mail wurde automatisiert aus unserem Flugleiter-Dienstplan versendet.<br>Bitte nicht auf diese E-Mail antworten!</p>
+<p>Diese E-Mail wurde automatisiert aus dem Flugleiter-Dienstplan auf <a href='https://www.mbc-hanau-ronneburg.de'>www.mbc-hanau-ronneburg.de</a> versendet.</p>
 <p>--</p>
 <p><img src='https://www.mbc-hanau-ronneburg.de/wp-content/uploads/2019/11/MBC-Logo-300ppi-e1575132912576.png'></img></p>
 <p><b>MBC Hanau-Ronneburg e.V.</b><br>
@@ -151,9 +153,9 @@ class RC_Flight_Manager_Public {
 </body>
 </html>
 EOT;
-
-				// Finally sending the email
-				wp_mail($email_receiver, $email_subject, $email_body, $email_headers);
+					// Finally sending the email
+					wp_mail($email_receiver, $email_subject, $email_body, $email_headers);
+				}
 			}
 		}
 	}
@@ -323,13 +325,14 @@ EOT;
 	    $table .= '</colgroup>';
 	    $header = <<<EOT
 			<tr>
-				<th>Datum</th>
-			    <th>Flugleiter/in</th>
-			    <th></th>
+				<th><p align="center">Datum</p></th>
+			    <th><p align="center">Flugleiter/in</p></th>
+			    <th><p align="center"></p></th>
 			</tr>
 			EOT;
 
 		$lastMonth = "";
+		$today = date_i18n("d.m.Y");
 		// Filling table with data
 		foreach ( $schedules as $s ) {
 			$date = strtotime( $s->date );
@@ -339,7 +342,7 @@ EOT;
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$currentMonth</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\"><div align=\"center\">$currentMonth</div><div align=\"right\" style=\"font-weight: normal\">Stand: $today</div></th>"; // TODO:  Better format using Theme CSS later
 				$row .= "</tr>";
 				$row .= $header;
 			}

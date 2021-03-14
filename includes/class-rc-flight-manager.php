@@ -166,6 +166,10 @@ class RC_Flight_Manager {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		// The admin settings page for RC flight manager plugin
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_rcfm_settings_page' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_rcfm_settings' );
 		
 	}
 
