@@ -149,7 +149,14 @@ class RC_Flight_Manager_Public {
 					}
 
 					$date = date_i18n("d. F", strtotime($service->date));
-					$email_subject = "MBC Hanau-Ronneburg e.V. - Erinnerung an deinen Flugleiterdienst am $date";
+
+					// Construct E-Mail Subject line
+					// TODO: Use a {{date}} placeholder in notification_email_subject_field and replace it against $date
+					$email_subject = $options['notification_email_subject_field'] . $date;
+					
+					// Set E-Mail headers and construct E-Mail body
+					// TODO: Make E-Mail body configurable in settings page
+					// TODO: Use placeholders to replace variables
 					$email_headers = array('Content-Type: text/html; charset=UTF-8');
 					$email_body = <<<EOT
 <html>

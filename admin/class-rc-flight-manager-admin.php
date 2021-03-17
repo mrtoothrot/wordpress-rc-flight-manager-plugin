@@ -143,10 +143,19 @@ class RC_Flight_Manager_Admin {
 			'rc_flight_manager',
 			'Notifications'
 		  );
+
+		  add_settings_field(
+			'notification_email_subject_field',
+			'Subject for the notification E-Mail:',
+			'RC_Flight_Manager_Admin::rcfm_render_notification_email_subject_field',
+			'rc_flight_manager',
+			'Notifications'
+		  );
 		
 		// Configure Plugin default options
 		$defaults = array(
 			'notify_additional_email_field' => '',
+			'notification_email_subject_field' => 'Please mind your flight manager service!',
 		);
 		
 		// Initialize Plugin options
@@ -189,6 +198,15 @@ class RC_Flight_Manager_Admin {
 		  '<input type="email" name="%s" value="%s" />',
 		  esc_attr( 'rcfm_settings[notify_additional_email_field]' ),
 		  esc_attr( $options['notify_additional_email_field'] )
+		);
+	}
+
+	public static function rcfm_render_notification_email_subject_field() {
+		$options = get_option( 'rcfm_settings');
+		printf(
+		  '<input type="text" name="%s" value="%s" />',
+		  esc_attr( 'rcfm_settings[notification_email_subject_field]' ),
+		  esc_attr( $options['notification_email_subject_field'] )
 		);
 	}
 
