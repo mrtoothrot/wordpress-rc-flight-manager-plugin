@@ -114,27 +114,47 @@ class RC_Flight_Manager_Admin {
 		  );
 		
 		  add_settings_section(
-			'section_one',
-			'Section One',
-			'RC_Flight_Manager_Admin::rcfm_section_one_text',
+			'Notifications',
+			'Notifications',
+			'RC_Flight_Manager_Admin::rcfm_section_notification',
 			'rc_flight_manager'
 		  );
 		
 		  add_settings_field(
-			'some_text_field',
-			'Some Text Field',
-			'RC_Flight_Manager_Admin::rcfm_render_some_text_field',
+			'enable_email_notification_field',
+			'Switch on E-Mail notifications',
+			'RC_Flight_Manager_Admin::rcfm_render_enable_email_notification_field',
 			'rc_flight_manager',
-			'section_one'
+			'Notifications'
+		  );
+
+		  add_settings_field(
+			'notify_flightmanagers_email_field',
+			'Flight Managers should be notified by E-Mail',
+			'RC_Flight_Manager_Admin::rcfm_render_notify_flightmanagers_email_field',
+			'rc_flight_manager',
+			'Notifications'
 		  );
 		
 		  add_settings_field(
-			'another_number_field',
-			'Another Number Field',
-			'RC_Flight_Manager_Admin::rcfm_render_another_number_field',
+			'notify_additional_email_field',
+			'Additional E-Mail address to send notifications to:',
+			'RC_Flight_Manager_Admin::rcfm_render_notify_additional_email_field',
 			'rc_flight_manager',
-			'section_one'
+			'Notifications'
 		  );
+		
+		// Configure Plugin default options
+		$defaults = array(
+			'notify_additional_email_field' => '',
+		);
+		
+		// Initialize Plugin options
+		$options = get_option( 'rcfm_settings');
+		if (!$options) {
+			add_option('rcfm_settings', $defaults);
+			$options = get_option( 'rcfm_settings');
+		}
 	}
 
 	public function validate_rcfm_settings( $input ) {
@@ -145,25 +165,30 @@ class RC_Flight_Manager_Admin {
 		return TRUE;
 	}
 
-	public static function rcfm_section_one_text() {
-		echo '<p>This is the first (and only) section in my settings.</p>';
+	public static function rcfm_section_notification() {
+		echo '<p>Configure E-Mail notification for scheduled flight managers.</p>';
 	}
 	  
-	public static function rcfm_render_some_text_field() {
+	public static function rcfm_render_enable_email_notification_field() {
 		$options = get_option( 'rcfm_settings' );
-		printf(
-		  '<input type="text" name="%s" value="%s" />',
-		  esc_attr( 'rcfm_settings[some_text_field]' ),
-		  esc_attr( $options['some_text_field'] )
-		);
+		?>
+		<input type='checkbox' name='rcfm_settings[enable_email_notification_field]' <?php checked( $options['enable_email_notification_field'], 1 ); ?> value='1'>
+		<?php
+	}
+	
+	public static function rcfm_render_notify_flightmanagers_email_field() {
+		$options = get_option( 'rcfm_settings' );
+		?>
+		<input type='checkbox' name='rcfm_settings[notify_flightmanagers_email_field]' <?php checked( $options['notify_flightmanagers_email_field'], 1 ); ?> value='1'>
+		<?php
 	}
 	  
-	public static function rcfm_render_another_number_field() {
-		$options = get_option( 'rcfm_settings' );
+	public static function rcfm_render_notify_additional_email_field() {
+		$options = get_option( 'rcfm_settings');
 		printf(
-		  '<input type="number" name="%s" value="%s" />',
-		  esc_attr( 'rcfm_settings[another_number_field]' ),
-		  esc_attr( $options['another_number_field'] )
+		  '<input type="email" name="%s" value="%s" />',
+		  esc_attr( 'rcfm_settings[notify_additional_email_field]' ),
+		  esc_attr( $options['notify_additional_email_field'] )
 		);
 	}
 
@@ -179,7 +204,7 @@ class RC_Flight_Manager_Admin {
 			type="submit"
 			name="submit"
 			class="button button-primary"
-			value="<?php esc_attr_e( 'Save' ); ?>"
+			value="<?php esc_attr_e( 'Save Changes' ); ?>"
 		  />
 		</form>
 	  <?php

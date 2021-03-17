@@ -115,6 +115,13 @@ class RC_Flight_Manager_Public {
 		/**
 		 * Defines the CRON to send notification mails.
 		 */
+		
+		// Exit if email notification is turned off in options page
+		$options = get_option( 'rcfm_settings');
+		if (!isset($options['enable_email_notification_field'])) {
+			return;
+		}
+		
 		// Calculating dates
 		$today = date_i18n("Y-m-d");
 		$in_2_days = date_i18n("Y-m-d", strtotime("$today +2 days"));
@@ -131,10 +138,16 @@ class RC_Flight_Manager_Public {
 				if ($userObj) {
 					$name = esc_html( $userObj->user_firstname );// . " " . esc_html( $userObj->user_lastname );
 
-					// Prepare notification
-					//TODO:
-					$email_receiver = array("webmaster@mbc-hanau-ronneburg.de");
-					//$email_receiver = array("webmaster@mbc-hanau-ronneburg.de", $userObj->user_email);
+					// Prepare recipient list
+					$email_receipients = array();
+
+					if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
+						array_push($email_receipients, $userObj->user_email);
+					}
+					if (is_email($options['notify_additional_email_field'])) {
+						array_push($email_receipients, $options['notify_additional_email_field']);
+					}
+
 					$date = date_i18n("d. F", strtotime($service->date));
 					$email_subject = "MBC Hanau-Ronneburg e.V. - Erinnerung an deinen Flugleiterdienst am $date";
 					$email_headers = array('Content-Type: text/html; charset=UTF-8');
@@ -154,7 +167,9 @@ class RC_Flight_Manager_Public {
 </html>
 EOT;
 					// Finally sending the email
-					wp_mail($email_receiver, $email_subject, $email_body, $email_headers);
+					if (count($email_receipients) > 0) {
+						wp_mail($email_receipients, $email_subject, $email_body, $email_headers);
+					}
 				}
 			}
 		}
@@ -194,16 +209,48 @@ EOT;
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		
-		do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
-		$today = date_i18n("Y-m-d");
-		$months = 15;
-        $this_month = date_i18n("Y-m");
-        $start_this_month = $this_month . "-01";
-        $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
-		$content .= "<p>$today</p>";
-		$content .= "<p>$this_month</p>";
-		$content .= "<p>$start_this_month</p>";
-		$content .= "<p>$end_month</p>";
+		//do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
+		//$today = date_i18n("Y-m-d");
+		//$months = 15;
+        //$this_month = date_i18n("Y-m");
+        //$start_this_month = $this_month . "-01";
+        //$end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+		//$content .= "<p>$today</p>";
+		//$content .= "<p>$this_month</p>";
+		//$content .= "<p>$start_this_month</p>";
+		//$content .= "<p>$end_month</p>";
+
+		$options = get_option( 'rcfm_settings');
+		$content = "";
+
+		// Check if notifications are turned on
+		if (isset($options['enable_email_notification_field'])) {
+			$content .= "<p>E-mails notification master switch is ON!!!";
+			$content .= "<br>" . $options['enable_email_notification_field'] . "</p>";
+		}
+		
+		if (isset($options['notify_flightmanagers_email_field'])) {
+			$content .= "<p>E-mails will be sent to flightmanagers!";
+			$content .= "<br>" . $options['notify_flightmanagers_email_field'] . "</p>";
+		}
+
+		$content .= "<p>Additional email notified:";
+		$content .= "<br>" . $options['notify_additional_email_field'] . "</p>";
+
+		$userObj = get_userdata(42);
+		$email_receipients = array();
+
+		if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
+			$content .= "<br>Pushing " . $userObj->user_email . " to email_receipientss...<br>";
+			array_push($email_receipients, $userObj->user_email);
+		}
+		if (is_email($options['notify_additional_email_field'])) {
+			$content .= "<br>Pushing " . $options['notify_additional_email_field'] . " to email_receipientss...<br>";
+			array_push($email_receipients, $options['notify_additional_email_field']);
+		}
+		
+		$content .= "E-Mail receiver:<br>" . print_r($email_receipients, true) . "ENDEND";
+		$content .= "<br>Informing " . count($email_receipients) . " persons!";
 		// Return content
 		return($content);
 
