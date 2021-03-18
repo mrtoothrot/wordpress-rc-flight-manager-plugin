@@ -149,30 +149,18 @@ class RC_Flight_Manager_Public {
 					}
 
 					$date = date_i18n("d. F", strtotime($service->date));
+					
+					// Define placeholder replacements
+					$replace_from = array('[flightmanager-duty-date]', '[flightmanager-name]');
+					$replace_to = array($date, $name);
 
 					// Construct E-Mail Subject line
-					// TODO: Use a {{date}} placeholder in notification_email_subject_field and replace it against $date
-					$email_subject = $options['notification_email_subject_field'] . $date;
+					$email_subject = str_replace($replace_from, $replace_to, $options['notification_email_subject_field'] );
 					
 					// Set E-Mail headers and construct E-Mail body
-					// TODO: Make E-Mail body configurable in settings page
-					// TODO: Use placeholders to replace variables
 					$email_headers = array('Content-Type: text/html; charset=UTF-8');
-					$email_body = <<<EOT
-<html>
-<body>
-<p>Hallo $name!</p>
-<p>Du bist für den $date zum Flugleiterdienst eingetragen! Bitte denke daran, den Dienst wahrzunehmen!</p>
-<p>Solltest Du verhindert sein, sorge bitte rechtzeitig für eine Vertretung und trage die Änderung im <a href='https://www.mbc-hanau-ronneburg.de/flugleiter-dienstplan/'>Flugleiter-Dienstplan</a> ein. Nähere Informationen über deine Aufgaben als Flugleiter:in findest Du <a href='https://www.mbc-hanau-ronneburg.de/flugleiterdienst/'>auf unserer Webseite.</a></p>
-<p></p>
-<p>Diese E-Mail wurde automatisiert aus dem Flugleiter-Dienstplan auf <a href='https://www.mbc-hanau-ronneburg.de'>www.mbc-hanau-ronneburg.de</a> versendet.</p>
-<p>--</p>
-<p><img src='https://www.mbc-hanau-ronneburg.de/wp-content/uploads/2019/11/MBC-Logo-300ppi-e1575132912576.png'></img></p>
-<p><b>MBC Hanau-Ronneburg e.V.</b><br>
-<a href='https://www.mbc-hanau-ronneburg.de'>www.mbc-hanau-ronneburg.de</a></p>
-</body>
-</html>
-EOT;
+					$email_body = str_replace($replace_from, $replace_to, $options['notification_email_body_field'] );
+
 					// Finally sending the email
 					if (count($email_receipients) > 0) {
 						wp_mail($email_receipients, $email_subject, $email_body, $email_headers);
@@ -256,8 +244,12 @@ EOT;
 			array_push($email_receipients, $options['notify_additional_email_field']);
 		}
 		
-		$content .= "E-Mail receiver:<br>" . print_r($email_receipients, true) . "ENDEND";
+		$content .= "E-Mail receiver:<br>" . print_r($email_receipients, true);
 		$content .= "<br>Informing " . count($email_receipients) . " persons!";
+
+		$date = date_i18n("Y-m-d");
+		$email_subject = str_replace('[flightmanager-duty-date]', $date, $options['notification_email_subject_field'] );
+		$content .= "<br>Subject: " . $email_subject;
 		// Return content
 		return($content);
 

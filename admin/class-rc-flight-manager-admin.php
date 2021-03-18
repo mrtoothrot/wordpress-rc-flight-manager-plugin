@@ -144,18 +144,45 @@ class RC_Flight_Manager_Admin {
 			'Notifications'
 		  );
 
+		  add_settings_section(
+			'Notification E-Mail Template',
+			'Notification E-Mail Template',
+			'RC_Flight_Manager_Admin::rcfm_section_notification_email',
+			'rc_flight_manager'
+		  );
+
 		  add_settings_field(
 			'notification_email_subject_field',
 			'Subject for the notification E-Mail:',
 			'RC_Flight_Manager_Admin::rcfm_render_notification_email_subject_field',
 			'rc_flight_manager',
-			'Notifications'
+			'Notification E-Mail Template'
 		  );
+		  
+		  add_settings_field(
+			'notification_email_body_field',
+			'Notification E-Mail template:',
+			'RC_Flight_Manager_Admin::rcfm_render_notification_email_body_field',
+			'rc_flight_manager',
+			'Notification E-Mail Template'
+		  );
+		  
 		
 		// Configure Plugin default options
+		$email_template = <<<EOT
+<html>
+<body>
+<p>Hi [flightmanager-name]!</p>
+<p>You are assigned as flight manager on duty for [flightmanager-duty-date]! This is a reminder! Don't forget your service!</p>
+<p></p>
+<p>This notification E-Mail was sent by RC Flight Manager</p>
+</body>
+</html>
+EOT;
 		$defaults = array(
 			'notify_additional_email_field' => '',
-			'notification_email_subject_field' => 'Please mind your flight manager service!',
+			'notification_email_subject_field' => 'Please mind your flight manager service on [flightmanager-duty-date]!',
+			'notification_email_body_field' => $email_template,
 		);
 		
 		// Initialize Plugin options
@@ -177,6 +204,12 @@ class RC_Flight_Manager_Admin {
 	public static function rcfm_section_notification() {
 		echo '<p>Configure E-Mail notification for scheduled flight managers.</p>';
 	}
+	
+	public static function rcfm_section_notification_email() {
+		echo '<p>You can use the following placeholders in the subject line and body of the notification E-Mail:</p>';
+		echo '<p><b>[flightmanager-duty-date]</b> = date on which the notified user is assigned flight manager</p>';
+		echo '<p><b>[flightmanager-name]</b> = Name of the user who is assigned flight manager</p>';
+	}
 	  
 	public static function rcfm_render_enable_email_notification_field() {
 		$options = get_option( 'rcfm_settings' );
@@ -195,7 +228,7 @@ class RC_Flight_Manager_Admin {
 	public static function rcfm_render_notify_additional_email_field() {
 		$options = get_option( 'rcfm_settings');
 		printf(
-		  '<input type="email" name="%s" value="%s" />',
+		  '<input type="email" name="%s" value="%s" size="40"/>',
 		  esc_attr( 'rcfm_settings[notify_additional_email_field]' ),
 		  esc_attr( $options['notify_additional_email_field'] )
 		);
@@ -204,10 +237,16 @@ class RC_Flight_Manager_Admin {
 	public static function rcfm_render_notification_email_subject_field() {
 		$options = get_option( 'rcfm_settings');
 		printf(
-		  '<input type="text" name="%s" value="%s" />',
+		  '<input type="text" name="%s" value="%s" size="100"/>',
 		  esc_attr( 'rcfm_settings[notification_email_subject_field]' ),
 		  esc_attr( $options['notification_email_subject_field'] )
 		);
+	}
+
+	public static function rcfm_render_notification_email_body_field() {
+		$options = get_option( 'rcfm_settings');
+		?><textarea cols='100' rows='10' name='rcfm_settings[notification_email_body_field]'><?php echo isset( $options['notification_email_body_field'] ) ?  $options['notification_email_body_field'] : false; ?></textarea><?php
+
 	}
 
 	public static function render_rcfm_settings_page() {
