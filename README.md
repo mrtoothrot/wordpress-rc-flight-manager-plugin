@@ -67,8 +67,8 @@ Answer to foo bar dilemma.
 ## Changelog ##
 
 ### 0.2 ###
-* E-Mail notification is customizable in settings page (E-Mail recipients and subject)
-* E-Mail text still hard-coded
+* E-Mail notification is customizable in settings page 
+* Placeholders for [flightmanger-name] and [flightmanager-duty-date] are now implemented
 * Shortcode can be configured to only show services in the next x months 
 * Duties are now sorted by date when creating the roster table.
 * Implemented basic email notification two and 14 days before scheduled date
