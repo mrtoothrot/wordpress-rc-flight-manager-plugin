@@ -91,14 +91,20 @@ class RC_Flight_Manager_Schedule {
     }
 
 	// Public static methods
-	public static function getServiceList($userid = NULL) {
+	public static function getServiceList($months = NULL) {
+        // Calculating current date
+        $today = date_i18n("Y-m-d");
+        $this_month = date_i18n("Y-m");
+        $start_this_month = $this_month . "-01";
+        $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
-        if ($userid == NULL){
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name", OBJECT );
+        if ($months == NULL){
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' ORDER BY date", OBJECT );
         }
         else {
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE userid=$userid", OBJECT );
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_month' ORDER BY date", OBJECT );
         }
         $schedules = array();
         foreach ( $list as $x ) {
@@ -114,8 +120,26 @@ class RC_Flight_Manager_Schedule {
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE schedule_id=$schedule_id", OBJECT );
-        $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
-        return $s;
+        if ( !is_null($result) ) {
+            $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
+            return $s;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public static function getServiceByDate($date) {
+        global $wpdb;
+        $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
+        $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE date='$date'", OBJECT );
+        if ( !is_null($result) ) {
+            $s = new RC_Flight_Manager_Schedule($result->schedule_id, $result->date, $result->user_id, $result->comment, $result->change_id);
+            return $s;
+        }
+        else {
+            return NULL;
+        }
     }
 
     // Public methods

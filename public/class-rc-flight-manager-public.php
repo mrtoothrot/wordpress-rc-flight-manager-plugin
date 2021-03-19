@@ -110,18 +110,64 @@ class RC_Flight_Manager_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function rcfm_send_notifications() {
-
+	public function rcfm_send_daily_flightmanager_notification_email() {
+		error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
 		/**
 		 * Defines the CRON to send notification mails.
 		 */
-
-		// Test cron-job execution by calling url: http://<wordpress-url>/wp-cron.php
-		//error_log("RC_Flight_Manager_Public :: rcfm_send_notifications called!");
 		
-		// Send Test email
-		wp_mail( "mrtoothrot@gmail.com", "Test from WP-CRONJOB", "Hourly mail from cronjob!");
+		// Exit if email notification is turned off in options page
+		$options = get_option( 'rcfm_settings');
+		if (!isset($options['enable_email_notification_field'])) {
+			return;
+		}
+		
+		// Calculating dates
+		$today = date_i18n("Y-m-d");
+		$in_2_days = date_i18n("Y-m-d", strtotime("$today +2 days"));
+		$in_14_days = date_i18n("Y-m-d", strtotime("$today +14 days"));
+		
+		// Get the service in two days
+		$services = array(RC_Flight_Manager_Schedule::getServiceByDate($in_2_days), RC_Flight_Manager_Schedule::getServiceByDate($in_14_days));
 
+		foreach($services as $service){
+			if ( !is_null($service) ) {
+				// Get User data
+				$userObj = get_userdata($service->user_id);
+
+				if ($userObj) {
+					$name = esc_html( $userObj->user_firstname );// . " " . esc_html( $userObj->user_lastname );
+
+					// Prepare recipient list
+					$email_receipients = array();
+
+					if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
+						array_push($email_receipients, $userObj->user_email);
+					}
+					if (is_email($options['notify_additional_email_field'])) {
+						array_push($email_receipients, $options['notify_additional_email_field']);
+					}
+
+					$date = date_i18n("d. F", strtotime($service->date));
+					
+					// Define placeholder replacements
+					$replace_from = array('[flightmanager-duty-date]', '[flightmanager-name]');
+					$replace_to = array($date, $name);
+
+					// Construct E-Mail Subject line
+					$email_subject = str_replace($replace_from, $replace_to, $options['notification_email_subject_field'] );
+					
+					// Set E-Mail headers and construct E-Mail body
+					$email_headers = array('Content-Type: text/html; charset=UTF-8');
+					$email_body = str_replace($replace_from, $replace_to, $options['notification_email_body_field'] );
+
+					// Finally sending the email
+					if (count($email_receipients) > 0) {
+						wp_mail($email_receipients, $email_subject, $email_body, $email_headers);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -146,11 +192,68 @@ class RC_Flight_Manager_Public {
 	 */
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );
-		add_shortcode('rc_flight_slot_reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
+		add_shortcode('rc-flight-slot-reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
+		add_shortcode('rc-flight-manager-debug', array( $this, 'shortcode_rc_flight_manager_debug') );
 		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
-	  }
+	}
 
+	public function shortcode_rc_flight_manager_debug( $atts = [], $content = null) {
+		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
+		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
+		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		
+		//do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
+		//$today = date_i18n("Y-m-d");
+		//$months = 15;
+        //$this_month = date_i18n("Y-m");
+        //$start_this_month = $this_month . "-01";
+        //$end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+		//$content .= "<p>$today</p>";
+		//$content .= "<p>$this_month</p>";
+		//$content .= "<p>$start_this_month</p>";
+		//$content .= "<p>$end_month</p>";
+
+		$options = get_option( 'rcfm_settings');
+		$content = "";
+
+		// Check if notifications are turned on
+		if (isset($options['enable_email_notification_field'])) {
+			$content .= "<p>E-mails notification master switch is ON!!!";
+			$content .= "<br>" . $options['enable_email_notification_field'] . "</p>";
+		}
+		
+		if (isset($options['notify_flightmanagers_email_field'])) {
+			$content .= "<p>E-mails will be sent to flightmanagers!";
+			$content .= "<br>" . $options['notify_flightmanagers_email_field'] . "</p>";
+		}
+
+		$content .= "<p>Additional email notified:";
+		$content .= "<br>" . $options['notify_additional_email_field'] . "</p>";
+
+		$userObj = get_userdata(42);
+		$email_receipients = array();
+
+		if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
+			$content .= "<br>Pushing " . $userObj->user_email . " to email_receipientss...<br>";
+			array_push($email_receipients, $userObj->user_email);
+		}
+		if (is_email($options['notify_additional_email_field'])) {
+			$content .= "<br>Pushing " . $options['notify_additional_email_field'] . " to email_receipientss...<br>";
+			array_push($email_receipients, $options['notify_additional_email_field']);
+		}
+		
+		$content .= "E-Mail receiver:<br>" . print_r($email_receipients, true);
+		$content .= "<br>Informing " . count($email_receipients) . " persons!";
+
+		$date = date_i18n("Y-m-d");
+		$email_subject = str_replace('[flightmanager-duty-date]', $date, $options['notification_email_subject_field'] );
+		$content .= "<br>Subject: " . $email_subject;
+		// Return content
+		return($content);
+
+	}
 
 	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -230,9 +333,18 @@ class RC_Flight_Manager_Public {
 	}
 
 
-	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null) {
+	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null, $tag = '') {
 		//error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
-		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!" );
+		
+		// normalize attribute keys, lowercase
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+		// Get attribute 'months':
+		$display_months = NULL;
+		if (array_key_exists('months', $atts)) {
+			$display_months = $atts['months'];
+		}
+
 		// wp_enqueue_script loads the JS code if shortcode is active
 		// (see https://kinsta.com/de/blog/wp-enqueue-scripts/)
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -240,7 +352,7 @@ class RC_Flight_Manager_Public {
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
-		$content = "";
+		//$content = "<h2>Showing $display_months months</h2>";
 
 		// Check if user is logged in
 		if ( ! ( is_user_logged_in() ) ) {
@@ -248,46 +360,8 @@ class RC_Flight_Manager_Public {
 		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
 		}
 		
-		// Get information about current user
-		//$current_user = wp_get_current_user();
-		//$content .= "Hallo " . $current_user->user_firstname . $current_user->user_lastname;
-
-		// Testing
-		//$sched = new RC_Flight_Manager_Schedule(1, "2021-01-01", 42, "test");
-		//$content .= "sched: " . $sched->schedule_id . $sched->date . $sched->user_id . $sched->comment . "<br>";
-		//$content .= "<p><b>TEST ERROR LOG Hello World</b></p>";
-		//$content .= "<p>$sched->test</p>";
-
-		// Test error log:
-		//error_log("Called shortcode function!");
-		//error_log( 'Hello World!' );
-
-		// Test CRON
-		//if ( ! wp_next_scheduled( 'rcfm_scheduled_notifications' ) ) {
-		//	$content .= "<p>Cron not scheduled!</p>";
-		//}
-		//else {
-		//	$timestamp = wp_next_scheduled( 'rcfm_scheduled_notifications' );
-		//	$time = strftime  ("%d/%m/%Y %H:%M:%S", $timestamp);
-		//	$content .= "<p>Cron is scheduled:</p>";
-		//	$content .= "<p>Next run: $time (unix: $timestamp)</p>";
-		//	
-		//}
-		// List all cronjobs
-		//$crons = _get_cron_array();
-		//	$content .= "<p>";
-		//	foreach ($crons as $c) {
-		//		$content .= "<b>Cron entry:</b><br>";
-		//		$content .= print_r($c, true);
-		//		$content .= '<br>';
-		//	}
-		//	$content .= "</p>";
-		
-		// send an email now!
-		//wp_mail( "mrtoothrot@gmail.com", "Flight Manager schedule table loaded!","This is just a test!");
-
 		// Load all schedules from DB
-		$schedules = RC_Flight_Manager_Schedule::getServiceList();
+		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
 		
 	    // Preparing the table
 	    $table = '<table id="table_rc_flight_manager_schedule">';
@@ -297,33 +371,24 @@ class RC_Flight_Manager_Public {
 	    $table .= '</colgroup>';
 	    $header = <<<EOT
 			<tr>
-				<th>Datum</th>
-			    <th>Flugleiter/in</th>
-			    <th></th>
+				<th><p align="center">Datum</p></th>
+			    <th><p align="center">Flugleiter/in</p></th>
+			    <th><p align="center"></p></th>
 			</tr>
 			EOT;
 
 		$lastMonth = "";
+		$today = date_i18n("d.m.Y");
 		// Filling table with data
 		foreach ( $schedules as $s ) {
-			
-			//$buttonTakeoverDutyId = "buttonTakeoverDutyId_" . $d->id;
-			//$buttonSwapDutyId = "buttonSwapDutyId_" . $d->id;
-			//$buttonCancelSwapDutyId = "buttonCancelSwapDutyId_" . $d->id;
-			//$buttonProposeSwapDutyId = "buttonProposeSwapDutyId_" . $d->id;
-			//$textareaDutyId = "textareaDutyId_" . $d->id;
-			//$dutySelectionId = "dutySelectionId_" . $d->id;
-		
 			$date = strtotime( $s->date );
-			//$formatedDate = date_i18n("D j. M", $date);
 			$currentMonth = date_i18n("F", $date);
-			//$userObj = get_userdata($s->user_id);
 		
 			// Create a sub-header row for each month
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$currentMonth</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\"><div align=\"center\">$currentMonth</div><div align=\"right\" style=\"font-weight: normal\">Stand: $today</div></th>"; // TODO:  Better format using Theme CSS later
 				$row .= "</tr>";
 				$row .= $header;
 			}
@@ -336,59 +401,9 @@ class RC_Flight_Manager_Public {
 			$row .= "<tr id=$row_id>";
 			$row .= $s->getTableData();
 			$row .= "</tr>";
-
+			
+			// Appending row to table
 			$table .= $row;
-
-
-
-			//$name = "";
-			//if ( $userObj ) {
-			//	$name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
-			//}
-			//if ( $s->user_id == 0 ) { 
-			//	// if no user is entered, offer to take over this service!
-			//	// append row to table
-			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, $s->getTakeoverButtonHtml());
-			//} 
-			//else {
-			//	$table .= $s->getTableData($schedule_id, $formatedDate, $name, $s->comment, "");
-			//}
-			//$row .= "<tr id=$schedule_id>";
-			//$row .= '<td><p align="center"><b>' . $formatedDate . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $s->comment . '</p></td>';
-			//if ( $userObj ) {
-			//	$row .= "<td>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</td>";
-			//}
-			//else {
-			//	$row .= "<td></td>";
-			//}
-
-			//if ( $s->user_id == 0 ) { 
-			//	// if no user is entered, offer to take over this service!
-			//	$row .= "<td>" . $s->getTakeoverButtonHtml() . "</td>";
-			//} 
-//			elseif ($d->userid == $current_user->ID) {
-//				if ($d->swap == "False") {
-//					$row .= "<td>" . $d->getSwapButtonHtml() . "</td>";
-//				}
-//				else {
-//					$row .= "<td>" . $d->getCancelSwapButtonHtml() . "</td>";
-//				}
-//			}
-//			elseif ($d->swap == "True") {
-//			
-//				// get List of own duties
-//				$ownDuties = FlightManagerService::getServiceList($current_user->ID);
-//			
-//				$row .= "<td>" . $d->getProposeSwapButtonHtml($ownDuties) . "</td>";
-//			}
-			//else {
-			//	$row .= "<td></td>";
-			//}
-			//$row .= "</tr>";
-		
-			// append row to table
-			//$table .= $row;
-		
 			$lastMonth = $currentMonth;
 		}
 		// end table

@@ -78,7 +78,6 @@ class RC_Flight_Manager {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -121,6 +120,11 @@ class RC_Flight_Manager {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-rc-flight-manager-public.php';
+
+		/**
+		 * The class responsible for the rcfm widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-rc-flight-manager-widget.php';
 
 		/**
 		 * The class responsible for handling of schedule objects including persistence in DB
@@ -166,6 +170,10 @@ class RC_Flight_Manager {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		// The admin settings page for RC flight manager plugin
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_rcfm_settings_page' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_rcfm_settings' );
 		
 	}
 
@@ -185,7 +193,8 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'init', $plugin_public, 'register_shortcodes' );
 
 		// Add hook for cron??
-		$this->loader->add_action( 'rcfm_scheduled_notifications', $plugin_public, 'rcfm_send_notifications' );
+		//$this->loader->add_action( 'rcfm_scheduled_notifications', $plugin_public, 'rcfm_send_notifications' );
+		$this->loader->add_action( 'rcfm_send_daily_flightmanager_notification', $plugin_public, 'rcfm_send_daily_flightmanager_notification_email' );
 
 		// Add hook for AJAX calls
 		$this->loader->add_action( 'wp_ajax_nopriv_button_takeover', $plugin_public, 'button_takeover' ); // for ALL users
@@ -199,9 +208,7 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'wp_ajax_nopriv_button_book_flightslot', $plugin_public, 'button_book_flightslot' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_book_flightslot', $plugin_public, 'button_book_flightslot' );                // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );         // for ALL users
-		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function
-		
-		
+		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function		
 	}
 
 	/**
