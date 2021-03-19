@@ -23,8 +23,8 @@ button:disabled {
 .button_assign_schedule,
 .button_swap_schedule
 {
-	/**display: inline-block;**/
-    display: inline-table;
+	display: inline-block;
+    /**display: inline-table;**/
 	margin-bottom: 2px;
 	width: 40%;
 }
@@ -32,8 +32,8 @@ button:disabled {
 .ok_button,
 .abort_button
  {
-	/**display: inline-block;**/
-    display: inline-table;
+	display: inline-block;
+    /**display: inline-table;**/
 	margin-bottom: 0px;
 	width: 40%;
 }

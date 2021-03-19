@@ -78,7 +78,6 @@ class RC_Flight_Manager {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -121,6 +120,11 @@ class RC_Flight_Manager {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-rc-flight-manager-public.php';
+
+		/**
+		 * The class responsible for the rcfm widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-rc-flight-manager-widget.php';
 
 		/**
 		 * The class responsible for handling of schedule objects including persistence in DB
@@ -204,9 +208,7 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'wp_ajax_nopriv_button_book_flightslot', $plugin_public, 'button_book_flightslot' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_book_flightslot', $plugin_public, 'button_book_flightslot' );                // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );         // for ALL users
-		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function
-		
-		
+		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function		
 	}
 
 	/**

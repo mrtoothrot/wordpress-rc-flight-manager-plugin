@@ -66,6 +66,9 @@ Answer to foo bar dilemma.
 
 ## Changelog ##
 
+### 0.3 ### 
+* Implemented widget to show current flight manager in sidebar
+
 ### 0.2 ###
 * E-Mail notification is customizable in settings page 
 * Placeholders for [flightmanger-name] and [flightmanager-duty-date] are now implemented
