@@ -18,9 +18,9 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // widget ID
         'RC_Flight_Manager_Widget',
         // widget name to be displayed in Dashboard Widget UI
-        __('RC Flight Manager Widget', 'rcfm_domain'),
+        __('RC Flight Manager Widget', 'rc-flight-manager'),
         // widget description
-        array ( 'description' => __( 'Show who is todays assigned RC flight manager on our Airfield', 'rcfm_domain' ), )
+        array ( 'description' => __( 'Show who is todays assigned RC flight manager on our Airfield', 'rc-flight-manager' ), )
         );
     }
 
@@ -45,7 +45,6 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         }
         else {
             echo "<p style='color:#5388b4'><b>Niemand eingeteilt!</b></p>"; // TODO: Move formating to CSS
-            //echo __( 'Hello, World!', 'rcfm_domain' );
         }
         echo $args['after_widget'];
     }
@@ -55,7 +54,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
             $title = $instance[ 'title' ];
         }
         else {
-            $title = __( 'New title', 'rcfm_domain' );
+            $title = __( 'New title', 'rc-flight-manager' );
         }
         // Widget admin form
         ?>

@@ -193,11 +193,12 @@ class RC_Flight_Manager_Public {
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );
 		add_shortcode('rc-flight-slot-reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
-		add_shortcode('rc-flight-manager-debug', array( $this, 'shortcode_rc_flight_manager_debug') );
+		//add_shortcode('rc-flight-manager-debug', array( $this, 'shortcode_rc_flight_manager_debug') );
 		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
 		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
 	}
 
+	/**
 	public function shortcode_rc_flight_manager_debug( $atts = [], $content = null) {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
@@ -253,21 +254,25 @@ class RC_Flight_Manager_Public {
 		// Return content
 		return($content);
 
-	}
+	} 
+	*/
 
 	public function shortcode_rc_flight_slot_reservation( $atts = [], $content = null) {
+		/**
+		 * Implementing the RF flight slot reservation table
+		 */
+		if (!current_user_can( 'read' ) ) {
+			// If user doesn't have the read capability, he is not allowed to see the reservation system
+			// Users must have at least 'subscriber' role to see the reservation system!
+		 	return __('<p><b>Member Area! Please login to see RC Flight Slot reservation system!</b></p>', 'rc-flight-manager');
+		}
+
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
 		$content = "";
-
-		// Check if user is logged in
-		if ( ! ( is_user_logged_in() ) ) {
-			// If user is not logged in, he is not allowed to see the schedule
-		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
-		}
 
 		// Update flightslots database with new slots for next 7 days if neccessary
 		$today = date_i18n("Y-m-d");
@@ -334,7 +339,16 @@ class RC_Flight_Manager_Public {
 
 
 	public function shortcode_rc_flight_manager_schedule( $atts = [], $content = null, $tag = '') {
-		//error_log("RC_Flight_Manager_Public :: shortcode_rc_flight_manager_schedule called!");
+		/**
+		 * Implementing the RF flight manager scheduling table
+		 */
+
+		 // Checking if user has the 'read' capability
+		 if (!current_user_can( 'read' ) ) {
+			// If user doesn't have the read capability, he is not allowed to see the schedule
+			// Users must have at least 'subscriber' role to see the roster!
+		 	return __('<p><b>Member Area! Please login to see RC Flight Manager Roster!</b></p>', 'rc-flight-manager');
+		}
 		
 		// normalize attribute keys, lowercase
 		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
@@ -351,14 +365,6 @@ class RC_Flight_Manager_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-
-		//$content = "<h2>Showing $display_months months</h2>";
-
-		// Check if user is logged in
-		if ( ! ( is_user_logged_in() ) ) {
-			// If user is not logged in, he is not allowed to see the schedule
-		 	return "<p><b>Mitgliederbereich! Bitte anmelden um den Dienstplan zu sehen!</b></p>";
-		}
 		
 		// Load all schedules from DB
 		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
@@ -572,10 +578,13 @@ class RC_Flight_Manager_Public {
 		// Read ID from HTTP request
 	    $reservation_id = $_POST["reservation_id"];
 
+		// Read options
+		$options = get_option( 'rcfm_settings');
+		
 		// Get Flightslot
 		$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
 		$arrlength = count($slot->bookings);
-		if ($arrlength >= RC_FLIGHT_MANAGER_FLIGHTSLOT_MAX_RESERVATIONS ) {
+		if ($arrlength >= $options['reservation_red_limit_field'])  {
 			do_action( "qm/error", "Max reservations reached!" );
 			// Return existing table data
 			echo $slot->getTableData();

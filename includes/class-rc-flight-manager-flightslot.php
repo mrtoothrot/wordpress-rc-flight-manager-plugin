@@ -180,18 +180,21 @@ class RC_Flight_Manager_Flightslot {
 
 
     public function getTableData() {
-		// Preparation
+		// Load options
+        $options = get_option( 'rcfm_settings');
+        
+        // Preparation
         $no_of_reservations = count($this->bookings);
         if ($no_of_reservations == 0) { # white
             $background_color = "#ffffff";
         }
-        elseif ($no_of_reservations <= 1) { # green
+        elseif ($no_of_reservations < $options['reservation_yellow_limit_field']) { # green
             $background_color = "#beffbd";
         }
-        elseif ($no_of_reservations < RC_FLIGHT_MANAGER_FLIGHTSLOT_MAX_RESERVATIONS) { # yellow
+        elseif ($no_of_reservations < $options['reservation_red_limit_field']) { # yellow
             $background_color = "#fcffbd";
         }
-        elseif ($no_of_reservations >= RC_FLIGHT_MANAGER_FLIGHTSLOT_MAX_RESERVATIONS) { # red
+        elseif ($no_of_reservations >= $options['reservation_red_limit_field']) { # red
             $background_color = "#ffbdbd";
         }
 
@@ -237,7 +240,7 @@ class RC_Flight_Manager_Flightslot {
         
         // Button collumn
         $no_of_reservations = count($this->bookings);
-        if (( $no_of_reservations < RC_FLIGHT_MANAGER_FLIGHTSLOT_MAX_RESERVATIONS) && (! in_array( $current_user->ID, $this->bookings))) {
+        if (( $no_of_reservations < $options['reservation_red_limit_field']) && (! in_array( $current_user->ID, $this->bookings))) {
             $row .= "<td>" . $this->getBookButtonHtml() . "</td>";
         }
         elseif (in_array( $current_user->ID, $this->bookings)) {
