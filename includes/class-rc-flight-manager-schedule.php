@@ -305,27 +305,27 @@ class RC_Flight_Manager_Schedule {
         }
 
         if ( $this->user_id == 0 ) { 
-            // if no user is entered, offer to take over this service!
-            if ( $current_user->ID == 42 ) {
-                # If user has ID 42, offer to assign a user 
+            // If no user is assigned to the duty and current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
+            if (current_user_can( 'edit_posts' ) ) {
                 $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
             }
+            // if no user is assigned to the duty, display the take over button!
             else {
                 $row .= "<td align='center' style='min-width:300px;text-align:center'>" . $this->getTakeoverButtonHtml() . "</td>";
             }
         }
         elseif ( $this->user_id == $current_user->ID ) {
-            if ( $current_user->ID == 42 ) {
-                # If user has ID 42, offer to assign a user 
+            // If current user is assigned to the duty and current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
+            if (current_user_can( 'edit_posts' ) ) {
                 $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
-                //$row .= "<td align='center' style='min-width:300px;text-align:center'>" . "<table width='200px' style='border-collapse: collapse; border: none;'><tr style='border-collapse: collapse; border: none;'><td style='border-collapse: collapse; border: none;'>". $this->getAssignButtonHtml() . "</td></tr><tr><td>" . $this->getSwapButtonHtml() . "</td></tr><tr><td>" . $this->getHandoverButtonHtml() . "</td></tr></table></td>";
             }
+            // Else, only show the swap button
             else {
                 $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
             }
         }
-        elseif ( $current_user->ID == 42 ) {
-            # If user has ID 42, offer to assign a user 
+        elseif (current_user_can( 'edit_posts' ) ) {
+            # If current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
             $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "</td>";
         }
         else {

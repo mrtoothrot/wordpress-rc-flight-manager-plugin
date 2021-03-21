@@ -167,7 +167,29 @@ class RC_Flight_Manager_Admin {
 			'Notification E-Mail Template'
 		  );
 		  
-		
+		  add_settings_section(
+			'Flight Slot Reservation Limits',
+			'Flight Slot Reservation Limits',
+			'RC_Flight_Manager_Admin::rcfm_section_reservation_limits',
+			'rc_flight_manager'
+		  );
+
+		  add_settings_field(
+			'reservation_red_limit_field',
+			'Max reservation limit (no more reservations possible):',
+			'RC_Flight_Manager_Admin::rcfm_render_reservation_red_limit_field',
+			'rc_flight_manager',
+			'Flight Slot Reservation Limits'
+		  );
+
+		  add_settings_field(
+			'reservation_yellow_limit_field',
+			'Reservation limit on which flight slot turns yellow:',
+			'RC_Flight_Manager_Admin::rcfm_render_reservation_yellow_limit_field',
+			'rc_flight_manager',
+			'Flight Slot Reservation Limits'
+		  );
+
 		// Configure Plugin default options
 		$email_template = <<<EOT
 <html>
@@ -183,6 +205,8 @@ EOT;
 			'notify_additional_email_field' => '',
 			'notification_email_subject_field' => 'Please mind your flight manager service on [flightmanager-duty-date]!',
 			'notification_email_body_field' => $email_template,
+			'reservation_red_limit_field' => 5,
+			'reservation_yellow_limit_field' => 3,
 		);
 		
 		// Initialize Plugin options
@@ -203,6 +227,10 @@ EOT;
 
 	public static function rcfm_section_notification() {
 		echo '<p>Configure E-Mail notification for scheduled flight managers.</p>';
+	}
+
+	public static function rcfm_section_reservation_limits() {
+		echo '<p>Configure limits for flight slot reservations.</p>';
 	}
 	
 	public static function rcfm_section_notification_email() {
@@ -249,6 +277,24 @@ EOT;
 
 	}
 
+	public static function rcfm_render_reservation_red_limit_field() {
+		$options = get_option( 'rcfm_settings' );
+		printf(
+		  '<input type="number" name="%s" value="%s" />',
+		  esc_attr( 'rcfm_settings[reservation_red_limit_field]' ),
+		  esc_attr( $options['reservation_red_limit_field'] )
+		);
+	}
+
+	public static function rcfm_render_reservation_yellow_limit_field() {
+		$options = get_option( 'rcfm_settings' );
+		printf(
+		  '<input type="number" name="%s" value="%s" />',
+		  esc_attr( 'rcfm_settings[reservation_yellow_limit_field]' ),
+		  esc_attr( $options['reservation_yellow_limit_field'] )
+		);
+	}
+
 	public static function render_rcfm_settings_page() {
 		?>
 		<h2>RC Flight Manager Settings</h2>
@@ -269,18 +315,17 @@ EOT;
 
 
 	public function add_rcfm_settings_page() {
-
 		/**
+		 *  Adding the RC Flight Manager settings page to WP Dashboard->Settings
 		 */
-
-		add_options_page(
-			'RC Flight Manager Settings',
-			'RC Flight Manager',
-			'manage_options',
-			'rc-flight-manager',
-			'RC_Flight_Manager_Admin::render_rcfm_settings_page'
-		  );
-
+		if ( current_user_can( 'manage_options' ) ) {
+			add_options_page(
+				'RC Flight Manager Settings',
+				'RC Flight Manager',
+				'manage_options',
+				'rc-flight-manager',
+				'RC_Flight_Manager_Admin::render_rcfm_settings_page'
+			);
+		}
 	}
-
 }

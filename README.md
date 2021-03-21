@@ -66,6 +66,13 @@ Answer to foo bar dilemma.
 
 ## Changelog ##
 
+### 0.5 ###
+* Security improvements
+  * Changing options now requires `manage_options` capability => Administrator Role
+  * Viewing the flight manager roster needs `read` capability => Subscriber Role
+  * Users with `edit_posts`capability can assign duties to other members => Contributer Role
+* Flight slot reservation limits now customizable
+
 ### 0.3 ### 
 * Implemented widget to show current flight manager in sidebar
 
