@@ -73,7 +73,6 @@ Answer to foo bar dilemma.
   * Users with `edit_posts`capability can assign duties to other members => Contributer Role
 * Flight slot reservation limits now customizable
 
-
 ### 0.3 ### 
 * Implemented widget to show current flight manager in sidebar
 
