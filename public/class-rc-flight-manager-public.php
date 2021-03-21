@@ -253,7 +253,6 @@ class RC_Flight_Manager_Public {
 		$content .= "<br>Subject: " . $email_subject;
 		// Return content
 		return($content);
-
 	} 
 	*/
 

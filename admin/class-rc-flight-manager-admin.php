@@ -228,6 +228,7 @@ EOT;
 	public static function rcfm_section_notification() {
 		echo '<p>Configure E-Mail notification for scheduled flight managers.</p>';
 	}
+
 	public static function rcfm_section_reservation_limits() {
 		echo '<p>Configure limits for flight slot reservations.</p>';
 	}
