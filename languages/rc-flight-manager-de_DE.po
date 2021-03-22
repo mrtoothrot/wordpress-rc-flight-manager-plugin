@@ -20,24 +20,24 @@ msgstr ""
 
 #: admin/class-rc-flight-manager-admin.php:309
 msgid "Save Changes"
-msgstr ""
+msgstr "Änderungen Speichern"
 
 #: public/class-rc-flight-manager-public.php:266
 msgid "Members only! Please login!"
-msgstr ""
+msgstr "Nur für Mitglieder! Bitte anmelden!"
 
 #: public/class-rc-flight-manager-widget.php:21
 msgid "RC Flight Manager Widget"
-msgstr ""
+msgstr "RC Flight Manager Widget"
 
 #: public/class-rc-flight-manager-widget.php:23
 msgid "Displays the current flight manager on duty in the sidebar"
-msgstr ""
+msgstr "Zeigt den diensthabenden Flugleiter in der Sidebar"
 
 #: public/class-rc-flight-manager-widget.php:57
 msgid "New title"
-msgstr ""
+msgstr "Neuer Titel"
 
 #: public/class-rc-flight-manager-widget.php:62
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"

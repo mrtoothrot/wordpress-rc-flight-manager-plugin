@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since      1.0.0
  *
  * @package    RC_Flight_Manager
@@ -263,7 +263,8 @@ class RC_Flight_Manager_Public {
 		if (!current_user_can( 'read' ) ) {
 			// If user doesn't have the read capability, he is not allowed to see the reservation system
 			// Users must have at least 'subscriber' role to see the reservation system!
-		 	return __('<p><b>Member Area! Please login to see RC Flight Slot reservation system!</b></p>', 'rc-flight-manager');
+			$message = __('Members only! Please login!', 'rc-flight-manager');
+		 	return '<p><b>' . $message . '</b></p>';
 		}
 
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings

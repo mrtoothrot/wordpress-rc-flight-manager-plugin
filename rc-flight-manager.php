@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since             1.0.0
  * @package           RC_Flight_Manager
  *
  * @wordpress-plugin
  * Plugin Name:       RC Flight Manager
- * Plugin URI:        http://example.com/plugin-name-uri/
+ * Plugin URI:        https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * Description:       A Flight Manager Scheduling System for Modell Airfield Clubs
  * Version:           1.0.0
  * Author:            Mr Toothrot
- * Author URI:        http://example.com/
+ * Author URI:        https://github.com/mrtoothrot
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       rc-flight-manager

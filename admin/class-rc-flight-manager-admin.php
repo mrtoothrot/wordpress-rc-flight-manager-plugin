@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since      1.0.0
  *
  * @package    RC_Flight_Manager
@@ -306,7 +306,7 @@ EOT;
 			type="submit"
 			name="submit"
 			class="button button-primary"
-			value="<?php esc_attr_e( 'Save Changes' ); ?>"
+			value="<?php esc_attr_e( 'Save Changes', 'rc-flight-manager' ); ?>"
 		  />
 		</form>
 	  <?php

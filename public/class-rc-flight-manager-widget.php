@@ -20,7 +20,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // widget name to be displayed in Dashboard Widget UI
         __('RC Flight Manager Widget', 'rc-flight-manager'),
         // widget description
-        array ( 'description' => __( 'Show who is todays assigned RC flight manager on our Airfield', 'rc-flight-manager' ), )
+        array ( 'description' => __( 'Displays the current flight manager on duty in the sidebar', 'rc-flight-manager' ), )
         );
     }
 
@@ -59,7 +59,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // Widget admin form
         ?>
         <p>
-        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'rc-flight-manager' ); ?></label> 
         <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
         <?php 

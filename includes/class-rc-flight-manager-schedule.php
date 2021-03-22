@@ -5,7 +5,7 @@
  *
  * A class definition that defining the "schedule" objects
  *
- * @link       http://example.com
+ * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since      1.0.0
  *
  * @package    RC_Flight_Manager_Schedule
