@@ -111,7 +111,7 @@ class RC_Flight_Manager_Public {
 	 * @since    1.0.0
 	 */
 	public function rcfm_send_daily_flightmanager_notification_email() {
-		error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
+		//error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
 		/**
 		 * Defines the CRON to send notification mails.
 		 */
@@ -170,20 +170,6 @@ class RC_Flight_Manager_Public {
 		}
 	}
 
-	/**
-	 * Finding out ajaxurl needed to call requests against WP ajax-endpoint!
-	 * ajaxurl is then used by Java Script code
-	 * This function is loaded every time the wp-header is loaded
-	 * 	
-	 * @since    1.0.0
-	 */
-	//function set_ajaxurl() {
-	//
-	//    echo '<script type="text/javascript">
-	//               var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-	//    </script>';
-	//}
-	
 
 	/**
 	 * Register the shortcode for the public-facing side of the site.
@@ -193,9 +179,6 @@ class RC_Flight_Manager_Public {
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );
 		add_shortcode('rc-flight-slot-reservation', array( $this, 'shortcode_rc_flight_slot_reservation') );
-		//add_shortcode('rc-flight-manager-debug', array( $this, 'shortcode_rc_flight_manager_debug') );
-		//add_shortcode( 'shortcode', array( $this, 'shortcode_function') );
-		//add_shortcode( 'anothershortcode', array( $this, 'another_shortcode_function') );
 	}
 
 	/**
@@ -205,52 +188,6 @@ class RC_Flight_Manager_Public {
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		
-		//do_action( "qm/debug", "shortcode_rc_flight_manager_debug called!");
-		//$today = date_i18n("Y-m-d");
-		//$months = 15;
-        //$this_month = date_i18n("Y-m");
-        //$start_this_month = $this_month . "-01";
-        //$end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
-		//$content .= "<p>$today</p>";
-		//$content .= "<p>$this_month</p>";
-		//$content .= "<p>$start_this_month</p>";
-		//$content .= "<p>$end_month</p>";
-
-		$options = get_option( 'rcfm_settings');
-		$content = "";
-
-		// Check if notifications are turned on
-		if (isset($options['enable_email_notification_field'])) {
-			$content .= "<p>E-mails notification master switch is ON!!!";
-			$content .= "<br>" . $options['enable_email_notification_field'] . "</p>";
-		}
-		
-		if (isset($options['notify_flightmanagers_email_field'])) {
-			$content .= "<p>E-mails will be sent to flightmanagers!";
-			$content .= "<br>" . $options['notify_flightmanagers_email_field'] . "</p>";
-		}
-
-		$content .= "<p>Additional email notified:";
-		$content .= "<br>" . $options['notify_additional_email_field'] . "</p>";
-
-		$userObj = get_userdata(42);
-		$email_receipients = array();
-
-		if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
-			$content .= "<br>Pushing " . $userObj->user_email . " to email_receipientss...<br>";
-			array_push($email_receipients, $userObj->user_email);
-		}
-		if (is_email($options['notify_additional_email_field'])) {
-			$content .= "<br>Pushing " . $options['notify_additional_email_field'] . " to email_receipientss...<br>";
-			array_push($email_receipients, $options['notify_additional_email_field']);
-		}
-		
-		$content .= "E-Mail receiver:<br>" . print_r($email_receipients, true);
-		$content .= "<br>Informing " . count($email_receipients) . " persons!";
-
-		$date = date_i18n("Y-m-d");
-		$email_subject = str_replace('[flightmanager-duty-date]', $date, $options['notification_email_subject_field'] );
-		$content .= "<br>Subject: " . $email_subject;
 		// Return content
 		return($content);
 	} 
@@ -293,13 +230,8 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    $header = <<<EOT
-			<tr>
-			    <th><p align="center">Zeit</p></th>
-			    <th><p align="center">Buchungen</p></th>
-				<th></th>
-			</tr>
-			EOT;
+	    $header = '<tr><th><p align="center">' . __('Time', 'rc-flight-manager') . '</p></th>' . 
+					  '<th><p align="center">' . __('Bookings', 'rc-flight-manager') . '</p></th><th></th></tr>';
 
 		$lastDay = "";
 		foreach ( $slots as $s ) {
@@ -347,7 +279,8 @@ class RC_Flight_Manager_Public {
 		 if (!current_user_can( 'read' ) ) {
 			// If user doesn't have the read capability, he is not allowed to see the schedule
 			// Users must have at least 'subscriber' role to see the roster!
-		 	return __('<p><b>Member Area! Please login to see RC Flight Manager Roster!</b></p>', 'rc-flight-manager');
+			$message = __('Members only! Please login!', 'rc-flight-manager');
+		 	return '<p><b>' . $message . '</b></p>';
 		}
 		
 		// normalize attribute keys, lowercase
@@ -375,13 +308,9 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    $header = <<<EOT
-			<tr>
-				<th><p align="center">Datum</p></th>
-			    <th><p align="center">Flugleiter/in</p></th>
-			    <th><p align="center"></p></th>
-			</tr>
-			EOT;
+	    $header = '<tr><th><p align="center">' . __('Date', 'rc-flight-manager') . '</p></th>' .
+				      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p></th>' .
+			    	  '<th><p align="center"></p></th></tr>';
 
 		$lastMonth = "";
 		$today = date_i18n("d.m.Y");
@@ -393,9 +322,9 @@ class RC_Flight_Manager_Public {
 			// Create a sub-header row for each month
 			$row = "";
 			if ($currentMonth != $lastMonth) {
-				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\"><div align=\"center\">$currentMonth</div><div align=\"right\" style=\"font-weight: normal\">Stand: $today</div></th>"; // TODO:  Better format using Theme CSS later
-				$row .= "</tr>";
+				$row .= '<tr>';
+				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div><div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
+				$row .= '</tr>';
 				$row .= $header;
 			}
 			// append row to table
@@ -428,8 +357,6 @@ class RC_Flight_Manager_Public {
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
-	    //$comment = $_POST["comment"];
-	    //$swap = $_POST["swap"];
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -439,22 +366,9 @@ class RC_Flight_Manager_Public {
 
 	    // Update Duty with current user
 	    $s->updateUser($current_user->ID);
-	    //$s->saveToDatabase();
-	
-	    // Calculate date entry
-	    //$mysqldate = strtotime( $s->date );
-	    //$dutydate = date_i18n("D j. M", $mysqldate);
-
-	    // Prepare new table row
-		//$row = "";
-		//$row .= $s->getTableData();
-	    //$row .= "<td>$dutydate</td>";
-	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
-	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
 	
 	    // return new table data
 		echo $s->getTableData();
-		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -474,29 +388,15 @@ class RC_Flight_Manager_Public {
 
 	    // Update Duty with current user
 	    $s->updateUser($new_user_id);
-	    //$s->saveToDatabase();
-	
-	    // Calculate date entry
-	    //$mysqldate = strtotime( $s->date );
-	    //$dutydate = date_i18n("D j. M", $mysqldate);
-
-	    // Prepare new table row
-		//$row = "";
-		//$row .= $s->getTableData();
-	    //$row .= "<td>$dutydate</td>";
-	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
-	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
 	
 	    // return new table data
 		echo $s->getTableData();
-		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_assign() {
 		//error_log("RC_Flight_Manager_Public :: button_assign called!");
-		//do_action( 'qm/warning', "RC_Flight_Manager_Public :: button_assign called!" );
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
@@ -510,22 +410,9 @@ class RC_Flight_Manager_Public {
 
 	    // Update Duty with current user
 	    $s->updateUser($new_user_id, "Yes"); // Second parameter = "Yes" => Change done by admin!
-	    //$s->saveToDatabase();
-	
-	    // Calculate date entry
-	    //$mysqldate = strtotime( $s->date );
-	    //$dutydate = date_i18n("D j. M", $mysqldate);
-
-	    // Prepare new table row
-		//$row = "";
-		//$row .= $s->getTableData();
-	    //$row .= "<td>$dutydate</td>";
-	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
-	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
 	
 	    // return new table data
 		echo $s->getTableData();
-		//echo "SUCCESSFUL! $schedule_id";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -543,34 +430,16 @@ class RC_Flight_Manager_Public {
 		// Service which will be swapped
 		$s2 = RC_Flight_Manager_Schedule::getServiceById($swap_schedule_id);
 	
-	    // Get userdata for $new_user_id
-	    //$s_user_obj = get_userdata($s->user_id);
-		//$s2_user_obj = get_userdata($s2->user_id);
-
 	    // Update Duty with new user
 		$temp = $s->user_id;
 	    $s->updateUser($s2->user_id);
 		$s2->updateUser($temp);
-	    //$s->saveToDatabase();
-	
-	    // Calculate date entry
-	    //$mysqldate = strtotime( $s->date );
-	    //$dutydate = date_i18n("D j. M", $mysqldate);
-
-	    // Prepare new table row
-		//$row = "";
-		//$row .= $s->getTableData();
-	    //$row .= "<td>$dutydate</td>";
-	    //$row .= "<td>" . esc_html( $current_user->user_firstname ) . " " . esc_html( $current_user->user_lastname ) . "</td>";
-	    //$row .= "<td>" . '$s->getSwapButtonHtml()' . "</td>";
 	
 	    // return new table data
 		echo $s->getTableData();
 		echo ":SEP:";
 		echo $s2->getTableData();
 
-		//echo "SUCCESSFUL! $schedule_id";
-	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
@@ -598,7 +467,6 @@ class RC_Flight_Manager_Public {
 
 	    // return new table data
 		echo $slot->getTableData();
-		//echo "Test";// ${reservation_id}";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}

@@ -39,13 +39,14 @@ class RC_Flight_Manager_Widget extends WP_Widget {
 
         // Get name of user who's on duty today
         $userObj = get_userdata($todays_service->user_id);
+        $name = "";
         if ($userObj) {
             $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
-            echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         }
         else {
-            echo "<p style='color:#5388b4'><b>Niemand eingeteilt!</b></p>"; // TODO: Move formating to CSS
+            $name = __('Nobody assigned!', 'rc-flight-manager');
         }
+        echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         echo $args['after_widget'];
     }
 
