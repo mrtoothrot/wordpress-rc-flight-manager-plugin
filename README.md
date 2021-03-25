@@ -14,8 +14,7 @@ Wordpress plugin implementing a Flight Manager Scheduling System for Modell Airf
 
 ## Description ##
 
-**PLEASE NOTE: This plugin is in a very early state of development! A lot of things are hard-coded and might be very special to my local club!**
-**USE AT OWN RISK!**
+**PLEASE NOTE: This plugin is in a very early state of development! USE AT OWN RISK!**
 
 Usually modell airfields need to have a flight manager onsite while the members are flying their model planes. Normally there is a roster were each flying day is assigned to one of the members. This member is the flight manager for the day.
 
@@ -65,6 +64,11 @@ Answer to foo bar dilemma.
 4. Flightslot reservation table - `/assets/screenshot-4.png`
 
 ## Changelog ##
+
+### 0.6 ###
+* Preparations for internationalization
+* German Localization (added rc-flight-manager-de_DE.[po|mo] with German translation)
+* Added POT file for tranlation to other languages
 
 ### 0.5 ###
 * Security improvements

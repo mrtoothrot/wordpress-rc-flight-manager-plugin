@@ -5,7 +5,7 @@
  *
  * A class definition that defining the "flightslot" objects
  *
- * @link       http://example.com
+ * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since      1.0.0
  *
  * @package    RC_Flight_Manager_Flightslot
@@ -165,16 +165,18 @@ class RC_Flight_Manager_Flightslot {
     public function getBookButtonHtml() {
         $id = "button_book_slot_id_" . $this->reservation_id;
         $class = "button_book_flightslot";
+        $button_text = __('Book', 'rc-flight-manager');
         // Button
-        $html = "<button type=\"button\" id=\"$id\" class=\"$class\" data-reservation_id=\"$this->reservation_id\">Buchen</button>";
+        $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">' . $button_text . '</button>';
         return($html);
     }
 
     public function getCancellationButtonHtml() {
         $id = "button_cancel_slot_id_" . $this->reservation_id;
         $class = "button_cancel_flightslot";
+        $button_text = __('Cancel', 'rc-flight-manager');
         // Button
-        $html = "<button type=\"button\" id=\"$id\" class=\"$class\" data-reservation_id=\"$this->reservation_id\">Stornieren</button>";
+        $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">'. $button_text . '</button>';
         return($html);
     }
 
@@ -250,34 +252,6 @@ class RC_Flight_Manager_Flightslot {
             $row .= "<td></td>";
         }
 
-
-
-//        if ( $this->user_id == 0 ) { 
-//            // if no user is entered, offer to take over this service!
-//            if ( $current_user->ID == 42 ) {
-//                # If user has ID 42, offer to assign a user 
-//                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
-//            }
-//            else {
-//                $row .= "<td>" . $this->getTakeoverButtonHtml() . "</td>";
-//            }
-//        }
-//        elseif ( $this->user_id == $current_user->ID ) {
-//            if ( $current_user->ID == 42 ) {
-//                # If user has ID 42, offer to assign a user 
-//                $row .= "<td>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
-//            }
-//            else {
-//                $row .= "<td>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
-//            }
-//        }
-//        elseif ( $current_user->ID == 42 ) {
-//            # If user has ID 42, offer to assign a user 
-//            $row .= "<td>". $this->getAssignButtonHtml() . "</td>";
-//        }
-//        else {
-//            $row .= "<td></td>";
-//        }
 		return $row;
 	}
 }

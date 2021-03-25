@@ -20,191 +20,199 @@ msgstr ""
 
 #: admin/class-rc-flight-manager-admin.php:118
 msgid "Notifications"
-msgstr ""
+msgstr "Erinnerungen"
 
 #: admin/class-rc-flight-manager-admin.php:125
 msgid "Send E-Mail notifications"
-msgstr ""
+msgstr "Versende E-Mail Erinnerungen"
 
 #: admin/class-rc-flight-manager-admin.php:133
 msgid "Flight Managers are notified by E-Mail"
-msgstr ""
+msgstr "Flugleiter werden per E-Mail erinnert"
 
 #: admin/class-rc-flight-manager-admin.php:141
 msgid "Additional address to be notified by E-Mail"
-msgstr ""
+msgstr "Zusätzliche Adresse für E-Mail Erinnerung"
 
 #: admin/class-rc-flight-manager-admin.php:149
 msgid "Template for notification E-Mail"
-msgstr ""
+msgstr "Vorlage für die Erinnerungs-E-Mail"
 
 #: admin/class-rc-flight-manager-admin.php:156
 msgid "Subject"
-msgstr ""
+msgstr "Betreff"
 
 #: admin/class-rc-flight-manager-admin.php:164
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: admin/class-rc-flight-manager-admin.php:172
 msgid "Flight Slot Reservation Limits"
-msgstr ""
+msgstr "Limits für die Buchung von Flugzeiten"
 
 #: admin/class-rc-flight-manager-admin.php:179
 msgid "Red limit (max)"
-msgstr ""
+msgstr "Rotes limit (max)"
 
 #: admin/class-rc-flight-manager-admin.php:187
 msgid "Yellow limit"
-msgstr ""
+msgstr "Gelbes limit"
 
 #: admin/class-rc-flight-manager-admin.php:195
 msgid "Hi"
-msgstr ""
+msgstr "Hallo"
 
 #: admin/class-rc-flight-manager-admin.php:196
 msgid ""
 "You are assigned as flight manager on duty for [flightmanager-duty-date]! "
 "This is a reminder! Don't forget your service!"
 msgstr ""
+"Du bist am [flightmanager-duty-date] als Flugleiter eingeteilt ! Das ist "
+"eine Erinnerung! Bitte vergiss deinen Dienst nicht!"
 
 #: admin/class-rc-flight-manager-admin.php:198
 msgid "This notification E-Mail was sent by RC Flight Manager"
-msgstr ""
+msgstr "Diese Erinnerungs-E-Mail wurde versendet vom RC Flight Manager"
 
 #: admin/class-rc-flight-manager-admin.php:203
 msgid "Please mind your flight manager service on [flightmanager-duty-date]!"
-msgstr ""
+msgstr "Bitte denke an deinen Flugleiter-Dienst am [flightmanager-duty-date]!"
 
 #: admin/class-rc-flight-manager-admin.php:226
 msgid "Configure E-Mail notification for scheduled flight managers."
-msgstr ""
+msgstr "Einstellungen für die E-Mail-Erinnerung für eingeteilte Flugleiter."
 
 #: admin/class-rc-flight-manager-admin.php:229
 msgid "Configure limits for flight slot reservations."
-msgstr ""
+msgstr "Festlegen von Limits für die Buchung von Flugzeiten."
 
 #: admin/class-rc-flight-manager-admin.php:233
 msgid ""
 "You can use the following placeholders in the subject line and body of the "
 "notification E-Mail:"
 msgstr ""
+"In Betreff und Text der Erinnerungs-E-Mail können folgende Platzhalter "
+"verwendet werden:"
 
 #: admin/class-rc-flight-manager-admin.php:234
 msgid "date on which the notified user is assigned flight manager"
 msgstr ""
+"Datum an dem der benachrichtigte Benutzer zum Flugleiter-Dienst eingeteilt "
+"ist"
 
 #: admin/class-rc-flight-manager-admin.php:235
 msgid "Name of the user who is assigned flight manager"
-msgstr ""
+msgstr "Name des Benutzers, der zum Flugleiter eingeteilt ist"
 
 #: admin/class-rc-flight-manager-admin.php:306
 msgid "Save Changes"
-msgstr ""
+msgstr "Änderungen Speichern"
 
 #: admin/class-rc-flight-manager-admin.php:319
 msgid "RC Flight Manager Settings"
-msgstr ""
+msgstr "RC Flight Manager Einstellungen"
 
 #: includes/class-rc-flight-manager-flightslot.php:168
 msgid "Book"
-msgstr ""
+msgstr "Buchen"
 
 #: includes/class-rc-flight-manager-flightslot.php:177
 #: includes/class-rc-flight-manager-schedule.php:194
 #: includes/class-rc-flight-manager-schedule.php:239
 #: includes/class-rc-flight-manager-schedule.php:279
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: includes/class-rc-flight-manager-schedule.php:158
 msgid "Assign to me"
-msgstr ""
+msgstr "Mir zuweisen"
 
 #: includes/class-rc-flight-manager-schedule.php:175
 msgid "Assign"
-msgstr ""
+msgstr "Einteilen"
 
 #: includes/class-rc-flight-manager-schedule.php:181
 msgid "Member to assign to this service:"
-msgstr ""
+msgstr "Person, welches zu diesem Dienst eingeteilt werden soll:"
 
 #: includes/class-rc-flight-manager-schedule.php:193
 #: includes/class-rc-flight-manager-schedule.php:238
 #: includes/class-rc-flight-manager-schedule.php:278
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: includes/class-rc-flight-manager-schedule.php:216
 msgid "Swap"
-msgstr ""
+msgstr "Tauschen"
 
 #: includes/class-rc-flight-manager-schedule.php:222
 msgid "Member to swap service with:"
-msgstr ""
+msgstr "Person, mit der getauscht werden soll:"
 
 #: includes/class-rc-flight-manager-schedule.php:230
 msgid "on"
-msgstr ""
+msgstr "am"
 
 #: includes/class-rc-flight-manager-schedule.php:236
 msgid "The selected person and me agreed on swaping our duties! "
-msgstr ""
+msgstr "Die ausgewählte Person und ich haben den Tausch abgesprochen!"
 
 #: includes/class-rc-flight-manager-schedule.php:256
 msgid "Handover"
-msgstr ""
+msgstr "Übergeben"
 
 #: includes/class-rc-flight-manager-schedule.php:263
 msgid "Member to handover service to:"
-msgstr ""
+msgstr "Person, die den Dienst übernehmen soll:"
 
 #: includes/class-rc-flight-manager-schedule.php:276
 msgid "The selected person agreed to take over this duty! "
-msgstr ""
+msgstr "Die ausgewählte Person hat zugestimmt den Dienst zu übernehmen!"
 
 #: public/class-rc-flight-manager-public.php:203
 #: public/class-rc-flight-manager-public.php:282
 msgid "Members only! Please login!"
-msgstr ""
+msgstr "Nur für Mitglieder! Bitte anmelden!"
 
 #: public/class-rc-flight-manager-public.php:233
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
 #: public/class-rc-flight-manager-public.php:234
 msgid "Bookings"
-msgstr ""
+msgstr "Reservierungen"
 
 #: public/class-rc-flight-manager-public.php:311
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: public/class-rc-flight-manager-public.php:312
 msgid "Assigned Flight-Manager"
-msgstr ""
+msgstr "Eingeteilter Flugleiter"
 
 #: public/class-rc-flight-manager-public.php:326
 msgid "as of"
-msgstr ""
+msgstr "Stand"
 
 #: public/class-rc-flight-manager-widget.php:21
 msgid "RC Flight Manager Widget"
-msgstr ""
+msgstr "RC Flight Manager Widget"
 
 #: public/class-rc-flight-manager-widget.php:23
 msgid "Displays the current flight manager on duty in the sidebar"
-msgstr ""
+msgstr "Zeigt den diensthabenden Flugleiter in der Sidebar"
 
 #: public/class-rc-flight-manager-widget.php:47
 msgid "Nobody assigned!"
-msgstr ""
+msgstr "Niemand eingeteilt!"
 
 #: public/class-rc-flight-manager-widget.php:58
 msgid "New title"
-msgstr ""
+msgstr "Neuer Titel"
 
 #: public/class-rc-flight-manager-widget.php:63
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
+#~ msgid "Notification E-Mail subject"
+#~ msgstr "Betreff der Erinnerungs-E-Mail"

@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
  * @since      1.0.0
  *
  * @package    RC_Flight_Manager
@@ -115,14 +115,14 @@ class RC_Flight_Manager_Admin {
 		
 		  add_settings_section(
 			'Notifications',
-			'Notifications',
+			__('Notifications', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_notification',
 			'rc_flight_manager'
 		  );
 		
 		  add_settings_field(
 			'enable_email_notification_field',
-			'Switch on E-Mail notifications',
+			__('Send E-Mail notifications', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_enable_email_notification_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -130,7 +130,7 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_field(
 			'notify_flightmanagers_email_field',
-			'Flight Managers should be notified by E-Mail',
+			__('Flight Managers are notified by E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notify_flightmanagers_email_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -138,7 +138,7 @@ class RC_Flight_Manager_Admin {
 		
 		  add_settings_field(
 			'notify_additional_email_field',
-			'Additional E-Mail address to send notifications to:',
+			__('Additional address to be notified by E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notify_additional_email_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -146,14 +146,14 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_section(
 			'Notification E-Mail Template',
-			'Notification E-Mail Template',
+			__('Template for notification E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_notification_email',
 			'rc_flight_manager'
 		  );
 
 		  add_settings_field(
 			'notification_email_subject_field',
-			'Subject for the notification E-Mail:',
+			__('Subject', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notification_email_subject_field',
 			'rc_flight_manager',
 			'Notification E-Mail Template'
@@ -161,7 +161,7 @@ class RC_Flight_Manager_Admin {
 		  
 		  add_settings_field(
 			'notification_email_body_field',
-			'Notification E-Mail template:',
+			__('Text', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notification_email_body_field',
 			'rc_flight_manager',
 			'Notification E-Mail Template'
@@ -169,14 +169,14 @@ class RC_Flight_Manager_Admin {
 		  
 		  add_settings_section(
 			'Flight Slot Reservation Limits',
-			'Flight Slot Reservation Limits',
+			__('Flight Slot Reservation Limits', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_reservation_limits',
 			'rc_flight_manager'
 		  );
 
 		  add_settings_field(
 			'reservation_red_limit_field',
-			'Max reservation limit (no more reservations possible):',
+			__('Red limit (max)', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_reservation_red_limit_field',
 			'rc_flight_manager',
 			'Flight Slot Reservation Limits'
@@ -184,26 +184,23 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_field(
 			'reservation_yellow_limit_field',
-			'Reservation limit on which flight slot turns yellow:',
+			__('Yellow limit', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_reservation_yellow_limit_field',
 			'rc_flight_manager',
 			'Flight Slot Reservation Limits'
 		  );
 
 		// Configure Plugin default options
-		$email_template = <<<EOT
-<html>
-<body>
-<p>Hi [flightmanager-name]!</p>
-<p>You are assigned as flight manager on duty for [flightmanager-duty-date]! This is a reminder! Don't forget your service!</p>
-<p></p>
-<p>This notification E-Mail was sent by RC Flight Manager</p>
-</body>
-</html>
-EOT;
+		$email_template = '<html><body>';
+		$email_template .= '<p>' . __('Hi', 'rc-flight-manager') . '[flightmanager-name]!</p>';
+		$email_template .= '<p>' . __("You are assigned as flight manager on duty for [flightmanager-duty-date]! This is a reminder! Don't forget your service!", 'rc-flight-manager') . '</p>';
+		$email_template .= '<p></p>';
+		$email_template .= '<p>' . __('This notification E-Mail was sent by RC Flight Manager', 'rc-flight-manager') . '</p>';
+		$email_template .= '</body></html>';
+
 		$defaults = array(
 			'notify_additional_email_field' => '',
-			'notification_email_subject_field' => 'Please mind your flight manager service on [flightmanager-duty-date]!',
+			'notification_email_subject_field' => __('Please mind your flight manager service on [flightmanager-duty-date]!', 'rc-flight-manager'),
 			'notification_email_body_field' => $email_template,
 			'reservation_red_limit_field' => 5,
 			'reservation_yellow_limit_field' => 3,
@@ -226,17 +223,17 @@ EOT;
 	}
 
 	public static function rcfm_section_notification() {
-		echo '<p>Configure E-Mail notification for scheduled flight managers.</p>';
+		echo '<p>' . __('Configure E-Mail notification for scheduled flight managers.', 'rc-flight-manager') . '</p>';
 	}
 
 	public static function rcfm_section_reservation_limits() {
-		echo '<p>Configure limits for flight slot reservations.</p>';
+		echo '<p>' . __('Configure limits for flight slot reservations.', 'rc-flight-manager') . '</p>';
 	}
 	
 	public static function rcfm_section_notification_email() {
-		echo '<p>You can use the following placeholders in the subject line and body of the notification E-Mail:</p>';
-		echo '<p><b>[flightmanager-duty-date]</b> = date on which the notified user is assigned flight manager</p>';
-		echo '<p><b>[flightmanager-name]</b> = Name of the user who is assigned flight manager</p>';
+		echo '<p>' . __('You can use the following placeholders in the subject line and body of the notification E-Mail:', 'rc-flight-manager') . '</p>';
+		echo '<p><b>[flightmanager-duty-date]</b> = ' . __('date on which the notified user is assigned flight manager', 'rc-flight-manager') . '</p>';
+		echo '<p><b>[flightmanager-name]</b> = ' . __('Name of the user who is assigned flight manager', 'rc-flight-manager') . '</p>';
 	}
 	  
 	public static function rcfm_render_enable_email_notification_field() {
@@ -307,7 +304,7 @@ EOT;
 			type="submit"
 			name="submit"
 			class="button button-primary"
-			value="<?php esc_attr_e( 'Save Changes' ); ?>"
+			value="<?php esc_attr_e( 'Save Changes', 'rc-flight-manager' ); ?>"
 		  />
 		</form>
 	  <?php
@@ -320,7 +317,7 @@ EOT;
 		 */
 		if ( current_user_can( 'manage_options' ) ) {
 			add_options_page(
-				'RC Flight Manager Settings',
+				__('RC Flight Manager Settings', 'rc-flight-manager'),
 				'RC Flight Manager',
 				'manage_options',
 				'rc-flight-manager',

@@ -26,7 +26,7 @@ button:disabled {
 	display: inline-block;
     /**display: inline-table;**/
 	margin-bottom: 2px;
-	width: 40%;
+	width: 70%;
 }
 
 .ok_button,
@@ -35,5 +35,5 @@ button:disabled {
 	display: inline-block;
     /**display: inline-table;**/
 	margin-bottom: 0px;
-	width: 40%;
+	width: 50%;
 }

@@ -20,7 +20,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // widget name to be displayed in Dashboard Widget UI
         __('RC Flight Manager Widget', 'rc-flight-manager'),
         // widget description
-        array ( 'description' => __( 'Show who is todays assigned RC flight manager on our Airfield', 'rc-flight-manager' ), )
+        array ( 'description' => __( 'Displays the current flight manager on duty in the sidebar', 'rc-flight-manager' ), )
         );
     }
 
@@ -39,13 +39,14 @@ class RC_Flight_Manager_Widget extends WP_Widget {
 
         // Get name of user who's on duty today
         $userObj = get_userdata($todays_service->user_id);
+        $name = "";
         if ($userObj) {
             $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
-            echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         }
         else {
-            echo "<p style='color:#5388b4'><b>Niemand eingeteilt!</b></p>"; // TODO: Move formating to CSS
+            $name = __('Nobody assigned!', 'rc-flight-manager');
         }
+        echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         echo $args['after_widget'];
     }
 
@@ -59,7 +60,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // Widget admin form
         ?>
         <p>
-        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'rc-flight-manager' ); ?></label> 
         <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
         <?php 
