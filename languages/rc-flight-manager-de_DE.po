@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-03-25 18:31+0100\n"
+"POT-Creation-Date: 2021-03-25 18:40+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mr Toothrot <mrtoothrot@gmail.com>\n"
 "Language-Team: \n"
@@ -125,7 +125,7 @@ msgstr "Abbrechen"
 
 #: includes/class-rc-flight-manager-schedule.php:158
 msgid "Assign to me"
-msgstr "Mir zuweisen"
+msgstr "Übernehmen"
 
 #: includes/class-rc-flight-manager-schedule.php:175
 msgid "Assign"
@@ -133,7 +133,7 @@ msgstr "Einteilen"
 
 #: includes/class-rc-flight-manager-schedule.php:181
 msgid "Member to assign to this service:"
-msgstr "Person, welches zu diesem Dienst eingeteilt werden soll:"
+msgstr "Person, die zu diesem Dienst eingeteilt werden soll:"
 
 #: includes/class-rc-flight-manager-schedule.php:193
 #: includes/class-rc-flight-manager-schedule.php:238
