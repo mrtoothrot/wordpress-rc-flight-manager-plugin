@@ -1,11 +1,10 @@
-# wordpress-rc-flight-manager-plugin
-
-### Plugin Name ###
+### RC Flight Manager ###
 * Contributors: mrtoothrot
 * Donate link: -
 * Tags: flightmanager, modell-airfields, booking, schedule, roster
-* Requires at least: 5.0.0
+* Requires at least: 5.7.0
 * Tested up to: 5.7.0
+* Requires PHP: 7.4
 * Stable tag: -
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +63,9 @@ Answer to foo bar dilemma.
 4. Flightslot reservation table - `/assets/screenshot-4.png`
 
 ## Changelog ##
+
+### 0.7 ###
+* Implemented uninstall.php
 
 ### 0.6 ###
 * Preparations for internationalization

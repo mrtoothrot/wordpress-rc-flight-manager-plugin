@@ -29,3 +29,19 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+// Removing our plugin settings
+$option_name = 'rcfm_settings';
+delete_option($option_name);
+
+// Removing our plugins database tables 
+// Verify constants with table names in rc-flight-manager.php
+//define( 'RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME', 'rcfm_schedule');
+//define( 'RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME', 'rcfm_logging');
+//define( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME', 'rcfm_slots');
+//define( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_RESERVATIONS_TABLE_NAME', 'rcfm_slotreservations');
+global $wpdb;
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}rcfm_schedule");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}rcfm_logging");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}rcfm_slots");
+$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}rcfm_slotreservations");
