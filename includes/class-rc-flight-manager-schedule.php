@@ -177,7 +177,7 @@ class RC_Flight_Manager_Schedule {
 
         // Assign Button
         $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div style="max-width: 200px" id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
                . __('Member to assign to this service:', 'rc-flight-manager')
                . '<br><select id="' . $selection_id. '">';
         $users = get_users();
@@ -218,7 +218,7 @@ class RC_Flight_Manager_Schedule {
 
         // Swap Button
         $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div style="max-width: 200px" id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
                . __('Member to swap service with:', 'rc-flight-manager')
                . '<br><select id="' . $selection_id . '">';
         $schedules = RC_Flight_Manager_Schedule::getServiceList();
@@ -259,7 +259,7 @@ class RC_Flight_Manager_Schedule {
 
         // Handover Button
         $html .= '<button type="button" id="' . $button_id .'" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div style="max-width: 200px"  id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
              . __('Member to handover service to:', 'rc-flight-manager')    
              . '<br><select id="' . $selection_id . '">';
         $users = get_users();
@@ -314,29 +314,29 @@ class RC_Flight_Manager_Schedule {
         if ( $this->user_id == 0 ) { 
             // If no user is assigned to the duty and current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
             if (current_user_can( 'edit_posts' ) ) {
-                $row .= "<td align='center' style='min-width: 200px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
             }
             // if no user is assigned to the duty, display the take over button!
             else {
-                $row .= "<td align='center' style='min-width: 200px;text-align:center'>" . $this->getTakeoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>" . $this->getTakeoverButtonHtml() . "</td>";
             }
         }
         elseif ( $this->user_id == $current_user->ID ) {
             // If current user is assigned to the duty and current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
             if (current_user_can( 'edit_posts' ) ) {
-                $row .= "<td align='center' style='min-width: 200px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
             }
             // Else, only show the swap button
             else {
-                $row .= "<td align='center' style='min-width: 200px;text-align:center'>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
+                $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getSwapButtonHtml() . "<br>" . $this->getHandoverButtonHtml() . "</td>";
             }
         }
         elseif (current_user_can( 'edit_posts' ) ) {
             # If current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
-            $row .= "<td align='center' style='min-width: 200px;text-align:center'>". $this->getAssignButtonHtml() . "</td>";
+            $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "</td>";
         }
         else {
-            $row .= "<td style='min-width: 200px;text-align:center'></td>";
+            $row .= "<td style='min-width:300px;text-align:center'></td>";
         }
 		return $row;
 	}
