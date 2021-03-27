@@ -311,10 +311,10 @@ class RC_Flight_Manager_Public {
 			// Modal content
 			$content .= '	<div class="modal-content">';
 			$content .= '	<span class="close">&times;</span>';
-			$content .= '	<p><label for="addDateField">' . __('Select date', 'rc-flight-manager') . ':</label>'
+			$content .= '	<p align="center"><label for="addDateField">' . __('Select date', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="date" id="addDateField" name="date"></p>';
-			$content .= '   <button type="button" id="add_date_btn_ok" class="modal_ok">' . __('Ok', 'rc-flight-manager') . '</button>';
-			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button>';
+			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . __('Ok', 'rc-flight-manager') . '</button>';
+			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
 			$content .= '	</div>';
 			$content .= '</div>';
 		}
