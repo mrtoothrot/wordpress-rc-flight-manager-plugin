@@ -302,8 +302,26 @@ class RC_Flight_Manager_Public {
 		// Load all schedules from DB
 		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
 		
-	    // Preparing the table
-	    $table = '<table id="table_rc_flight_manager_schedule">';
+	    // Preparing the function buttons on top of the table
+		if (current_user_can( 'edit_posts' ) ) {
+			$content .= '<p align="left"><button id="add_date_btn">' . __('Add date', 'rc-flight-manager') . '</button></p>';
+
+			// Defining the add_date_btn Modal
+			$content .= '<div id="add_date_btn_modal" class="modal">';
+			// Modal content
+			$content .= '	<div class="modal-content">';
+			$content .= '	<span class="close">&times;</span>';
+			$content .= '	<p><label for="addDateField">' . __('Select date', 'rc-flight-manager') . ':</label>'
+			          . '   <input type="date" id="addDateField" name="date"></p>';
+			$content .= '   <button type="button" id="add_date_btn_ok" class="modal_ok">' . __('Ok', 'rc-flight-manager') . '</button>';
+			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button>';
+			$content .= '	</div>';
+			$content .= '</div>';
+		}
+
+		// Preparing the table
+		$table = '';
+	    $table .= '<table id="table_rc_flight_manager_schedule">';
 	    $table .= '<colgroup>';
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
@@ -323,7 +341,8 @@ class RC_Flight_Manager_Public {
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= '<tr>';
-				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div><div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
+				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div>' 
+				      . '<div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
 				$row .= '</tr>';
 				$row .= $header;
 			}
@@ -489,6 +508,18 @@ class RC_Flight_Manager_Public {
 		//echo "Test";// ${reservation_id}";
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function add_schedule_date() {
+		// Read ID from HTTP request
+	    $date = $_POST["date"];
+
+		if (current_user_can( 'edit_posts' ) ) {
+			RC_Flight_Manager_Schedule::addServiceDate($date);
+		}
+	    // Return
+		echo "";
+		    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 }

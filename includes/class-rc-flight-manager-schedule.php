@@ -91,6 +91,30 @@ class RC_Flight_Manager_Schedule {
     }
 
 	// Public static methods
+
+    public static function addServiceDate($date) {
+        global $wpdb;
+        // Add schedule table entry for given date
+        $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;
+        $wpdb->insert( 
+            $schedule_table_name, 
+            array( 
+                'date'              => $date, 
+                'user_id'           => NULL,
+                'comment'           => NULL,
+                'change_id'         => NULL
+            ), 
+            array( 
+                '%s', 
+                '%d', 
+                '%s',
+                '%d'
+            )  
+        );
+        return($wpdb->insert_id);
+    }
+
+
 	public static function getServiceList($months = NULL) {
         // Calculating current date
         $today = date_i18n("Y-m-d");

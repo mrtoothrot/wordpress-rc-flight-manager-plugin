@@ -209,6 +209,8 @@ class RC_Flight_Manager {
 		$this->loader->add_action( 'wp_ajax_button_book_flightslot', $plugin_public, 'button_book_flightslot' );                // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function		
+		$this->loader->add_action( 'wp_ajax_nopriv_add_schedule_date', $plugin_public, 'add_schedule_date' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_add_schedule_date', $plugin_public, 'add_schedule_date' );                // for admins only: Call the same function		
 	}
 
 	/**
