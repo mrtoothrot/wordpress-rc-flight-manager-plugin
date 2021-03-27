@@ -515,11 +515,15 @@ class RC_Flight_Manager_Public {
 	    $date = $_POST["date"];
 
 		if (current_user_can( 'edit_posts' ) ) {
-			RC_Flight_Manager_Schedule::addServiceDate($date);
+			if (!RC_Flight_Manager_Schedule::addServiceDate($date)) {
+				echo "FALSE";
+			}
+			else {
+				echo "TRUE";
+			}
 		}
 	    // Return
-		echo "";
-		    wp_die(); // this is required to terminate immediately and return a proper response
+		wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 }

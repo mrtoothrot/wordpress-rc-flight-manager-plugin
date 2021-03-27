@@ -417,6 +417,9 @@
 		// Send AJAX request
 		$.post(ajaxurl, data, function (response) {
 			console.log("Response = " + response);
+			if( response == 'FALSE') {
+				alert("Date already exists!")
+			}
 			location.reload();
 		});
 		modal.style.display = "none";

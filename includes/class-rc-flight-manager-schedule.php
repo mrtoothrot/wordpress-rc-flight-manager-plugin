@@ -96,22 +96,30 @@ class RC_Flight_Manager_Schedule {
         global $wpdb;
         // Add schedule table entry for given date
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;
-        $wpdb->insert( 
-            $schedule_table_name, 
-            array( 
-                'date'              => $date, 
-                'user_id'           => NULL,
-                'comment'           => NULL,
-                'change_id'         => NULL
-            ), 
-            array( 
-                '%s', 
-                '%d', 
-                '%s',
-                '%d'
-            )  
-        );
-        return($wpdb->insert_id);
+
+        $checkIfExists = $wpdb->get_var("SELECT schedule_id FROM $schedule_table_name WHERE date = '$date'");
+        if ($checkIfExists == NULL) {
+
+            $wpdb->insert( 
+                $schedule_table_name, 
+                array( 
+                    'date'              => $date, 
+                    'user_id'           => NULL,
+                    'comment'           => NULL,
+                    'change_id'         => NULL
+                ), 
+                array( 
+                    '%s', 
+                    '%d', 
+                    '%s',
+                    '%d'
+                )  
+            );
+            return($wpdb->insert_id);
+        }
+        else {
+            return(FALSE);
+        }
     }
 
 
