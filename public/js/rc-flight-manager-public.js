@@ -380,17 +380,20 @@
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	// When the user clicks the button, open the modal 
-	add_date_btn.onclick = function() {
+	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn", (function() {
+	//add_date_btn.onclick = function() {
 		modal.style.display = "block";
-	}
+	}));
 	// When the user clicks on <span> (x), close the modal
-	span.onclick = function() {
+	$("#table_rc_flight_manager_schedule").on("click", "span", (function() {
+	//span.onclick = function() {
 		modal.style.display = "none";
-  	}
+	}));
 	// When the user clicks on abort button, close the modal
-	add_date_btn_abort.onclick = function() {
+	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn_abort", (function() {
+	//add_date_btn_abort.onclick = function() {
 		modal.style.display = "none";
-  	}
+	}));
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 		if (event.target == modal) {
@@ -398,7 +401,8 @@
 		}
   	}
 	// When the user clicks on ok button, run the AJAX request and close the model
-	add_date_btn_ok.onclick = function() {
+	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn_ok", (function() {
+	//add_date_btn_ok.onclick = function() {
 		// Logging
 		console.log("add_date_btn_ok clicked!");
 		var date_obj = new Date($('#addDateField').val());
@@ -423,8 +427,47 @@
 			location.reload();
 		});
 		modal.style.display = "none";
-  	}
+	}));
 	// ****** END add_date_btn modal
 	// ********************************
+
+	// ********************************
+	// ****** Dropdown button
+	/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+	//.dropbtn.onclick = function() {
+	//	document.getElementById("myDropdown").classList.toggle("show");
+  	//}
+	$("#table_rc_flight_manager_schedule").on("click", ".dropbtn", (function() {
+		var schedule_id = $(this).data("schedule_id");
+		var dd_button = "dropdown_id_" + schedule_id
+		console.log("Change button pressed: " + dd_button)
+		// Close all other dropdowns
+		var dropdowns = document.getElementsByClassName("dropdown-content");
+		var i;
+		for (i = 0; i < dropdowns.length; i++) {
+		  var openDropdown = dropdowns[i];
+		  if (openDropdown.classList.contains('show')) {
+			openDropdown.classList.remove('show');
+		  }
+		}	
+		// Now open the clicked one
+		document.getElementById(dd_button).classList.toggle("show");
+	}));
+
+  	// Close the dropdown menu if the user clicks outside of it
+  	window.onclick = function(event) {
+	if (!event.target.matches('.dropbtn')) {
+	  var dropdowns = document.getElementsByClassName("dropdown-content");
+	  var i;
+	  for (i = 0; i < dropdowns.length; i++) {
+		var openDropdown = dropdowns[i];
+		if (openDropdown.classList.contains('show')) {
+		  openDropdown.classList.remove('show');
+		}
+	  }
+	}
+  }
+  // ****** END Dropdown
+  // *****************************
 
 })( jQuery );

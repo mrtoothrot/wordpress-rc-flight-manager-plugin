@@ -104,8 +104,8 @@ class RC_Flight_Manager_Schedule {
                 $schedule_table_name, 
                 array( 
                     'date'              => $date, 
-                    'user_id'           => NULL,
-                    'comment'           => NULL,
+                    'user_id'           => 0,
+                    'comment'           => "",
                     'change_id'         => NULL
                 ), 
                 array( 
@@ -229,10 +229,6 @@ class RC_Flight_Manager_Schedule {
         return($html);
     }
 
-    # TODO:
-    #
-    # Continue with i18n here!
-    #
     public function getSwapButtonHtml() {
         $current_user = wp_get_current_user();
         $html = "";
@@ -335,12 +331,18 @@ class RC_Flight_Manager_Schedule {
         }
 		if ($this->user_id == $current_user->ID) {
             // Own name highlighted in red
-            $row .= '<td style="color:#ff0000">' . $name . '</td>';
+            $row .= '<td style="color:#ff0000">' 
+                  . '<p>' . $name . '</p>'
+                  . '<p>' . $this->getChangeDropdownMenu() . '</p>'
+                  . '</td>';
         }
         else
         {
             // All other names in default color
-            $row .= '<td>' . $name . '</td>';
+            $row .= '<td>'
+                  . '<p>' . $name . '</p>'
+                  . '<p>' . $this->getChangeDropdownMenu() . '</p>'
+                  . '</td>';
         }
 
         if ( $this->user_id == 0 ) { 
@@ -372,4 +374,42 @@ class RC_Flight_Manager_Schedule {
         }
 		return $row;
 	}
+
+    function getChangeDropdownMenu() {
+        $current_user = wp_get_current_user();
+        
+        // Don't show a dropdown if user is not allowed to do anything
+        if (( $this->user_id != 0 ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
+            return('---');
+        }
+
+        $id = $this->schedule_id;
+        $button_id = "button_change_id_" . $id;
+        $dropdown_id = "dropdown_id_" . $id;
+        $menu = '';
+        $menu .= '<div class="dropdown">';
+        $menu .= '  <button id="' . $button_id . '" class="dropbtn" data-schedule_id="' . $id . '">' . __('Change', 'rc-flight-manager') . '</button>'
+               . '  <div id="' . $dropdown_id . '" class="dropdown-content">';
+
+        
+
+        if ( $this->user_id == 0 ) { 
+            $menu .= '      <a href="#">' . __('Assign to me', 'rc-flight-manager') . '</a>';
+        }
+        elseif ( $this->user_id == $current_user->ID ) {
+            $menu .= '      <a href="#">' . __('Swap', 'rc-flight-manager') . '</a>';
+            $menu .= '      <a href="#">' . __('Handover', 'rc-flight-manager') . '</a>';
+        }
+
+        if (current_user_can( 'edit_posts' ) ) {
+            $menu .= '      <a href="#">' . __('Assign', 'rc-flight-manager') . '</a>';
+            $menu .= '      <a href="#">' . __('Delete', 'rc-flight-manager') . '</a>';
+        }
+        
+
+
+        $menu .= '  </div>'
+               . '</div>';
+        return($menu);
+    }
 }
