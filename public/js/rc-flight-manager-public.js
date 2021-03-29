@@ -62,6 +62,44 @@
 	var ajaxurl = rc_flight_manager_vars.ajax_url;
 	//console.log( $ )	
 //
+
+	// Function called if any button with class "rcfm_takeover_btn" is called:
+	$("#table_rc_flight_manager_schedule").on("click", ".rcfm_takeover_btn", (function() {
+		console.log("rcfm_takeover_btn clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		console.log("schedule_id = " + schedule_id)
+
+		var data = {
+			'action'   		: 'button_takeover', // the name of your PHP function!
+			'schedule_id'   : schedule_id        // a random value we'd like to pass
+		};
+		
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#table_row_schedule_id_" + schedule_id;
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+		});
+	}));
+
+	// Function called if any button with class "rcfm_delete_btn" is called:
+	$("#table_rc_flight_manager_schedule").on("click", ".rcfm_delete_btn", (function() {
+		console.log("rcfm_delete_btn clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		console.log("schedule_id = " + schedule_id)
+
+		var data = {
+			'action'   		: 'button_delete',   // the name of your PHP function!
+			'schedule_id'   : schedule_id        // a random value we'd like to pass
+		};
+		
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			// Reload page, as the table row needs to be removed
+			location.reload();
+		});
+	}));
+
 	// Function called if any button with class "button_takeover_schedule" is called:
 	$("#table_rc_flight_manager_schedule").on("click", ".button_takeover_schedule", (function() {
 		console.log("button_takeover_schedule clicked!");
@@ -376,57 +414,60 @@
 	// Get the modal
 	var modal = document.getElementById("add_date_btn_modal");
 	// Get the button that opens the modal
-	var btn = document.getElementById("add_date_btn");
+	//var btn = document.getElementById("add_date_btn");
 	// Get the <span> element that closes the modal
-	var span = document.getElementsByClassName("close")[0];
+	//var span = document.getElementsByClassName("close")[0];
 	// When the user clicks the button, open the modal 
-	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn", (function() {
+	$("#schedule").on("click", "#add_date_btn", (function() {
 	//add_date_btn.onclick = function() {
+		console.log("add_date_btn clicked!");
 		modal.style.display = "block";
 	}));
 	// When the user clicks on <span> (x), close the modal
-	$("#table_rc_flight_manager_schedule").on("click", "span", (function() {
+	$("#schedule").on("click", "span", (function() {
 	//span.onclick = function() {
 		modal.style.display = "none";
 	}));
 	// When the user clicks on abort button, close the modal
-	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn_abort", (function() {
+	$("#schedule").on("click", "#add_date_btn_abort", (function() {
 	//add_date_btn_abort.onclick = function() {
 		modal.style.display = "none";
 	}));
 	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
+	$(window).on("click", (function() {
 		if (event.target == modal) {
 	  	modal.style.display = "none";
 		}
-  	}
+	}));
 	// When the user clicks on ok button, run the AJAX request and close the model
-	$("#table_rc_flight_manager_schedule").on("click", "add_date_btn_ok", (function() {
+	$("#schedule").on("click", "#add_date_btn_ok", (function() {
 	//add_date_btn_ok.onclick = function() {
 		// Logging
 		console.log("add_date_btn_ok clicked!");
 		var date_obj = new Date($('#addDateField').val());
-		var year = date_obj.getFullYear();
-		var month = date_obj.getMonth() + 1;
-		var day = date_obj.getDate();
-  		var date = [year, month, day].join('-');
-		console.log("date picked = " + date)
+		if (! isNaN(date_obj.getDate())) { // Only continue if valid date is selected
+			var year = date_obj.getFullYear();
+			var month = date_obj.getMonth() + 1;
+			var day = date_obj.getDate();
+  			var date = [year, month, day].join('-');
+			console.log("date picked = " + date)
 
-		// Prepare AJAX request
-		var data = {
-			'action'   		: 'add_schedule_date'   , // the name of your PHP function!
-			'date'			: date                    // a random value we'd like to pass
-		};
-		
-		// Send AJAX request
-		$.post(ajaxurl, data, function (response) {
-			console.log("Response = " + response);
-			if( response == 'FALSE') {
-				alert("Date already exists!")
-			}
-			location.reload();
-		});
-		modal.style.display = "none";
+			// Prepare AJAX request
+			var data = {
+				'action'   		: 'add_schedule_date'   , // the name of your PHP function!
+				'date'			: date                    // a random value we'd like to pass
+			};
+
+			// Send AJAX request
+			$.post(ajaxurl, data, function (response) {
+				console.log("Response = " + response);
+				if( response == 'FALSE') {
+					alert("Date already exists!")
+				}
+				location.reload();
+			});
+			modal.style.display = "none";
+		}
 	}));
 	// ****** END add_date_btn modal
 	// ********************************

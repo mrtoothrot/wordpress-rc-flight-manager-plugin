@@ -90,8 +90,23 @@ class RC_Flight_Manager_Schedule {
         );
     }
 
-	// Public static methods
+    function delete() {
+        global $wpdb;
+        // Add schedule table entry for given date
+        $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;
 
+        $wpdb->delete(
+            $schedule_table_name, 
+            array(
+                'schedule_id' => $this->schedule_id // Where clause
+            ),
+            array(
+                '%d' // format of value being targeted for deletion
+            )
+        );
+    }
+
+	// Public static methods
     public static function addServiceDate($date) {
         global $wpdb;
         // Add schedule table entry for given date
@@ -379,37 +394,56 @@ class RC_Flight_Manager_Schedule {
         $current_user = wp_get_current_user();
         
         // Don't show a dropdown if user is not allowed to do anything
-        if (( $this->user_id != 0 ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
-            return('---');
-        }
+        //if (( $this->user_id != 0 ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
+        //    return('---');
+        //}
 
-        $id = $this->schedule_id;
-        $button_id = "button_change_id_" . $id;
-        $dropdown_id = "dropdown_id_" . $id;
-        $menu = '';
-        $menu .= '<div class="dropdown">';
-        $menu .= '  <button id="' . $button_id . '" class="dropbtn" data-schedule_id="' . $id . '">' . __('Change', 'rc-flight-manager') . '</button>'
-               . '  <div id="' . $dropdown_id . '" class="dropdown-content">';
-
-        
-
+        $buttons = array();
         if ( $this->user_id == 0 ) { 
-            $menu .= '      <a href="#">' . __('Assign to me', 'rc-flight-manager') . '</a>';
+            $id = "takeover_btn_" . $this->schedule_id;
+            $class = "rcfm_takeover_btn";
+            $button_text = __('Assign to me', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         elseif ( $this->user_id == $current_user->ID ) {
-            $menu .= '      <a href="#">' . __('Swap', 'rc-flight-manager') . '</a>';
-            $menu .= '      <a href="#">' . __('Handover', 'rc-flight-manager') . '</a>';
+            //$menu .= '      <a href="#">' . __('Swap', 'rc-flight-manager') . '</a>';
+            //$menu .= '      <a href="#">' . __('Handover', 'rc-flight-manager') . '</a>';
+            array_push($buttons, '<a href="#">' . __('Swap', 'rc-flight-manager') . '</a>');
+            array_push($buttons, '<a href="#">' . __('Handover', 'rc-flight-manager') . '</a>');
         }
 
         if (current_user_can( 'edit_posts' ) ) {
-            $menu .= '      <a href="#">' . __('Assign', 'rc-flight-manager') . '</a>';
-            $menu .= '      <a href="#">' . __('Delete', 'rc-flight-manager') . '</a>';
+            // Assign button
+            array_push($buttons, '<a href="#">' . __('Assign', 'rc-flight-manager') . '</a>');
+            
+            // Delete button
+            $id = "delete_btn_" . $this->schedule_id;
+            $class = "rcfm_delete_btn";
+            $button_text = __('Delete', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         
-
-
-        $menu .= '  </div>'
-               . '</div>';
-        return($menu);
+        if (count($buttons) == 0) { // Don't show a dropdown if user is not allowed to do anything
+            return('');
+        }
+        //elseif (count($buttons) == 1) { // Directly display respective button if only one is possible
+            // TODO: Implement later
+            //return($buttons[0]);
+        //}
+        else {
+            $id = $this->schedule_id;
+            $button_id = "button_change_id_" . $id;
+            $dropdown_id = "dropdown_id_" . $id;
+            $menu = '';
+            $menu .= '<div class="dropdown">';
+            $menu .= '  <button id="' . $button_id . '" class="dropbtn" data-schedule_id="' . $id . '">' . __('Change', 'rc-flight-manager') . '</button>'
+                   . '  <div id="' . $dropdown_id . '" class="dropdown-content">';
+            for($x = 0; $x < count($buttons); $x++) {
+                $menu .= $buttons[$x];
+            }
+            $menu .= '  </div>'
+                   . '</div>';
+            return($menu);
+        }
     }
 }

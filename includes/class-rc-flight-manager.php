@@ -199,6 +199,8 @@ class RC_Flight_Manager {
 		// Add hook for AJAX calls
 		$this->loader->add_action( 'wp_ajax_nopriv_button_takeover', $plugin_public, 'button_takeover' ); // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_takeover', $plugin_public, 'button_takeover' );        // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_button_delete', $plugin_public, 'button_delete' ); // for ALL users
+		$this->loader->add_action( 'wp_ajax_button_delete', $plugin_public, 'button_delete' );        // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_handover', $plugin_public, 'button_handover' ); // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_handover', $plugin_public, 'button_handover' );        // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_assign', $plugin_public, 'button_assign' );     // for ALL users

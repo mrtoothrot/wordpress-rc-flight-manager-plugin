@@ -302,6 +302,9 @@ class RC_Flight_Manager_Public {
 		// Load all schedules from DB
 		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
 		
+		// Begin enclosing <div>
+		$content .= '<div id="schedule" class="rcfm-schedule">';
+
 	    // Preparing the function buttons on top of the table
 		if (current_user_can( 'edit_posts' ) ) {
 			$content .= '<p align="left"><button id="add_date_btn">' . __('Add date', 'rc-flight-manager') . '</button></p>';
@@ -312,7 +315,7 @@ class RC_Flight_Manager_Public {
 			$content .= '	<div class="modal-content">';
 			$content .= '	<span class="close">&times;</span>';
 			$content .= '	<p align="center"><label for="addDateField">' . __('Select date', 'rc-flight-manager') . ':</label>'
-			          . '   <input type="date" id="addDateField" name="date"></p>';
+			          . '   <input type="date" id="addDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
 			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . __('Ok', 'rc-flight-manager') . '</button>';
 			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
 			$content .= '	</div>';
@@ -366,6 +369,9 @@ class RC_Flight_Manager_Public {
 		// add table to content
 		$content .= $table;
 
+		// End enclosing <div>
+		$content .= '</div>';
+
 		// return content
 		return $content;
 	}
@@ -388,6 +394,29 @@ class RC_Flight_Manager_Public {
 	
 	    // return new table data
 		echo $s->getTableData();
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function button_delete() {
+		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+
+	    // Load Duty from DB
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
+
+	    // Update Duty with current user
+		if (current_user_can( 'edit_posts' ) ) {
+			$s->delete();
+		}
+	
+	    // return new table data
+		echo '';
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
