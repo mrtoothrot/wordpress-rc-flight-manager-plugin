@@ -12,6 +12,17 @@
  .shown_user_selection { display: initial; }
  */
 
+p.rcfm-event-label {
+	background-color: #fbff00da;
+	color: #000000;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 20px;
+	padding:2px;
+	width:120px;
+	margin:auto;
+}
+
  .hidden { display: none; }
  
 button:disabled {

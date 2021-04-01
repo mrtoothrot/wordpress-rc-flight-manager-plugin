@@ -347,20 +347,22 @@ class RC_Flight_Manager_Schedule {
 			$name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
 		}
 
-        // Constructing the row
+        // Constructing the rows
+        // 1. Date field
         $row = "";
 		if ($this->comment) {
-            $row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p><p align="center" style="background-color: #FF0000; color: #ffffff">' . $this->comment . '</p></td>';
+            $row .= '<td><p align="center"><b>' . $formated_date . '</b></p><p class="rcfm-event-label">' . $this->comment . '</p></td>';
         }
         else
         {
-            $row .= '<td height="80px"><p align="center"><b>' . $formated_date . '</b></p></td>';
+            $row .= '<td><p align="center"><b>' . $formated_date . '</b></p></td>';
         }
+
+        // 2. Flight Manager field
 		if ($this->user_id == $current_user->ID) {
             // Own name highlighted in red
             $row .= '<td style="color:#ff0000">' 
                   . '<p>' . $name . '</p>'
-                  . '<p>' . $this->getChangeDropdownMenu() . '</p>'
                   . '</td>';
         }
         else
@@ -368,9 +370,13 @@ class RC_Flight_Manager_Schedule {
             // All other names in default color
             $row .= '<td>'
                   . '<p>' . $name . '</p>'
-                  . '<p>' . $this->getChangeDropdownMenu() . '</p>'
                   . '</td>';
         }
+        
+        // 3. Button field
+        $row .= '<td>'
+              .  $this->getChangeDropdownMenu()
+              . '</td>';
 
 		return $row;
 	}
