@@ -119,7 +119,7 @@ class RC_Flight_Manager_Schedule {
                 $schedule_table_name, 
                 array( 
                     'date'              => $date, 
-                    'user_id'           => 0,
+                    'user_id'           => NULL,
                     'comment'           => "",
                     'change_id'         => NULL
                 ), 
@@ -155,7 +155,13 @@ class RC_Flight_Manager_Schedule {
         }
         $schedules = array();
         foreach ( $list as $x ) {
+            // Create new schedule object
             $s = new RC_Flight_Manager_Schedule($x->schedule_id, $x->date, $x->user_id, $x->comment, $x->change_id);
+            // Check if user_id exists in wordpress
+            if (! get_userdata($s->user_id)) {
+                $s->user_id = NULL;
+                $s->saveToDatabase();
+            }
             // append new Duty to list
             array_push($schedules, $s);
         };
@@ -266,7 +272,7 @@ class RC_Flight_Manager_Schedule {
                . '<br><select id="' . $selection_id . '">';
         $schedules = RC_Flight_Manager_Schedule::getServiceList();
         foreach ( $schedules as $s) {
-            if (($s->user_id != 0) && ($s->user_id != $current_user->ID)) {
+            if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
                 $userObj = get_userdata($s->user_id);
                 $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
                 $date = date_i18n("D j. M", strtotime( $s->date ));
@@ -307,7 +313,7 @@ class RC_Flight_Manager_Schedule {
              . '<br><select id="' . $selection_id . '">';
         $users = get_users();
         foreach ( $users as $u) {
-            if (($u->ID != 0) && ($u->user_id != $current_user->ID)) {
+            if (($u->ID != NULL) && ($u->user_id != $current_user->ID)) {
                 $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
                 //$date = date_i18n("D j. M", strtotime( $s->date ));
                 $html .= "<option value=\"$u->ID\">$name</option>";
@@ -360,7 +366,7 @@ class RC_Flight_Manager_Schedule {
                   . '</td>';
         }
 
-        if ( $this->user_id == 0 ) { 
+        if ( $this->user_id == NULL ) { 
             // If no user is assigned to the duty and current user has 'edit_posts' capability (=> Contributor Role), display the assign duty button
             if (current_user_can( 'edit_posts' ) ) {
                 $row .= "<td align='center' style='min-width:300px;text-align:center'>". $this->getAssignButtonHtml() . "<br>" . $this->getTakeoverButtonHtml() . "</td>";
@@ -394,12 +400,12 @@ class RC_Flight_Manager_Schedule {
         $current_user = wp_get_current_user();
         
         // Don't show a dropdown if user is not allowed to do anything
-        //if (( $this->user_id != 0 ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
+        //if (( $this->user_id != NULL ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
         //    return('---');
         //}
 
         $buttons = array();
-        if ( $this->user_id == 0 ) { 
+        if ( $this->user_id == NULL ) { 
             $id = "takeover_btn_" . $this->schedule_id;
             $class = "rcfm_takeover_btn";
             $button_text = __('Assign to me', 'rc-flight-manager');
