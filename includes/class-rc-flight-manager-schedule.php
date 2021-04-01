@@ -211,131 +211,131 @@ class RC_Flight_Manager_Schedule {
     }
 
     
-    public function getTakeoverButtonHtml() {
-        $id = "button_takeover_schedule_id_" . $this->schedule_id;
-        $class = "button_takeover_schedule";
-        $button_text = __('Assign to me', 'rc-flight-manager');
-        // Button
-        $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        return($html);
-    }
-
-    public function getAssignButtonHtml() {
-        $current_user = wp_get_current_user();
-        $html = "";
-
-        $id = $this->schedule_id;
-        $button_id = "button_assign_schedule_id_" . $this->schedule_id;
-        $div_id = "user_div_id_" . $this->schedule_id;
-        $selection_id = "user_selection_id_" . $this->schedule_id;
-        $ok_button_id = "assign_ok_button_id_" . $this->schedule_id;
-        $abort_button_id = "assign_abort_button_id_" . $this->schedule_id;
-        $class = "button_assign_schedule";
-        $button_text = __('Assign', 'rc-flight-manager');
-        $divclass = "div_assign_schedule";
-
-        // Assign Button
-        $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
-               . __('Member to assign to this service:', 'rc-flight-manager')
-               . '<br><select id="' . $selection_id. '">';
-        $users = get_users();
-        foreach ( $users as $u) {
-            if ($u->ID != 0) {
-                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
-                //$date = date_i18n("D j. M", strtotime( $s->date ));
-                $html .= "<option value=\"$u->ID\">$name</option>";
-            }
-        }
-        $html .= '</select></p>';
-        // Ok / Abort buttons
-        $html .= '<button type="button" id="' . $ok_button_id . '" class="assign_ok_button ok_button" value="' . $id . '">' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
-        $html .= '<button type="button" id="' . $abort_button_id .'" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
-        $html .= '</div>';
-
-        return($html);
-    }
-
-    public function getSwapButtonHtml() {
-        $current_user = wp_get_current_user();
-        $html = "";
-
-        $id = $this->schedule_id;
-        $button_id = "button_swap_schedule_id_" . $this->schedule_id;
-        $disclaimer_id = "swap_disclaimer_id_" . $this->schedule_id;
-        $div_id = "service_div_id_" . $this->schedule_id;
-        $selection_id = "service_selection_id_" . $this->schedule_id;
-        $ok_button_id = "swap_ok_button_id_" . $this->schedule_id;
-        $abort_button_id = "swap_abort_button_id_" . $this->schedule_id;
-        $class = "button_swap_schedule";
-        $button_text = __('Swap', 'rc-flight-manager');
-        $divclass = "div_swap_schedule";
-
-        // Swap Button
-        $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
-               . __('Member to swap service with:', 'rc-flight-manager')
-               . '<br><select id="' . $selection_id . '">';
-        $schedules = RC_Flight_Manager_Schedule::getServiceList();
-        foreach ( $schedules as $s) {
-            if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
-                $userObj = get_userdata($s->user_id);
-                $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
-                $date = date_i18n("D j. M", strtotime( $s->date ));
-                $html .= '<option value="' . $s->schedule_id . '">' . $name . ' ' . __('on', 'rc-flight-manager') .' ' . $date . '</option>';
-            }
-        }
-        $html .= "</select></p>";
-        // Disclaimer
-        $html .= '<input type="checkbox" id="' . $disclaimer_id. '" class="swap_disclaimer" value="' . $id . '">';
-        $html .= '<label for="' . $disclaimer_id . '">' . __('The selected person and me agreed on swaping our duties! ', 'rc-flight-manager') . '</label><br>';
-        // Ok / Abort buttons
-        $html .= '<br><button type="button" id="' . $ok_button_id .'" class="swap_ok_button ok_button" value="'. $id . '" disabled>' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
-        $html .= '<button type="button" id="' . $abort_button_id . '" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
-        $html .= '</div>';
-
-        return($html);
-    }
-
-    public function getHandoverButtonHtml() {
-        $current_user = wp_get_current_user();
-        $html = "";
-
-        $id = $this->schedule_id;
-        $button_id = "button_handover_schedule_id_" . $this->schedule_id;
-        $disclaimer_id = "handover_disclaimer_id_" . $this->schedule_id;
-        $div_id = "user_div_id_" . $this->schedule_id;
-        $selection_id = "user_selection_id_" . $this->schedule_id;
-        $ok_button_id = "handover_ok_button_id_" . $this->schedule_id;
-        $abort_button_id = "handover_abort_button_id_" . $this->schedule_id;
-        $button_text = __('Handover', 'rc-flight-manager');
-        $class = "button_handover_schedule";
-        $divclass = "div_handover_schedule";
-
-        // Handover Button
-        $html .= '<button type="button" id="' . $button_id .'" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
-        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
-             . __('Member to handover service to:', 'rc-flight-manager')    
-             . '<br><select id="' . $selection_id . '">';
-        $users = get_users();
-        foreach ( $users as $u) {
-            if (($u->ID != NULL) && ($u->user_id != $current_user->ID)) {
-                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
-                //$date = date_i18n("D j. M", strtotime( $s->date ));
-                $html .= "<option value=\"$u->ID\">$name</option>";
-            }
-        }
-        $html .= '</select></p>';
-        // Disclaimer
-        $html .= '<input type="checkbox" id="' . $disclaimer_id. '" class="handover_disclaimer" value="' . $id . '">';
-        $html .= '<label for="' . $disclaimer_id . '">' . __('The selected person agreed to take over this duty! ', 'rc-flight-manager') . '</label><br>';
-        // Ok / Abort buttons
-        $html .= '<br><button type="button" id="' . $ok_button_id . '" class="handover_ok_button ok_button" value="' . $id . '" disabled>' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
-        $html .= '<button type="button" id="' . $abort_button_id . '" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
-        $html .= '</div>';
-
-        return($html);
-    }
+//    public function getTakeoverButtonHtml() {
+//        $id = "button_takeover_schedule_id_" . $this->schedule_id;
+//        $class = "button_takeover_schedule";
+//        $button_text = __('Assign to me', 'rc-flight-manager');
+//        // Button
+//        $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
+//        return($html);
+//    }
+//
+//    public function getAssignButtonHtml() {
+//        $current_user = wp_get_current_user();
+//        $html = "";
+//
+//        $id = $this->schedule_id;
+//        $button_id = "button_assign_schedule_id_" . $this->schedule_id;
+//        $div_id = "user_div_id_" . $this->schedule_id;
+//        $selection_id = "user_selection_id_" . $this->schedule_id;
+//        $ok_button_id = "assign_ok_button_id_" . $this->schedule_id;
+//        $abort_button_id = "assign_abort_button_id_" . $this->schedule_id;
+//        $class = "button_assign_schedule";
+//        $button_text = __('Assign', 'rc-flight-manager');
+//        $divclass = "div_assign_schedule";
+//
+//        // Assign Button
+//        $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
+//        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+//               . __('Member to assign to this service:', 'rc-flight-manager')
+//               . '<br><select id="' . $selection_id. '">';
+//        $users = get_users();
+//        foreach ( $users as $u) {
+//            if ($u->ID != 0) {
+//                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+//                //$date = date_i18n("D j. M", strtotime( $s->date ));
+//                $html .= "<option value=\"$u->ID\">$name</option>";
+//            }
+//        }
+//        $html .= '</select></p>';
+//        // Ok / Abort buttons
+//        $html .= '<button type="button" id="' . $ok_button_id . '" class="assign_ok_button ok_button" value="' . $id . '">' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
+//        $html .= '<button type="button" id="' . $abort_button_id .'" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
+//        $html .= '</div>';
+//
+//        return($html);
+//    }
+//
+//    public function getSwapButtonHtml() {
+//        $current_user = wp_get_current_user();
+//        $html = "";
+//
+//        $id = $this->schedule_id;
+//        $button_id = "button_swap_schedule_id_" . $this->schedule_id;
+//        $disclaimer_id = "swap_disclaimer_id_" . $this->schedule_id;
+//        $div_id = "service_div_id_" . $this->schedule_id;
+//        $selection_id = "service_selection_id_" . $this->schedule_id;
+//        $ok_button_id = "swap_ok_button_id_" . $this->schedule_id;
+//        $abort_button_id = "swap_abort_button_id_" . $this->schedule_id;
+//        $class = "button_swap_schedule";
+//        $button_text = __('Swap', 'rc-flight-manager');
+//        $divclass = "div_swap_schedule";
+//
+//        // Swap Button
+//        $html .= '<button type="button" id="' . $button_id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
+//        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+//               . __('Member to swap service with:', 'rc-flight-manager')
+//               . '<br><select id="' . $selection_id . '">';
+//        $schedules = RC_Flight_Manager_Schedule::getServiceList();
+//        foreach ( $schedules as $s) {
+//            if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
+//                $userObj = get_userdata($s->user_id);
+//                $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
+//                $date = date_i18n("D j. M", strtotime( $s->date ));
+//                $html .= '<option value="' . $s->schedule_id . '">' . $name . ' ' . __('on', 'rc-flight-manager') .' ' . $date . '</option>';
+//            }
+//        }
+//        $html .= "</select></p>";
+//        // Disclaimer
+//        $html .= '<input type="checkbox" id="' . $disclaimer_id. '" class="swap_disclaimer" value="' . $id . '">';
+//        $html .= '<label for="' . $disclaimer_id . '">' . __('The selected person and me agreed on swaping our duties! ', 'rc-flight-manager') . '</label><br>';
+//        // Ok / Abort buttons
+//        $html .= '<br><button type="button" id="' . $ok_button_id .'" class="swap_ok_button ok_button" value="'. $id . '" disabled>' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
+//        $html .= '<button type="button" id="' . $abort_button_id . '" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
+//        $html .= '</div>';
+//
+//        return($html);
+//    }
+//
+//    public function getHandoverButtonHtml() {
+//        $current_user = wp_get_current_user();
+//        $html = "";
+//
+//        $id = $this->schedule_id;
+//        $button_id = "button_handover_schedule_id_" . $this->schedule_id;
+//        $disclaimer_id = "handover_disclaimer_id_" . $this->schedule_id;
+//        $div_id = "user_div_id_" . $this->schedule_id;
+//        $selection_id = "user_selection_id_" . $this->schedule_id;
+//        $ok_button_id = "handover_ok_button_id_" . $this->schedule_id;
+//        $abort_button_id = "handover_abort_button_id_" . $this->schedule_id;
+//        $button_text = __('Handover', 'rc-flight-manager');
+//        $class = "button_handover_schedule";
+//        $divclass = "div_handover_schedule";
+//
+//        // Handover Button
+//        $html .= '<button type="button" id="' . $button_id .'" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</button>';
+//        $html .= '<div id="' . $div_id . '" class ="' . $divclass . ' hidden"><p>'
+//             . __('Member to handover service to:', 'rc-flight-manager')    
+//             . '<br><select id="' . $selection_id . '">';
+//        $users = get_users();
+//        foreach ( $users as $u) {
+//            if (($u->ID != NULL) && ($u->user_id != $current_user->ID)) {
+//                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+//                //$date = date_i18n("D j. M", strtotime( $s->date ));
+//                $html .= "<option value=\"$u->ID\">$name</option>";
+//            }
+//        }
+//        $html .= '</select></p>';
+//        // Disclaimer
+//        $html .= '<input type="checkbox" id="' . $disclaimer_id. '" class="handover_disclaimer" value="' . $id . '">';
+//        $html .= '<label for="' . $disclaimer_id . '">' . __('The selected person agreed to take over this duty! ', 'rc-flight-manager') . '</label><br>';
+//        // Ok / Abort buttons
+//        $html .= '<br><button type="button" id="' . $ok_button_id . '" class="handover_ok_button ok_button" value="' . $id . '" disabled>' . __('Ok', 'rc-flight-manager') . '</button>&nbsp;&nbsp;';
+//        $html .= '<button type="button" id="' . $abort_button_id . '" class="abort_button">' . __('Cancel', 'rc-flight-manager') . '</button>';
+//        $html .= '</div>';
+//
+//        return($html);
+//    }
 
     public function getTableData() {
 		// Preparation
