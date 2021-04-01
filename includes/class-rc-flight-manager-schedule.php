@@ -204,6 +204,12 @@ class RC_Flight_Manager_Schedule {
         $this->saveToDatabase();
     }
 
+    public function updateComment( $new_comment ) {
+        //do_action( 'qm/debug', "by_admin = $by_admin" );
+        $this->comment = $new_comment;
+        $this->saveToDatabase();
+    }
+
     
     public function getTakeoverButtonHtml() {
         $id = "button_takeover_schedule_id_" . $this->schedule_id;
@@ -422,6 +428,12 @@ class RC_Flight_Manager_Schedule {
             // Assign button
             array_push($buttons, '<a href="#">' . __('Assign', 'rc-flight-manager') . '</a>');
             
+            // Add comment button
+            $id = "update_comment_btn_" . $this->schedule_id;
+            $class = "rcfm_update_comment_btn";
+            $button_text = __('Update comment', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
+
             // Delete button
             $id = "delete_btn_" . $this->schedule_id;
             $class = "rcfm_delete_btn";

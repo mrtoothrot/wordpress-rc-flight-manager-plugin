@@ -304,6 +304,10 @@ class RC_Flight_Manager_Public {
 		
 		// Begin enclosing <div>
 		$content .= '<div id="schedule" class="rcfm-schedule">';
+		
+		// Define a container for the AJAX retrieved modals
+		$content .= '<div id="modal-container" class="rcfm-schedule-modal-container">';
+		$content .= '</div>';
 
 	    // Preparing the function buttons on top of the table
 		if (current_user_can( 'edit_posts' ) ) {
@@ -417,6 +421,40 @@ class RC_Flight_Manager_Public {
 	
 	    // return new table data
 		echo '';
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function button_update_comment() {
+		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+
+	    // Load Duty from DB
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
+
+	    // Send HTML for dialog modal if current user can edit_posts
+		if (current_user_can( 'edit_posts' ) ) {
+			// Defining the update_comment_btn_modal Modal
+			$modal = '<div id="update_comment_btn_modal" class="modal">';
+			// Modal content
+			$modal .= '	<div class="modal-content">';
+			$modal .= '	<span class="close">&times;</span>';
+			$modal .= '	<p align="center"><label for="addCommentField">' . __('Enter comment', 'rc-flight-manager') . ':</label>'
+			          . '   <input type="text" id="addCommentField" name="addCommentField" value="' . $s->comment . '"></p>';
+			$modal .= '   <p align="center"><button type="button" id="update_comment_btn_ok" class="modal_ok">' . __('Save', 'rc-flight-manager') . '</button>';
+			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+			$modal .= '	</div>';
+			$modal .= '</div>';
+			echo $modal;
+		}
+		else {
+			echo '';
+		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -551,6 +589,24 @@ class RC_Flight_Manager_Public {
 				echo "TRUE";
 			}
 		}
+	    // Return
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function update_comment() {
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+		$comment = $_POST["comment"];
+
+		if (current_user_can( 'edit_posts' ) ) {
+			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+			$s->updateComment($comment);
+			echo $s->getTableData();
+		}	
+		else {
+			echo 'FALSE';
+		}
+		
 	    // Return
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
