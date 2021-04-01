@@ -95,8 +95,9 @@
 		
 		$.post(ajaxurl, data, function (response) {
 			console.log("Response = " + response);
-			// Reload page, as the table row needs to be removed
-			location.reload();
+			// Remove table row
+			var row = "#table_row_schedule_id_" + schedule_id;
+			$(row).html("");
 		});
 	}));
 
@@ -161,6 +162,246 @@
 				modal.style.display = "none";
 				// Unbind event handler 
 				$("#schedule").off("click", "#update_comment_btn_ok");
+				// Empty modal-container
+				$("#modal-container").html("");
+			}));
+		});
+	}));
+
+	// Function called if any button with class "rcfm_assign_btn" is called:
+	$("#table_rc_flight_manager_schedule").on("click", ".rcfm_assign_btn", (function() {
+		console.log("rcfm_assign_btn clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		console.log("schedule_id = " + schedule_id)
+
+		var data = {
+			'action'   		: 'button_assign',   // the name of your PHP function!
+			'schedule_id'   : schedule_id        // a random value we'd like to pass
+		};
+		
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#modal-container";
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+			var modal = document.getElementById("assign_btn_modal");
+			modal.style.display = "block";
+			//	// When the user clicks on <span> (x), close the modal
+			$("#schedule").on("click", "span", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks on abort button, close the modal
+			$("#schedule").on("click", "#assign_btn_abort", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks anywhere outside of the modal, close it
+			$(window).on("click", (function() {
+				if (event.target == modal) {
+			  	modal.style.display = "none";
+				}
+			}));
+			//	// When the user clicks on ok button, run the AJAX request and close the model
+			$("#schedule").on("click", "#assign_btn_ok", (function() {
+				// Logging
+				console.log("assign_btn_ok clicked!");
+				console.log("schedule_id = " + schedule_id)
+				var selection = document.getElementById("userSelectionField");
+				var user = selection.value;
+				console.log("User selected = " + user)
+				// Prepare AJAX request
+				var data = {
+					'action'   		: 'assign_user'   , // the name of your PHP function!
+					'schedule_id'   : schedule_id,      // a random value we'd like to pass
+					'user_id'		: user              // a random value we'd like to pass
+				};
+								// Send AJAX request
+				$.post(ajaxurl, data, function (response) {
+					console.log("Response = " + response);
+					if( response == 'FALSE') {
+						alert("Could not assign user!")
+					}
+					else {
+						var receivingElement = "#table_row_schedule_id_" + schedule_id;
+						console.log("receiving HTML Element: " + receivingElement);
+						$(receivingElement).html(response);
+					}
+				});
+				// Exit modal
+				modal.style.display = "none";
+				// Unbind event handler 
+				$("#schedule").off("click", "#assign_btn_ok");
+				// Empty modal-container
+				$("#modal-container").html("");
+			}));
+		});
+	}));
+
+	// Function called if any button with class "rcfm_swap_btn" is called:
+	$("#table_rc_flight_manager_schedule").on("click", ".rcfm_swap_btn", (function() {
+		console.log("rcfm_swap_btn clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		console.log("schedule_id = " + schedule_id)
+
+		var data = {
+			'action'   		: 'button_swap',   // the name of your PHP function!
+			'schedule_id'   : schedule_id        // a random value we'd like to pass
+		};
+		
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#modal-container";
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+			var modal = document.getElementById("swap_btn_modal");
+			modal.style.display = "block";
+			//	// When the user clicks on <span> (x), close the modal
+			$("#schedule").on("click", "span", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks on abort button, close the modal
+			$("#schedule").on("click", "#swap_btn_abort", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks anywhere outside of the modal, close it
+			$(window).on("click", (function() {
+				if (event.target == modal) {
+			  	modal.style.display = "none";
+				}
+			}));
+			// Disable ok button until disclaimer is marked
+			$("#schedule").on("click", ".disclaimer", (function() {
+				var id = $(this).attr('id');
+				//var id = $this.id;
+				console.log("disclaimer " + id + " clicked!");
+				// If disclaimer is clicked, activate OK button
+				if($("#" + id).is(':checked')){
+					console.log("disclaimer checked!");
+					$(".modal_ok").prop("disabled",false);
+				}
+				else {
+					console.log("disclaimer not checked!");
+					$(".modal_ok").prop("disabled",true);
+				}
+			}));
+			//	// When the user clicks on ok button, run the AJAX request and close the model
+			$("#schedule").on("click", "#swap_btn_ok", (function() {
+				// Logging
+				console.log("swap_btn_ok clicked!");
+				console.log("schedule_id = " + schedule_id)
+				var selection = document.getElementById("serviceSelectionField");
+				var swap_schedule_id = selection.value;
+				console.log("Swap Schedule selected = " + swap_schedule_id)
+				// Prepare AJAX request
+				var data = {
+					'action'   			: 'swap'   , // the name of your PHP function!
+					'schedule_id'   	: schedule_id,      // a random value we'd like to pass
+					'swap_schedule_id'	: swap_schedule_id              // a random value we'd like to pass
+				};
+				// Send AJAX request
+				$.post(ajaxurl, data, function (response) {
+					console.log("Response = " + response);
+					if( response == 'FALSE') {
+						alert("Could not swap!")
+					}
+					else {
+						console.log("Response = " + response);
+						var responses = response.split(":SEP:", 2);
+						var receivingElement1 = "#table_row_schedule_id_" + schedule_id;
+						var receivingElement2 = "#table_row_schedule_id_" + swap_schedule_id;
+						console.log("receiving HTML Element for first service: " + receivingElement1);
+						console.log("receiving HTML Element for second service: " + receivingElement2);
+						$(receivingElement1).html(responses[0]);
+						$(receivingElement2).html(responses[1]);
+					}
+				});
+				// Exit modal
+				modal.style.display = "none";
+				// Unbind event handler 
+				$("#schedule").off("click", "#swap_btn_ok");
+				// Empty modal-container
+				$("#modal-container").html("");
+			}));
+		});
+	}));
+
+	// Function called if any button with class "rcfm_handover_btn" is called:
+	$("#table_rc_flight_manager_schedule").on("click", ".rcfm_handover_btn", (function() {
+		console.log("rcfm_handover_btn clicked!");
+		var schedule_id = $(this).data("schedule_id");
+		console.log("schedule_id = " + schedule_id)
+
+		var data = {
+			'action'   		: 'button_handover',   // the name of your PHP function!
+			'schedule_id'   : schedule_id        // a random value we'd like to pass
+		};
+		
+		$.post(ajaxurl, data, function (response) {
+			console.log("Response = " + response);
+			var receivingElement = "#modal-container";
+			console.log("receiving HTML Element: " + receivingElement);
+			$(receivingElement).html(response);
+			var modal = document.getElementById("handover_btn_modal");
+			modal.style.display = "block";
+			//	// When the user clicks on <span> (x), close the modal
+			$("#schedule").on("click", "span", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks on abort button, close the modal
+			$("#schedule").on("click", "#handover_btn_abort", (function() {
+				modal.style.display = "none";
+			}));
+			// When the user clicks anywhere outside of the modal, close it
+			$(window).on("click", (function() {
+				if (event.target == modal) {
+			  	modal.style.display = "none";
+				}
+			}));
+			// Disable ok button until disclaimer is marked
+			$("#schedule").on("click", ".disclaimer", (function() {
+				var id = $(this).attr('id');
+				//var id = $this.id;
+				console.log("disclaimer " + id + " clicked!");
+				// If disclaimer is clicked, activate OK button
+				if($("#" + id).is(':checked')){
+					console.log("disclaimer checked!");
+					$(".modal_ok").prop("disabled",false);
+				}
+				else {
+					console.log("disclaimer not checked!");
+					$(".modal_ok").prop("disabled",true);
+				}
+			}));
+			//	// When the user clicks on ok button, run the AJAX request and close the model
+			$("#schedule").on("click", "#handover_btn_ok", (function() {
+				// Logging
+				console.log("handover_btn_ok clicked!");
+				console.log("schedule_id = " + schedule_id)
+				var selection = document.getElementById("userSelectionField");
+				var swap_user = selection.value;
+				console.log("Swap user selected = " + swap_user)
+				// Prepare AJAX request
+				var data = {
+					'action'   			: 'handover'   , // the name of your PHP function!
+					'schedule_id'   	: schedule_id,      // a random value we'd like to pass
+					'new_user'			: swap_user              // a random value we'd like to pass
+				};
+				// Send AJAX request
+				$.post(ajaxurl, data, function (response) {
+					console.log("Response = " + response);
+					if( response == 'FALSE') {
+						alert("Could not handover!")
+					}
+					else {
+						console.log("Response = " + response);
+						var receivingElement = "#table_row_schedule_id_" + schedule_id;
+						console.log("receiving HTML Element: " + receivingElement);
+						$(receivingElement).html(response);
+					}
+				});
+				// Exit modal
+				modal.style.display = "none";
+				// Unbind event handler 
+				$("#schedule").off("click", "#handover_btn_ok");
 				// Empty modal-container
 				$("#modal-container").html("");
 			}));
@@ -289,35 +530,22 @@
 		
 	}));
 
-	$("#table_rc_flight_manager_schedule").on("click", ".swap_disclaimer", (function() {
-		var id = $(this).attr('value');
-		//var id = $this.id;
-		console.log("swap_disclaimer " + id + " clicked!");
-		// If disclaimer is clicked, activate OK button
-		if($("#swap_disclaimer_id_" + id).is(':checked')){
-			console.log("swap_disclaimer checked!");
-			$("#swap_ok_button_id_" + id).prop("disabled",false);
-		}
-		else {
-			console.log("swap_disclaimer not checked!");
-    		$("#swap_ok_button_id_" + id).prop("disabled",true);
-		}
-	}));
+	
 
-	$("#table_rc_flight_manager_schedule").on("click", ".handover_disclaimer", (function() {
-		var id = $(this).attr('value');
-		//var id = $this.id;
-		console.log("handover_disclaimer " + id + " clicked!");
-		// If disclaimer is clicked, activate OK button
-		if($("#handover_disclaimer_id_" + id).is(':checked')){
-			console.log("handover_disclaimer checked!");
-			$("#handover_ok_button_id_" + id).prop("disabled",false);
-		}
-		else {
-			console.log("handover_disclaimer not checked!");
-    		$("#handover_ok_button_id_" + id).prop("disabled",true);
-		}
-	}));
+	//$("#table_rc_flight_manager_schedule").on("click", ".handover_disclaimer", (function() {
+	//	var id = $(this).attr('value');
+	//	//var id = $this.id;
+	//	console.log("handover_disclaimer " + id + " clicked!");
+	//	// If disclaimer is clicked, activate OK button
+	//	if($("#handover_disclaimer_id_" + id).is(':checked')){
+	//		console.log("handover_disclaimer checked!");
+	//		$("#handover_ok_button_id_" + id).prop("disabled",false);
+	//	}
+	//	else {
+	//		console.log("handover_disclaimer not checked!");
+    //		$("#handover_ok_button_id_" + id).prop("disabled",true);
+	//	}
+	//}));
 
 	// If abort button is clicked go to default view
 	$("#table_rc_flight_manager_schedule").on("click", ".abort_button", (function() {

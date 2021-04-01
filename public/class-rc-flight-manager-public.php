@@ -459,51 +459,157 @@ class RC_Flight_Manager_Public {
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
-	 function button_handover() {
+	function button_handover() {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
-	    $new_user_id = $_POST["new_user"];
-	    
+
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 	
-	    // Get userdata for $new_user_id
-	    $new_user_obj = get_userdata($new_user_id);
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
 
-	    // Update Duty with current user
-	    $s->updateUser($new_user_id);
-	
-	    // return new table data
-		echo $s->getTableData();
+	    // Send HTML for dialog modal
+		// Defining the handover_btn_modal Modal
+		$modal = '<div id="handover_btn_modal" class="modal">';
+		// Modal content
+		$modal .= '   <div class="modal-content">';
+		$modal .= '  	 <span class="close">&times;</span>';
+		$modal .= '  	 <label for="userSelectionField">' . __('Member to handover service to', 'rc-flight-manager') . ':</label>';
+		$modal .= '      <select id="userSelectionField" name="userSelectionField">';
+        $users = get_users();
+        foreach ( $users as $u) {
+            if (($u->ID != NULL) && ($u->user_id != $current_user->ID)) {
+                $name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+                //$date = date_i18n("D j. M", strtotime( $s->date ));
+                $modal .= '<option value="' . $u->ID . '">' . $name . '</option>';
+            }
+        }
+		$modal .= '</select>';
+		// Disclaimer
+        $modal .= '      <p><input type="checkbox" id="handover_disclaimer" class="disclaimer" value="' . $schedule_id . '">';
+        $modal .= '      <label for="handover_disclaimer">' . __('The selected person agreed to take over this duty! ', 'rc-flight-manager') . '</label></p>';
+		$modal .= '      <p align="center"><button type="button" id="handover_btn_ok" class="modal_ok" disabled>' . __('Save', 'rc-flight-manager') . '</button>';
+		$modal .= '      <button type="button" id="handover_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+		$modal .= '   </div>';
+		$modal .= '</div>';
+		echo $modal;
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
+
+	function handover() {
+		//error_log("RC_Flight_Manager_Public :: button_handover called!");
+
+		// Read ID from HTTP request
+		$schedule_id = $_POST["schedule_id"];
+		$new_user_id = $_POST["new_user"];
+
+		// Load Duty from DB
+		$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+		
+		// Get userdata for $new_user_id
+		$new_user_obj = get_userdata($new_user_id);
+		
+		// Update Duty with current user
+		$s->updateUser($new_user_id);
+		
+		// return new table data
+		echo $s->getTableData();
+   		
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
 
 	function button_assign() {
 		//error_log("RC_Flight_Manager_Public :: button_assign called!");
 		
 		// Read ID from HTTP request
 	    $schedule_id = $_POST["schedule_id"];
-	    $new_user_id = $_POST["new_user"];
-	    
+
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 	
-	    // Get userdata for $new_user_id
-	    $new_user_obj = get_userdata($new_user_id);
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
 
-	    // Update Duty with current user
-	    $s->updateUser($new_user_id, "Yes"); // Second parameter = "Yes" => Change done by admin!
-	
-	    // return new table data
-		echo $s->getTableData();
+	    // Send HTML for dialog modal if current user can edit_posts
+		if (current_user_can( 'edit_posts' ) ) {
+			// Defining the assign_btn_modal Modal
+			$modal = '<div id="assign_btn_modal" class="modal">';
+			// Modal content
+			$modal .= '   <div class="modal-content">';
+			$modal .= '  	 <span class="close">&times;</span>';
+			$modal .= '  	 <label for="userSelectionField">' . __('Member to assign to this service', 'rc-flight-manager') . ':</label>';
+			$modal .= '      <select id="userSelectionField" name="userSelectionField">';
+			$modal .= '      <option value="nobody">' . __('Nobody', 'rc-flight-manager') . '</option>';
+			$users = get_users();
+			foreach ( $users as $u) {
+				if ($u->ID) {
+					$name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+					//$date = date_i18n("D j. M", strtotime( $s->date ));
+					$modal .= '      <option value="' . $u->ID . '">' . $name . '</option>';
+				}
+			}
+			$modal .= '</select>';
+			$modal .= '      <p align="center"><button type="button" id="assign_btn_ok" class="modal_ok">' . __('Save', 'rc-flight-manager') . '</button>';
+			$modal .= '      <button type="button" id="assign_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+			$modal .= '   </div>';
+			$modal .= '</div>';
+			echo $modal;
+		}
+		else {
+			echo '';
+		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_swap() {
+		//error_log("RC_Flight_Manager_Public :: button_swap called!");
+		
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+
+	    // Load Duty from DB
+	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+	
+	    // Get current Wordpress User
+	    $current_user = wp_get_current_user();
+
+	    // Send HTML for dialog modal
+		// Defining the swap_btn_modal Modal
+		$modal = '<div id="swap_btn_modal" class="modal">';
+		// Modal content
+		$modal .= '   <div class="modal-content">';
+		$modal .= '  	 <span class="close">&times;</span>';
+		$modal .= '  	 <label for="serviceSelectionField">' . __('Member to swap service with', 'rc-flight-manager') . ':</label>';
+		$modal .= '      <select id="serviceSelectionField" name="serviceSelectionField">';
+		$schedules = RC_Flight_Manager_Schedule::getServiceList();
+        foreach ( $schedules as $s) {
+            if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
+                $userObj = get_userdata($s->user_id);
+                $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
+                $date = date_i18n("D j. M", strtotime( $s->date ));
+                $modal .= '<option value="' . $s->schedule_id . '">' . $name . ' ' . __('on', 'rc-flight-manager') .' ' . $date . '</option>';
+            }
+        }
+		$modal .= '</select>';
+		// Disclaimer
+        $modal .= '      <p><input type="checkbox" id="swap_disclaimer" class="disclaimer" value="' . $schedule_id . '">';
+        $modal .= '      <label for="swap_disclaimer">' . __('The selected person and me agreed on swaping our duties! ', 'rc-flight-manager') . '</label></p>';
+		$modal .= '      <p align="center"><button type="button" id="swap_btn_ok" class="modal_ok" disabled>' . __('Save', 'rc-flight-manager') . '</button>';
+		$modal .= '      <button type="button" id="swap_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+		$modal .= '   </div>';
+		$modal .= '</div>';
+		echo $modal;
+	
+	    wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function swap() {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
 		// Read ID from HTTP request
@@ -601,6 +707,29 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 			$s->updateComment($comment);
+			echo $s->getTableData();
+		}	
+		else {
+			echo 'FALSE';
+		}
+		
+	    // Return
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function assign_user() {
+		// Read ID from HTTP request
+	    $schedule_id = $_POST["schedule_id"];
+		$user_id = $_POST["user_id"];
+
+		if (current_user_can( 'edit_posts' ) ) {
+			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+			if ($user_id == "nobody") {
+				$s->updateUser(NULL);
+			}
+			else {
+				$s->updateUser($user_id);
+			}
 			echo $s->getTableData();
 		}	
 		else {

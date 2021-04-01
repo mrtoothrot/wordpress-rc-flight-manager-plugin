@@ -405,11 +405,6 @@ class RC_Flight_Manager_Schedule {
     function getChangeDropdownMenu() {
         $current_user = wp_get_current_user();
         
-        // Don't show a dropdown if user is not allowed to do anything
-        //if (( $this->user_id != NULL ) and ($this->user_id != $current_user->ID) and (!current_user_can( 'edit_posts' ) )) {
-        //    return('---');
-        //}
-
         $buttons = array();
         if ( $this->user_id == NULL ) { 
             $id = "takeover_btn_" . $this->schedule_id;
@@ -418,15 +413,25 @@ class RC_Flight_Manager_Schedule {
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         elseif ( $this->user_id == $current_user->ID ) {
-            //$menu .= '      <a href="#">' . __('Swap', 'rc-flight-manager') . '</a>';
-            //$menu .= '      <a href="#">' . __('Handover', 'rc-flight-manager') . '</a>';
-            array_push($buttons, '<a href="#">' . __('Swap', 'rc-flight-manager') . '</a>');
-            array_push($buttons, '<a href="#">' . __('Handover', 'rc-flight-manager') . '</a>');
+            // Swap button
+            $id = "swap_btn_" . $this->schedule_id;
+            $class = "rcfm_swap_btn";
+            $button_text = __('Swap', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
+
+            // Handover
+            $id = "handover_btn_" . $this->schedule_id;
+            $class = "rcfm_handover_btn";
+            $button_text = __('Handover', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
 
         if (current_user_can( 'edit_posts' ) ) {
             // Assign button
-            array_push($buttons, '<a href="#">' . __('Assign', 'rc-flight-manager') . '</a>');
+            $id = "assign_btn_" . $this->schedule_id;
+            $class = "rcfm_assign_btn";
+            $button_text = __('Assign', 'rc-flight-manager');
+            array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
             
             // Add comment button
             $id = "update_comment_btn_" . $this->schedule_id;
@@ -437,7 +442,7 @@ class RC_Flight_Manager_Schedule {
             // Delete button
             $id = "delete_btn_" . $this->schedule_id;
             $class = "rcfm_delete_btn";
-            $button_text = __('Delete', 'rc-flight-manager');
+            $button_text = __('Delete Date', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         
@@ -445,8 +450,9 @@ class RC_Flight_Manager_Schedule {
             return('');
         }
         //elseif (count($buttons) == 1) { // Directly display respective button if only one is possible
-            // TODO: Implement later
-            //return($buttons[0]);
+            // TODO: IMPLEMENT LATER
+            //$button = '<button id="' . 'takeover_btn_' . $this->schedule_id . '" class="dropbtn" data-schedule_id="' . $this->schedule_id . '">' . __('Test', //'rc-flight-manager') . '</button>';
+            //return($button);
         //}
         else {
             $id = $this->schedule_id;
