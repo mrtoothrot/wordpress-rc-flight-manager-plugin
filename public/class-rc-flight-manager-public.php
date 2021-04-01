@@ -331,11 +331,10 @@ class RC_Flight_Manager_Public {
 	    $table .= '<table id="table_rc_flight_manager_schedule">';
 	    $table .= '<colgroup>';
 	    $table .= '<col>';
-	    $table .= '<col span="3">';
+	    $table .= '<col span="2">';
 	    $table .= '</colgroup>';
 	    $header = '<tr><th><p align="center">' . __('Date', 'rc-flight-manager') . '</p></th>' .
-				      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p></th>' .
-			    	  '<th><p align="center"></p></th></tr>';
+				      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p></th>';
 
 		$lastMonth = "";
 		$today = date_i18n("d.m.Y");
@@ -348,7 +347,7 @@ class RC_Flight_Manager_Public {
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= '<tr>';
-				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div>' 
+				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="2"><div align="center">' . $currentMonth. '</div>' 
 				      . '<div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
 				$row .= '</tr>';
 				$row .= $header;
