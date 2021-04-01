@@ -142,16 +142,16 @@ class RC_Flight_Manager_Schedule {
         // Calculating current date
         $today = date_i18n("Y-m-d");
         $this_month = date_i18n("Y-m");
-        $start_this_month = $this_month . "-01";
+        $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
         $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
 
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         if ($months == NULL){
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' ORDER BY date", OBJECT );
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' ORDER BY date", OBJECT );
         }
         else {
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_month' ORDER BY date", OBJECT );
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' and date < '$end_month' ORDER BY date", OBJECT );
         }
         $schedules = array();
         foreach ( $list as $x ) {
