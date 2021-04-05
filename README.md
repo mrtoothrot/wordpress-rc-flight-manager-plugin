@@ -74,7 +74,6 @@ Answer to foo bar dilemma.
 * Comments/Labels can now be styled via CSS (p.rcfm-event-label)
 * Removed table headers, as the tables should be self explaining
 
-
 ### 0.6 ###
 * Preparations for internationalization
 * German Localization (added rc-flight-manager-de_DE.[po|mo] with German translation)
