@@ -230,8 +230,8 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    $header = '<tr><th><p align="center">' . __('Time', 'rc-flight-manager') . '</p></th>' . 
-					  '<th><p align="center">' . __('Bookings', 'rc-flight-manager') . '</p></th><th></th></tr>';
+	    //$header = '<tr><th><p align="center">' . __('Time', 'rc-flight-manager') . '</p></th>' . 
+		//			  '<th><p align="center">' . __('Bookings', 'rc-flight-manager') . '</p></th><th></th></tr>';
 
 		$lastDay = "";
 		foreach ( $slots as $s ) {
@@ -243,7 +243,7 @@ class RC_Flight_Manager_Public {
 				$row .= "<tr>";
 				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$headline_date</th>"; // TODO:  Better format using Theme CSS later
 				$row .= "</tr>";
-				$row .= $header;
+				//$row .= $header;
 			}
 			// append row to table
 			$table .= $row;
@@ -333,9 +333,9 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    $header = '<tr><th><p align="center">' . __('Date', 'rc-flight-manager') . '</p></th>' .
-				      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p>' .
-					  '<th><p align="center"></p></th>';
+	    //$header = '<tr><th><p align="center">' . __('Date', 'rc-flight-manager') . '</p></th>' .
+		//		      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p>' .
+		//			  '<th><p align="center"></p></th>';
 
 		$lastMonth = "";
 		$today = date_i18n("d.m.Y");
@@ -351,7 +351,7 @@ class RC_Flight_Manager_Public {
 				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div>' 
 				      . '<div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
 				$row .= '</tr>';
-				$row .= $header;
+				//$row .= $header;
 			}
 			// append row to table
 			$table .= $row;
@@ -444,7 +444,7 @@ class RC_Flight_Manager_Public {
 			// Modal content
 			$modal .= '	<div class="modal-content">';
 			$modal .= '	<span class="close">&times;</span>';
-			$modal .= '	<p align="center"><label for="addCommentField">' . __('Enter comment', 'rc-flight-manager') . ':</label>'
+			$modal .= '	<p align="center"><label for="addCommentField">' . __('Enter label', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="text" id="addCommentField" name="addCommentField" value="' . $s->comment . '"></p>';
 			$modal .= '   <p align="center"><button type="button" id="update_comment_btn_ok" class="modal_ok">' . __('Save', 'rc-flight-manager') . '</button>';
 			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';

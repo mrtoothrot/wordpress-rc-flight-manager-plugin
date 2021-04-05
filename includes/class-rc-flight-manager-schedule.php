@@ -395,13 +395,13 @@ class RC_Flight_Manager_Schedule {
             // Swap button
             $id = "swap_btn_" . $this->schedule_id;
             $class = "rcfm_swap_btn";
-            $button_text = __('Swap', 'rc-flight-manager');
+            $button_text = __('Swap duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
 
             // Handover
             $id = "handover_btn_" . $this->schedule_id;
             $class = "rcfm_handover_btn";
-            $button_text = __('Handover', 'rc-flight-manager');
+            $button_text = __('Handover duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
 
@@ -409,13 +409,13 @@ class RC_Flight_Manager_Schedule {
             // Assign button
             $id = "assign_btn_" . $this->schedule_id;
             $class = "rcfm_assign_btn";
-            $button_text = __('Assign', 'rc-flight-manager');
+            $button_text = __('Assign duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
             
             // Add comment button
             $id = "update_comment_btn_" . $this->schedule_id;
             $class = "rcfm_update_comment_btn";
-            $button_text = __('Update comment', 'rc-flight-manager');
+            $button_text = __('Update label', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
 
             // Delete button

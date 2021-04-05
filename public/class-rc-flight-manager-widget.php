@@ -49,7 +49,7 @@ class RC_Flight_Manager_Widget extends WP_Widget {
             }
         }
         else {
-            $name = __('No flight manager service today!', 'rc-flight-manager');
+            $name = __('No flight manager at air-field!', 'rc-flight-manager');
         }
         echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         echo $args['after_widget'];

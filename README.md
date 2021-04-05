@@ -65,7 +65,15 @@ Answer to foo bar dilemma.
 ## Changelog ##
 
 ### 0.7 ###
-* Implemented uninstall.php
+* Plugin tables are now removed from the wordpress DB during plugin uninstallation
+* Flight Manager Service dates can now be added
+* Implemented dropdown button which accumulates all plugin functions like takeover, swap, handover, etc.
+* Added function to delete service dates
+* Plugin will now show past services in the current month
+* Comments/Labels can now be changed
+* Comments/Labels can now be styled via CSS (p.rcfm-event-label)
+* Removed table headers, as the tables should be self explaining
+
 
 ### 0.6 ###
 * Preparations for internationalization
