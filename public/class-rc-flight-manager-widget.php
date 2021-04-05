@@ -37,14 +37,19 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         $today = date_i18n("Y-m-d");
         $todays_service = RC_Flight_Manager_Schedule::getServiceByDate($today);
 
-        // Get name of user who's on duty today
-        $userObj = get_userdata($todays_service->user_id);
-        $name = "";
-        if ($userObj) {
-            $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
+        if (! is_null($todays_service)){
+            // Get name of user who's on duty today
+            $userObj = get_userdata($todays_service->user_id);
+            $name = "";
+            if ($userObj) {
+                $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
+            }
+            else {
+                $name = __('No flight manager assigned!', 'rc-flight-manager');
+            }
         }
         else {
-            $name = __('Nobody assigned!', 'rc-flight-manager');
+            $name = __('No flight manager at air-field!', 'rc-flight-manager');
         }
         echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
         echo $args['after_widget'];

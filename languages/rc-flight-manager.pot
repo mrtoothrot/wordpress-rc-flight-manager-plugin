@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-03-25 18:31+0100\n"
+"POT-Creation-Date: 2021-04-05 13:53+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mr Toothrot <mrtoothrot@gmail.com>\n"
 "Language-Team: \n"
@@ -91,7 +91,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-rc-flight-manager-admin.php:234
-msgid "date on which the notified user is assigned flight manager"
+msgid "Date on which the notified user is assigned flight manager"
 msgstr ""
 
 #: admin/class-rc-flight-manager-admin.php:235
@@ -107,60 +107,39 @@ msgid "RC Flight Manager Settings"
 msgstr ""
 
 #: includes/class-rc-flight-manager-flightslot.php:168
-msgid "Book"
+msgid "Book slot"
 msgstr ""
 
 #: includes/class-rc-flight-manager-flightslot.php:177
-#: includes/class-rc-flight-manager-schedule.php:194
-#: includes/class-rc-flight-manager-schedule.php:239
-#: includes/class-rc-flight-manager-schedule.php:279
-msgid "Cancel"
+msgid "Cancel booking"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:158
+#: includes/class-rc-flight-manager-schedule.php:391
 msgid "Assign to me"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:175
-msgid "Assign"
+#: includes/class-rc-flight-manager-schedule.php:398
+msgid "Swap duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:181
-msgid "Member to assign to this service:"
+#: includes/class-rc-flight-manager-schedule.php:404
+msgid "Handover duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:193
-#: includes/class-rc-flight-manager-schedule.php:238
-#: includes/class-rc-flight-manager-schedule.php:278
-msgid "Ok"
+#: includes/class-rc-flight-manager-schedule.php:412
+msgid "Assign duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:216
-msgid "Swap"
+#: includes/class-rc-flight-manager-schedule.php:418
+msgid "Update label"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:222
-msgid "Member to swap service with:"
+#: includes/class-rc-flight-manager-schedule.php:424
+msgid "Delete Date"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:230
-msgid "on"
-msgstr ""
-
-#: includes/class-rc-flight-manager-schedule.php:236
-msgid "The selected person and me agreed on swaping our duties! "
-msgstr ""
-
-#: includes/class-rc-flight-manager-schedule.php:256
-msgid "Handover"
-msgstr ""
-
-#: includes/class-rc-flight-manager-schedule.php:263
-msgid "Member to handover service to:"
-msgstr ""
-
-#: includes/class-rc-flight-manager-schedule.php:276
-msgid "The selected person agreed to take over this duty! "
+#: includes/class-rc-flight-manager-schedule.php:442
+msgid "Change"
 msgstr ""
 
 #: public/class-rc-flight-manager-public.php:203
@@ -168,24 +147,67 @@ msgstr ""
 msgid "Members only! Please login!"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:233
-msgid "Time"
+#: public/class-rc-flight-manager-public.php:314
+msgid "Add date"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:234
-msgid "Bookings"
+#: public/class-rc-flight-manager-public.php:321
+msgid "Select date"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:311
-msgid "Date"
+#: public/class-rc-flight-manager-public.php:323
+msgid "Ok"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:312
-msgid "Assigned Flight-Manager"
+#: public/class-rc-flight-manager-public.php:324
+#: public/class-rc-flight-manager-public.php:450
+#: public/class-rc-flight-manager-public.php:495
+#: public/class-rc-flight-manager-public.php:558
+#: public/class-rc-flight-manager-public.php:604
+msgid "Cancel"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:326
+#: public/class-rc-flight-manager-public.php:352
 msgid "as of"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:447
+msgid "Enter label"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:449
+#: public/class-rc-flight-manager-public.php:494
+#: public/class-rc-flight-manager-public.php:557
+#: public/class-rc-flight-manager-public.php:603
+msgid "Save"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:480
+msgid "Member to handover service to"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:493
+msgid "The selected person agreed to take over this duty! "
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:545
+msgid "Member to assign to this service"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:547
+msgid "Nobody"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:588
+msgid "Member to swap service with"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:596
+msgid "on"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:602
+msgid "The selected person and me agreed on swaping our duties! "
 msgstr ""
 
 #: public/class-rc-flight-manager-widget.php:21
@@ -196,15 +218,41 @@ msgstr ""
 msgid "Displays the current flight manager on duty in the sidebar"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:47
-msgid "Nobody assigned!"
+#: public/class-rc-flight-manager-widget.php:48
+msgid "No flight manager assigned!"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:58
-msgid "New title"
+#: public/class-rc-flight-manager-widget.php:52
+msgid "No flight manager at air-field!"
 msgstr ""
 
 #: public/class-rc-flight-manager-widget.php:63
+msgid "New title"
+msgstr ""
+
+#: public/class-rc-flight-manager-widget.php:68
 msgid "Title:"
 msgstr ""
 
+#, fuzzy
+#~| msgid "No flight manager service available!"
+#~ msgid "No flight manager available!"
+#~ msgstr "Kein Flugleiter vor Ort!"
+
+#~ msgid "Time"
+#~ msgstr "Zeit"
+
+#~ msgid "Bookings"
+#~ msgstr "Reservierungen"
+
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgid "Assigned Flight-Manager"
+#~ msgstr "Eingeteilter Flugleiter"
+
+#~ msgid "Nobody assigned!"
+#~ msgstr "Niemand eingeteilt!"
+
+#~ msgid "Notification E-Mail subject"
+#~ msgstr "Betreff der Erinnerungs-E-Mail"

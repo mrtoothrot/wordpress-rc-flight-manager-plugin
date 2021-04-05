@@ -45,8 +45,6 @@ class RC_Flight_Manager_Activator {
 		// Scheduling CRON job to send notification emails
 		if ( ! wp_next_scheduled( 'rcfm_send_daily_flightmanager_notification' ) ) {
 			wp_schedule_event( time(), 'daily', 'rcfm_send_daily_flightmanager_notification' );
-		//if ( ! wp_next_scheduled( 'rcfm_scheduled_notifications' ) ) {
-		//		wp_schedule_event( time(), 'hourly', 'rcfm_scheduled_notifications' );
 		}
 	}
 

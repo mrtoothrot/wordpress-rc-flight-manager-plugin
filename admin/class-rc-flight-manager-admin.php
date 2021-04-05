@@ -232,7 +232,7 @@ class RC_Flight_Manager_Admin {
 	
 	public static function rcfm_section_notification_email() {
 		echo '<p>' . __('You can use the following placeholders in the subject line and body of the notification E-Mail:', 'rc-flight-manager') . '</p>';
-		echo '<p><b>[flightmanager-duty-date]</b> = ' . __('date on which the notified user is assigned flight manager', 'rc-flight-manager') . '</p>';
+		echo '<p><b>[flightmanager-duty-date]</b> = ' . __('Date on which the notified user is assigned flight manager', 'rc-flight-manager') . '</p>';
 		echo '<p><b>[flightmanager-name]</b> = ' . __('Name of the user who is assigned flight manager', 'rc-flight-manager') . '</p>';
 	}
 	  

@@ -199,16 +199,30 @@ class RC_Flight_Manager {
 		// Add hook for AJAX calls
 		$this->loader->add_action( 'wp_ajax_nopriv_button_takeover', $plugin_public, 'button_takeover' ); // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_takeover', $plugin_public, 'button_takeover' );        // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_button_delete', $plugin_public, 'button_delete' ); // for ALL users
+		$this->loader->add_action( 'wp_ajax_button_delete', $plugin_public, 'button_delete' );        // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_handover', $plugin_public, 'button_handover' ); // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_handover', $plugin_public, 'button_handover' );        // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_handover', $plugin_public, 'handover' ); // for ALL users
+		$this->loader->add_action( 'wp_ajax_handover', $plugin_public, 'handover' );        // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_assign', $plugin_public, 'button_assign' );     // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_assign', $plugin_public, 'button_assign' );            // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_assign_user', $plugin_public, 'assign_user' );     // for ALL users
+		$this->loader->add_action( 'wp_ajax_assign_user', $plugin_public, 'assign_user' );            // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_swap', $plugin_public, 'button_swap' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_swap', $plugin_public, 'button_swap' );                // for admins only: Call the same function
+		$this->loader->add_action( 'wp_ajax_nopriv_swap', $plugin_public, 'swap' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_swap', $plugin_public, 'swap' );                // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_book_flightslot', $plugin_public, 'button_book_flightslot' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_book_flightslot', $plugin_public, 'button_book_flightslot' );                // for admins only: Call the same function
 		$this->loader->add_action( 'wp_ajax_nopriv_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );         // for ALL users
 		$this->loader->add_action( 'wp_ajax_button_cancel_flightslot', $plugin_public, 'button_cancel_flightslot' );                // for admins only: Call the same function		
+		$this->loader->add_action( 'wp_ajax_nopriv_add_schedule_date', $plugin_public, 'add_schedule_date' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_add_schedule_date', $plugin_public, 'add_schedule_date' );                // for admins only: Call the same function		
+		$this->loader->add_action( 'wp_ajax_nopriv_button_update_comment', $plugin_public, 'button_update_comment' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_button_update_comment', $plugin_public, 'button_update_comment' );                // for admins only: Call the same function		
+		$this->loader->add_action( 'wp_ajax_nopriv_update_comment', $plugin_public, 'update_comment' );         // for ALL users
+		$this->loader->add_action( 'wp_ajax_update_comment', $plugin_public, 'update_comment' );                // for admins only: Call the same function		
 	}
 
 	/**

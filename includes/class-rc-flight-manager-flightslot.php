@@ -165,7 +165,7 @@ class RC_Flight_Manager_Flightslot {
     public function getBookButtonHtml() {
         $id = "button_book_slot_id_" . $this->reservation_id;
         $class = "button_book_flightslot";
-        $button_text = __('Book', 'rc-flight-manager');
+        $button_text = __('Book slot', 'rc-flight-manager');
         // Button
         $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">' . $button_text . '</button>';
         return($html);
@@ -174,7 +174,7 @@ class RC_Flight_Manager_Flightslot {
     public function getCancellationButtonHtml() {
         $id = "button_cancel_slot_id_" . $this->reservation_id;
         $class = "button_cancel_flightslot";
-        $button_text = __('Cancel', 'rc-flight-manager');
+        $button_text = __('Cancel booking', 'rc-flight-manager');
         // Button
         $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">'. $button_text . '</button>';
         return($html);
