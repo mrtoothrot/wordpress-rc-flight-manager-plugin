@@ -102,3 +102,7 @@ None yet
 ### 0.1 ###
 
 * Minimum viable product, only basic functionality
+
+## Upgrade Notice ##
+
+None
