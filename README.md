@@ -1,11 +1,14 @@
 ### RC Flight Manager ###
+* Author: mrtoothrot
 * Contributors: mrtoothrot
-* Donate link: -
 * Tags: flightmanager, modell-airfields, booking, schedule, roster
 * Requires at least: 5.7.0
 * Tested up to: 5.7.0
 * Requires PHP: 7.4
-* Stable tag: -
+* Stable tag: 0.7.0
+* Text Domain: rc-flight-manager
+* Domain Path: /languages
+* Plugin URI: https://wordpress.org/plugins/rc-flight-manager
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,13 +50,7 @@ Currently this needs to be done using SQL or you favourite DB administration too
 
 ## Frequently Asked Questions ##
 
-**A question that someone might have**
-
-An answer to that question.
-
-**What about foo bar?**
-
-Answer to foo bar dilemma.
+None yet
 
 ## Screenshots ##
 
