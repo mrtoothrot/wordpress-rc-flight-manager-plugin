@@ -17,8 +17,6 @@ Wordpress plugin implementing a Flight Manager Scheduling System for Modell Airf
 
 ## Description ##
 
-**PLEASE NOTE: This plugin is in a very early state of development! USE AT OWN RISK!**
-
 Usually modell airfields need to have a flight manager onsite while the members are flying their model planes. Normally there is a roster were each flying day is assigned to one of the members. This member is the flight manager for the day.
 
 This plugin implements a scheduling system for these flight manager services. Members can check-in for a free slot and become the flight manager on the given date. They are also able to change their duty with other members of the club.
@@ -34,20 +32,25 @@ e.g.
 1. On your wordpress installation, create a directory `/wp-content/plugins/rc-fligh-manager`
 1. Upload all files from the GitHub repository to the `/wp-content/plugins/rc-fligh-manager` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Create a page and use the shortcodes [rc-flight-manager-schedule] (for the flight manager scheduling part) or [rc_flight_slot_reservation] (for the flightslot reservation part)
+1. Create a page and use the shortcodes [rc-flight-manager-schedule] (for the flight manager scheduling part) or [rc-flight-slot-reservation] (for the flightslot reservation part)
 
 ## Usage ##
 
-Place the shortcode `[rc-flight-manager-schedule]` on any page on which you want to show the flight manager roster.
+### Flight Manager Scheduling System ###
+
+Place the shortcode `[rc-flight-manager-schedule]` on any wordpress page on which you want to show the flight manager roster.
 
 Use the shortcode parameter "months=" to specify how many months starting from current month are displayed in the roster.
 
 Example:
     `[rc-flight-manager-schedule months=3]`
 
-Enter the required dates for which a flight manager needs to be assigned to the database table `$wpdb->prefix_rcfm_schedule`.
+### Flight Slot Booking System ###
 
-Currently this needs to be done using SQL or you favourite DB administration tool. A wordpress settings page for the plugin is not yet available.
+Place the shortcode `[rc-flight-slot-reservation]` on any wordpress page on which you want to show the booking system.
+
+Example:
+    `[rc-flight-slot-reservation]`
 
 ## Frequently Asked Questions ##
 
