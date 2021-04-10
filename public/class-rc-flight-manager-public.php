@@ -359,7 +359,14 @@ class RC_Flight_Manager_Public {
 			// Create a data row for each service
 			$row_id = "table_row_schedule_id_" . $s->schedule_id;
 			$row = "";
-			$row .= "<tr id=$row_id>";
+			$now = strtotime(date_i18n("d.m.Y"));
+			if ($date == $now) {
+				$row .= '<tr id="' . $row_id . '" class="rcfm-service-today">';
+			}
+			else{
+				$row .= '<tr id="' . $row_id . '">';
+			}
+			
 			$row .= $s->getTableData();
 			$row .= "</tr>";
 			

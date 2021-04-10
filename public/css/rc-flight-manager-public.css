@@ -12,6 +12,17 @@
  .shown_user_selection { display: initial; }
  */
 
+/**
+ * Table row for current date
+ */
+tr.rcfm-service-today {
+	/** background-color: #00d9ffa1; **/
+	border: 3px solid #5388b4;
+}
+
+/**
+ * Event label
+ */
 p.rcfm-event-label {
 	background-color: #fbff00da;
 	color: #000000;
