@@ -141,6 +141,8 @@ class RC_Flight_Manager_Schedule {
 	public static function getServiceList($months = NULL) {
         // Calculating current date
         $today = date_i18n("Y-m-d");
+        $this_year = date_i18n("Y");
+        $start_this_year = date_i18n("Y-m-d", strtotime($this_year . "-01-01"));
         $this_month = date_i18n("Y-m");
         $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
         $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
@@ -148,7 +150,7 @@ class RC_Flight_Manager_Schedule {
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         if ($months == NULL){
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' ORDER BY date", OBJECT );
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_year' ORDER BY date", OBJECT );
         }
         else {
             $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' and date < '$end_month' ORDER BY date", OBJECT );
