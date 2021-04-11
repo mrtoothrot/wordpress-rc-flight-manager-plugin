@@ -265,6 +265,7 @@ class RC_Flight_Manager_Public {
 		/**
 		 * Implementing the RF flight manager scheduling table
 		 */
+		//do_action( 'qm/debug', 'shortcode_rc_flight_manager_schedule() called!' );
 
 		 // Checking if user has the 'read' capability
 		 if (!current_user_can( 'read' ) ) {
@@ -381,21 +382,27 @@ class RC_Flight_Manager_Public {
 
 	function button_takeover() {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
+		do_action( 'qm/debug', 'botton_takeover() called!' );
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
-	    // Load Duty from DB
-	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
-	
-	    // Get current Wordpress User
-	    $current_user = wp_get_current_user();
+		if (! is_null($schedule_id)) {
+		    // Load Duty from DB
+		    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+			
+		    // Get current Wordpress User
+		    $current_user = wp_get_current_user();
 
-	    // Update Duty with current user
-		$s->updateUser($current_user->ID, "No");
+		    // Update Duty with current user
+			$s->updateUser($current_user->ID, "No");
 
-	    // return new table data
-		echo $s->getTableData();
+			// return new table data
+			echo $s->getTableData();
+		}
+		else {
+			echo "FALSE";
+		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -404,7 +411,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -427,7 +434,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -461,7 +468,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -502,20 +509,25 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 
 		// Read ID from HTTP request
-		$schedule_id = $_POST["schedule_id"];
-		$new_user_id = $_POST["new_user"];
+		$schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
+		$new_user_id = $this->validate_rcfm_user_id($_POST["new_user"]);
 
-		// Load Duty from DB
-		$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
-		
-		// Get userdata for $new_user_id
-		$new_user_obj = get_userdata($new_user_id);
-		
-		// Update Duty with current user
-		$s->updateUser($new_user_id);
-		
-		// return new table data
-		echo $s->getTableData();
+		if (! is_null($schedule_id) and ! is_null($new_user_id)) {
+			// Load Duty from DB
+			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+			
+			// Get userdata for $new_user_id
+			$new_user_obj = get_userdata($new_user_id);
+			
+			// Update Duty with current user
+			$s->updateUser($new_user_id);
+			
+			// return new table data
+			echo $s->getTableData();
+		}
+		else {
+			echo "FALSE";
+		}
    		
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -525,7 +537,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_assign called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -569,7 +581,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -611,8 +623,8 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
-	    $swap_schedule_id = $_POST["swap_schedule_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
+	    $swap_schedule_id = $this->validate_rcfm_schedule_id($_POST["swap_schedule_id"]);
 	    
 	    // Load Duty from DB
 		// Current user who is giving away a service
@@ -635,55 +647,64 @@ class RC_Flight_Manager_Public {
 
 	function button_book_flightslot() {
 		// Read ID from HTTP request
-	    $reservation_id = $_POST["reservation_id"];
+	    $reservation_id = $this->validate_rcfm_reservation_id($_POST["reservation_id"]);
 
-		// Read options
-		$options = get_option( 'rcfm_settings');
-		
-		// Get Flightslot
-		$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
-		$arrlength = count($slot->bookings);
-		if ($arrlength >= $options['reservation_red_limit_field'])  {
-			do_action( "qm/error", "Max reservations reached!" );
-			// Return existing table data
+		if (! is_null($reservation_id)) {
+			// Read options
+			$options = get_option( 'rcfm_settings');
+			
+			// Get Flightslot
+			$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
+			$arrlength = count($slot->bookings);
+			if ($arrlength >= $options['reservation_red_limit_field'])  {
+				do_action( "qm/error", "Max reservations reached!" );
+				// Return existing table data
+				echo $slot->getTableData();
+			}
+
+		    // Get current Wordpress User
+		    $current_user = wp_get_current_user();
+
+			// Book slot
+		    $slot->book($current_user->ID);
+
+		    // return new table data
 			echo $slot->getTableData();
 		}
-
-	    // Get current Wordpress User
-	    $current_user = wp_get_current_user();
-
-		// Book slot
-	    $slot->book($current_user->ID);
-
-	    // return new table data
-		echo $slot->getTableData();
-	
+		else {
+			echo 'FALSE';
+		}
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_cancel_flightslot() {
 		// Read ID from HTTP request
-	    $reservation_id = $_POST["reservation_id"];
+	    $reservation_id = $this->validate_rcfm_reservation_id($_POST["reservation_id"]);
 
-		// Get Flightslot
-		$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
+		if (! is_null($reservation_id)) {
+			// Get Flightslot
+			$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
 
-	    // Get current Wordpress User
-	    $current_user = wp_get_current_user();
+	    	// Get current Wordpress User
+	    	$current_user = wp_get_current_user();
 
-		// Book slot
-	    $slot->cancel($current_user->ID);
+			// Book slot
+	    	$slot->cancel($current_user->ID);
 
-	    // return new table data
-		echo $slot->getTableData();
-		//echo "Test";// ${reservation_id}";
+	    	// return new table data
+			echo $slot->getTableData();
+			//echo "Test";// ${reservation_id}";
+		}
+		else {
+			echo 'FALSE';
+		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function add_schedule_date() {
 		// Read ID from HTTP request
-	    $date = $_POST["date"];
+	    $date = sanitize_text_field($_POST["date"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
 			if (!RC_Flight_Manager_Schedule::addServiceDate($date)) {
@@ -699,8 +720,8 @@ class RC_Flight_Manager_Public {
 
 	function update_comment() {
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
-		$comment = $_POST["comment"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
+		$comment = sanitize_text_field($_POST["comment"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -717,8 +738,8 @@ class RC_Flight_Manager_Public {
 
 	function assign_user() {
 		// Read ID from HTTP request
-	    $schedule_id = $_POST["schedule_id"];
-		$user_id = $_POST["user_id"];
+	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
+		$user_id = $this->validate_rcfm_user_id($_POST["user_id"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
@@ -738,4 +759,63 @@ class RC_Flight_Manager_Public {
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
+	/**
+	 * Custom validation functions
+	 *
+	 */
+	function validate_rcfm_schedule_id( $id ) {
+		/**
+		 * Validate a RCFM schedule_id
+		 */
+		// Make sure that $id is numeric
+		$safe_id = intval($id);
+		//error_log("validate_rcfm_schedule_id: id=${id}, safe_id=${safe_id}");
+
+		if (! $safe_id) {
+			error_log("validate_rcfm_schedule_id: ${id} is not numeric!");
+			$safe_id = NULL;
+		}
+		
+		return $safe_id;
+	}
+
+	function validate_rcfm_reservation_id( $id ) {
+		/**
+		 * Validate a RCFM reservation
+		 */
+		// Make sure that $id is numeric
+		$safe_id = intval($id);
+		//error_log("validate_rcfm_reservation_id: id=${id}, safe_id=${safe_id}");
+
+		if (! $safe_id) {
+			error_log("validate_rcfm_reservation_id: ${id} is not numeric!");
+			$safe_id = NULL;
+		}
+		
+		return $safe_id;
+	}
+
+	function validate_rcfm_user_id( $user_id ) {
+		/**
+		 * Validate a RCFM user_id
+		 */
+		// Make sure that $user_id is numeric
+		$safe_user_id = intval($user_id);
+		//error_log("validate_rcfm_user_id: user_id=${user_id}, safe_user_id=${safe_user_id}");
+		
+		if (! $safe_user_id) {
+			error_log("validate_rcfm_user_id: ${user_id} is not numeric!");
+			$safe_user_id = NULL;
+		}
+		else {
+			// Make sure that wordpress user with this ID exists
+			$user = get_userdata( $safe_user_id );
+			if ( $user === false ) { //user id does not exist
+				error_log("validate_rcfm_user_id: ${safe_user_id} does not exit in WP!");
+				$safe_user_id = NULL;
+			}
+		}
+		return $safe_user_id;
+	}
 }
+

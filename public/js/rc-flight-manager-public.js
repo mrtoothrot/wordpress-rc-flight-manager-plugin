@@ -50,9 +50,14 @@
 		
 		$.post(ajaxurl, data, function (response) {
 			console.log("Response = " + response);
-			var receivingElement = "#table_row_schedule_id_" + schedule_id;
-			console.log("receiving HTML Element: " + receivingElement);
-			$(receivingElement).html(response);
+			if( response == 'FALSE') {
+				alert("Failed to assign user to service!")
+			}
+			else {
+				var receivingElement = "#table_row_schedule_id_" + schedule_id;
+				console.log("receiving HTML Element: " + receivingElement);
+				$(receivingElement).html(response);
+			}
 		});
 	}));
 
@@ -398,9 +403,14 @@
 		// Send AJAX request
 		$.post(ajaxurl, data, function (response) {
 			console.log("Response = " + response);
-			var receivingElement = "#table_row_reservation_id_" + reservation_id;
-			console.log("receiving HTML Element: " + receivingElement);
-			$(receivingElement).html(response);
+			if( response == 'FALSE') {
+				alert("Failed to book flightslot!")
+			}
+			else {
+				var receivingElement = "#table_row_reservation_id_" + reservation_id;
+				console.log("receiving HTML Element: " + receivingElement);
+				$(receivingElement).html(response);
+			}
 		});
 	}));
 
@@ -420,9 +430,14 @@
 		// Send AJAX request
 		$.post(ajaxurl, data, function (response) {
 			console.log("Response = " + response);
-			var receivingElement = "#table_row_reservation_id_" + reservation_id;
-			console.log("receiving HTML Element: " + receivingElement);
-			$(receivingElement).html(response);
+			if( response == 'FALSE') {
+				alert("Failed to cancel flightslot!")
+			}
+			else {
+				var receivingElement = "#table_row_reservation_id_" + reservation_id;
+				console.log("receiving HTML Element: " + receivingElement);
+				$(receivingElement).html(response);
+			}
 		});
 	}));
 

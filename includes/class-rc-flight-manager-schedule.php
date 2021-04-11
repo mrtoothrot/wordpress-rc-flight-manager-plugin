@@ -192,6 +192,10 @@ class RC_Flight_Manager_Schedule {
 
 
     public static function getServiceById($schedule_id) {
+        // Return NULL if no schedule_id was passed
+        if (is_null($schedule_id)) {
+            return NULL;
+        }
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         $result = $wpdb->get_row( "SELECT * FROM $schedule_table_name WHERE schedule_id=$schedule_id", OBJECT );
