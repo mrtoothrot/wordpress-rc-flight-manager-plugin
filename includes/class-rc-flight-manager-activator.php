@@ -88,16 +88,16 @@ class RC_Flight_Manager_Activator {
 		$logging_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME;
 		
 		// Creating a Table with the following fields
-		// | change_id | date | by_admin | schedule_id | old_user_id | new_user_id | mail_sent |
+		// | change_id | timestamp | by_admin | schedule_id | old_user_id | new_user_id | mail_sent |
 		
 		$create_logging_table_sql = 
 			"CREATE TABLE $logging_table_name (
 				change_id mediumint(9) NOT NULL AUTO_INCREMENT,
-				date date DEFAULT '0000-00-00' NOT NULL,
+				timestamp datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				by_admin enum('Yes', 'No') DEFAULT 'No' NOT NULL,
 				schedule_id mediumint(9) NOT NULL,
 				old_user_id mediumint(9),
-				new_user_id mediumint(9) NOT NULL,
+				new_user_id mediumint(9),
 				mail_sent enum('Yes', 'No') DEFAULT 'No' NOT NULL,
 				UNIQUE KEY change_id (change_id)
 			) $charset_collate;";

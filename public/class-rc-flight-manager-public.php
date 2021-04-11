@@ -289,7 +289,7 @@ class RC_Flight_Manager_Public {
 		// Get attribute 'months':
 		$display_months = NULL;
 		if (array_key_exists('months', $atts)) {
-			$display_months = $atts['months'];
+			$display_months = (int)$atts['months']; // Casting $atts['months'] to int, getServiceList handles string and int arguments differently
 		}
 
 		// wp_enqueue_script loads the JS code if shortcode is active
@@ -359,7 +359,14 @@ class RC_Flight_Manager_Public {
 			// Create a data row for each service
 			$row_id = "table_row_schedule_id_" . $s->schedule_id;
 			$row = "";
-			$row .= "<tr id=$row_id>";
+			$now = strtotime(date_i18n("d.m.Y"));
+			if ($date == $now) {
+				$row .= '<tr id="' . $row_id . '" class="rcfm-service-today">';
+			}
+			else{
+				$row .= '<tr id="' . $row_id . '">';
+			}
+			
 			$row .= $s->getTableData();
 			$row .= "</tr>";
 			
@@ -394,8 +401,8 @@ class RC_Flight_Manager_Public {
 	    $current_user = wp_get_current_user();
 
 	    // Update Duty with current user
-	    $s->updateUser($current_user->ID);
-	
+		$s->updateUser($current_user->ID, "No");
+
 	    // return new table data
 		echo $s->getTableData();
 	
@@ -587,7 +594,7 @@ class RC_Flight_Manager_Public {
 		$modal .= '  	 <span class="close">&times;</span>';
 		$modal .= '  	 <label for="serviceSelectionField">' . __('Member to swap service with', 'rc-flight-manager') . ':</label>';
 		$modal .= '      <select id="serviceSelectionField" name="serviceSelectionField">';
-		$schedules = RC_Flight_Manager_Schedule::getServiceList();
+		$schedules = RC_Flight_Manager_Schedule::getServiceList('+');
         foreach ( $schedules as $s) {
             if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
                 $userObj = get_userdata($s->user_id);
@@ -725,10 +732,10 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 			if ($user_id == "nobody") {
-				$s->updateUser(NULL);
+				$s->updateUser(NULL, "Yes");
 			}
 			else {
-				$s->updateUser($user_id);
+				$s->updateUser($user_id, "Yes");
 			}
 			echo $s->getTableData();
 		}	
