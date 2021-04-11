@@ -4,8 +4,6 @@
  * The public-facing functionality of the plugin.
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
- *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/public
  */
@@ -25,7 +23,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
@@ -34,7 +31,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -43,7 +39,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -57,7 +52,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
 
@@ -80,7 +74,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
 
@@ -108,7 +101,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * Implement the CRON job for sending notification mails
 	 *
-	 * @since    1.0.0
 	 */
 	public function rcfm_send_daily_flightmanager_notification_email() {
 		//error_log("RC_Flight_Manager_Public::rcfm_send_daily_flightmanager_notification_email() called!");
@@ -174,7 +166,6 @@ class RC_Flight_Manager_Public {
 	/**
 	 * Register the shortcode for the public-facing side of the site.
 	 *
-	 * @since    1.0.0
 	 */
 	public function register_shortcodes() {
 		add_shortcode('rc-flight-manager-schedule', array( $this, 'shortcode_rc_flight_manager_schedule') );

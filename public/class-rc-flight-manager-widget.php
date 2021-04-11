@@ -5,7 +5,6 @@
  *
  * This is used to ...
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager_Widget
  * @subpackage RC_Flight_Manager_Widget/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>

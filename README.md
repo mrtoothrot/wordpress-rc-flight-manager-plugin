@@ -65,6 +65,11 @@ None yet
 
 ## Changelog ##
 
+### 0.9 ###
+
+*
+*
+
 ### 0.8 ###
 
 * Todays service is highlighted with a table row border

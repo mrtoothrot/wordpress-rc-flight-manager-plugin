@@ -6,7 +6,6 @@
  * A class definition that defining the "flightslot" objects
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager_Flightslot
  * @subpackage RC_Flight_Manager_Flightslot/includes
@@ -17,7 +16,6 @@
  *
  * This is used to ...
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager_Flightslot
  * @subpackage RC_Flight_Manager_Flightslot/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>

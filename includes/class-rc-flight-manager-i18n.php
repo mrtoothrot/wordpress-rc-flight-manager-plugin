@@ -7,8 +7,7 @@
  * so that it is ready for translation.
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
- *
+  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
  */
@@ -19,7 +18,6 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>
@@ -30,7 +28,6 @@ class RC_Flight_Manager_i18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain() {
 

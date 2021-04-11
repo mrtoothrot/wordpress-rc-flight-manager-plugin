@@ -4,7 +4,6 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/admin
@@ -25,7 +24,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $rc_flight_manager    The ID of this plugin.
 	 */
@@ -34,7 +32,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -43,7 +40,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
 	 * @param      string    $rc_flight_manager       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -57,7 +53,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
 
@@ -80,7 +75,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
 
@@ -103,7 +97,6 @@ class RC_Flight_Manager_Admin {
 	/**
 	 * Register the settings page 'rcfm_settings_page' for the admin area.
 	 *
-	 * @since    1.0.0
 	 */
 
 	public function register_rcfm_settings() {

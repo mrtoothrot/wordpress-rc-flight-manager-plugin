@@ -65,6 +65,18 @@ None yet
 
 ## Changelog ##
 
+### 0.9 ###
+
+*
+*
+
+### 0.8 ###
+
+* Todays service is highlighted with a table row border
+* If no monts are specified in the `[rc-flight-manager-schedule]` shortcode, the whole current year is shown
+* Swapping services is only possible with services in future
+* Fixed logging issue
+
 ### 0.7 ###
 
 * Plugin tables are now removed from the wordpress DB during plugin uninstallation

@@ -4,7 +4,6 @@
  * Fired during plugin activation
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
@@ -15,7 +14,6 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>
@@ -27,7 +25,6 @@ class RC_Flight_Manager_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
 	 */
 	public static function activate() {
 		// Importing the upgrade.php which includes the dbDelta function to update the DB
