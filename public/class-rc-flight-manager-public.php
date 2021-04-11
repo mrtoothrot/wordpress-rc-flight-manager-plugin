@@ -133,7 +133,7 @@ class RC_Flight_Manager_Public {
 					// Prepare recipient list
 					$email_receipients = array();
 
-					if (is_email($userObj->user_email) && (isset($options['notify_flightmanagers_email_field']))) {
+					if (is_email($userObj->user_email) && ($options['notify_flightmanagers_email_field'])) {
 						array_push($email_receipients, $userObj->user_email);
 					}
 					if (is_email($options['notify_additional_email_field'])) {

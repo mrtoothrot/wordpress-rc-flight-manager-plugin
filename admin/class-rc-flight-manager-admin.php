@@ -103,19 +103,19 @@ class RC_Flight_Manager_Admin {
 		register_setting(
 			'rcfm_settings',
 			'rcfm_settings',
-			'validate_rcfm_settings'
+			'RC_Flight_Manager_Admin::validate_rcfm_settings'
 		  );
 		
 		  add_settings_section(
 			'Notifications',
-			__('Notifications', 'rc-flight-manager'),
+			esc_html__('Notifications', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_notification',
 			'rc_flight_manager'
 		  );
 		
 		  add_settings_field(
 			'enable_email_notification_field',
-			__('Send E-Mail notifications', 'rc-flight-manager'),
+			esc_html__('Send E-Mail notifications', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_enable_email_notification_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -123,7 +123,7 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_field(
 			'notify_flightmanagers_email_field',
-			__('Flight Managers are notified by E-Mail', 'rc-flight-manager'),
+			esc_html__('Flight Managers are notified by E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notify_flightmanagers_email_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -131,7 +131,7 @@ class RC_Flight_Manager_Admin {
 		
 		  add_settings_field(
 			'notify_additional_email_field',
-			__('Additional address to be notified by E-Mail', 'rc-flight-manager'),
+			esc_html__('Additional address to be notified by E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notify_additional_email_field',
 			'rc_flight_manager',
 			'Notifications'
@@ -139,14 +139,14 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_section(
 			'Notification E-Mail Template',
-			__('Template for notification E-Mail', 'rc-flight-manager'),
+			esc_html__('Template for notification E-Mail', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_notification_email',
 			'rc_flight_manager'
 		  );
 
 		  add_settings_field(
 			'notification_email_subject_field',
-			__('Subject', 'rc-flight-manager'),
+			esc_html__('Subject', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notification_email_subject_field',
 			'rc_flight_manager',
 			'Notification E-Mail Template'
@@ -154,7 +154,7 @@ class RC_Flight_Manager_Admin {
 		  
 		  add_settings_field(
 			'notification_email_body_field',
-			__('Text', 'rc-flight-manager'),
+			esc_html__('Text', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_notification_email_body_field',
 			'rc_flight_manager',
 			'Notification E-Mail Template'
@@ -162,14 +162,14 @@ class RC_Flight_Manager_Admin {
 		  
 		  add_settings_section(
 			'Flight Slot Reservation Limits',
-			__('Flight Slot Reservation Limits', 'rc-flight-manager'),
+			esc_html__('Flight Slot Reservation Limits', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_section_reservation_limits',
 			'rc_flight_manager'
 		  );
 
 		  add_settings_field(
 			'reservation_red_limit_field',
-			__('Red limit (max)', 'rc-flight-manager'),
+			esc_html__('Red limit (max)', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_reservation_red_limit_field',
 			'rc_flight_manager',
 			'Flight Slot Reservation Limits'
@@ -177,7 +177,7 @@ class RC_Flight_Manager_Admin {
 
 		  add_settings_field(
 			'reservation_yellow_limit_field',
-			__('Yellow limit', 'rc-flight-manager'),
+			esc_html__('Yellow limit', 'rc-flight-manager'),
 			'RC_Flight_Manager_Admin::rcfm_render_reservation_yellow_limit_field',
 			'rc_flight_manager',
 			'Flight Slot Reservation Limits'
@@ -185,15 +185,17 @@ class RC_Flight_Manager_Admin {
 
 		// Configure Plugin default options
 		$email_template = '<html><body>';
-		$email_template .= '<p>' . __('Hi', 'rc-flight-manager') . '[flightmanager-name]!</p>';
-		$email_template .= '<p>' . __("You are assigned as flight manager on duty for [flightmanager-duty-date]! This is a reminder! Don't forget your service!", 'rc-flight-manager') . '</p>';
+		$email_template .= '<p>' . esc_html__('Hi', 'rc-flight-manager') . ' ' . '[flightmanager-name]!</p>';
+		$email_template .= '<p>' . esc_html__("You are assigned as flight manager on duty for [flightmanager-duty-date]! This is a reminder! Don't forget your service!", 'rc-flight-manager') . '</p>';
 		$email_template .= '<p></p>';
-		$email_template .= '<p>' . __('This notification E-Mail was sent by RC Flight Manager', 'rc-flight-manager') . '</p>';
+		$email_template .= '<p>' . esc_html__('This notification E-Mail was sent by RC Flight Manager', 'rc-flight-manager') . '</p>';
 		$email_template .= '</body></html>';
 
 		$defaults = array(
+			'enable_email_notification_field' => 0,
+			'notify_flightmanagers_email_field' => 0,
 			'notify_additional_email_field' => '',
-			'notification_email_subject_field' => __('Please mind your flight manager service on [flightmanager-duty-date]!', 'rc-flight-manager'),
+			'notification_email_subject_field' => esc_html__('Please mind your flight manager service on [flightmanager-duty-date]!', 'rc-flight-manager'),
 			'notification_email_body_field' => $email_template,
 			'reservation_red_limit_field' => 5,
 			'reservation_yellow_limit_field' => 3,
@@ -207,29 +209,41 @@ class RC_Flight_Manager_Admin {
 		}
 	}
 
-	public function validate_rcfm_settings( $input ) {
-		//$output['some_text_field']      = sanitize_text_field( $input['some_text_field'] );
-		//$output['another_number_field'] = absint( $input['another_number_field'] );
-		// ...
-		//return $output;
-		return TRUE;
+	public static function validate_rcfm_settings( $input ) {
+		//do_action( 'qm/debug', 'validate_rcfm_settings() called!' );
+		error_log("validate_rcfm_settings() called!");
+		$output['notify_additional_email_field']      = sanitize_email( $input['notify_additional_email_field'] );
+		$output['enable_email_notification_field']    = absint( $input['enable_email_notification_field'] );
+		$output['notify_flightmanagers_email_field']  = absint( $input['notify_flightmanagers_email_field'] );
+
+		
+		$output['notification_email_subject_field']   = sanitize_text_field( $input['notification_email_subject_field'] );
+		$output['notification_email_body_field']      = wp_kses_post( $input['notification_email_body_field'] );
+
+		$output['reservation_red_limit_field']        = absint( $input['reservation_red_limit_field'] );
+		$output['reservation_yellow_limit_field']     = absint( $input['reservation_yellow_limit_field'] );
+
+		return $output;
 	}
 
 	public static function rcfm_section_notification() {
-		echo '<p>' . __('Configure E-Mail notification for scheduled flight managers.', 'rc-flight-manager') . '</p>';
+		echo '<p>' . esc_html__('Configure E-Mail notification for scheduled flight managers.', 'rc-flight-manager') . '</p>';
 	}
 	public static function rcfm_section_reservation_limits() {
-		echo '<p>' . __('Configure limits for flight slot reservations.', 'rc-flight-manager') . '</p>';
+		echo '<p>' . esc_html__('Configure limits for flight slot reservations.', 'rc-flight-manager') . '</p>';
 	}
 	
 	public static function rcfm_section_notification_email() {
-		echo '<p>' . __('You can use the following placeholders in the subject line and body of the notification E-Mail:', 'rc-flight-manager') . '</p>';
-		echo '<p><b>[flightmanager-duty-date]</b> = ' . __('Date on which the notified user is assigned flight manager', 'rc-flight-manager') . '</p>';
-		echo '<p><b>[flightmanager-name]</b> = ' . __('Name of the user who is assigned flight manager', 'rc-flight-manager') . '</p>';
+		echo '<p>' . esc_html__('You can use the following placeholders in the subject line and body of the notification E-Mail:', 'rc-flight-manager') . '</p>';
+		echo '<p><b>[flightmanager-duty-date]</b> = ' . esc_html__('Date on which the notified user is assigned flight manager', 'rc-flight-manager') . '</p>';
+		echo '<p><b>[flightmanager-name]</b> = ' . esc_html__('Name of the user who is assigned flight manager', 'rc-flight-manager') . '</p>';
 	}
 	  
 	public static function rcfm_render_enable_email_notification_field() {
 		$options = get_option( 'rcfm_settings' );
+		if (! isset($options['enable_email_notification_field'])) {
+			$options['enable_email_notification_field'] = 0;
+		}
 		?>
 		<input type='checkbox' name='rcfm_settings[enable_email_notification_field]' <?php checked( $options['enable_email_notification_field'], 1 ); ?> value='1'>
 		<?php
@@ -237,12 +251,16 @@ class RC_Flight_Manager_Admin {
 	
 	public static function rcfm_render_notify_flightmanagers_email_field() {
 		$options = get_option( 'rcfm_settings' );
+		if (! isset($options['notify_flightmanagers_email_field'])) {
+			$options['notify_flightmanagers_email_field'] = 0;
+		}
 		?>
 		<input type='checkbox' name='rcfm_settings[notify_flightmanagers_email_field]' <?php checked( $options['notify_flightmanagers_email_field'], 1 ); ?> value='1'>
 		<?php
 	}
 	  
 	public static function rcfm_render_notify_additional_email_field() {
+		//error_log("rcfm_render_notify_additional_email_field() called!");
 		$options = get_option( 'rcfm_settings');
 		printf(
 		  '<input type="email" name="%s" value="%s" size="40"/>',
@@ -262,12 +280,18 @@ class RC_Flight_Manager_Admin {
 
 	public static function rcfm_render_notification_email_body_field() {
 		$options = get_option( 'rcfm_settings');
+		if (! isset($options['notification_email_body_field'])) {
+			$options['notification_email_body_field'] = '';
+		}
 		?><textarea cols='100' rows='10' name='rcfm_settings[notification_email_body_field]'><?php echo isset( $options['notification_email_body_field'] ) ?  $options['notification_email_body_field'] : false; ?></textarea><?php
 
 	}
 
 	public static function rcfm_render_reservation_red_limit_field() {
 		$options = get_option( 'rcfm_settings' );
+		if (! isset($options['reservation_red_limit_field'])) {
+			$options['reservation_red_limit_field'] = 5;
+		}
 		printf(
 		  '<input type="number" name="%s" value="%s" />',
 		  esc_attr( 'rcfm_settings[reservation_red_limit_field]' ),
@@ -277,6 +301,9 @@ class RC_Flight_Manager_Admin {
 
 	public static function rcfm_render_reservation_yellow_limit_field() {
 		$options = get_option( 'rcfm_settings' );
+		if (! isset($options['reservation_yellow_limit_field'])) {
+			$options['reservation_yellow_limit_field'] = 3;
+		}
 		printf(
 		  '<input type="number" name="%s" value="%s" />',
 		  esc_attr( 'rcfm_settings[reservation_yellow_limit_field]' ),
@@ -309,7 +336,7 @@ class RC_Flight_Manager_Admin {
 		 */
 		if ( current_user_can( 'manage_options' ) ) {
 			add_options_page(
-				__('RC Flight Manager Settings', 'rc-flight-manager'),
+				esc_html__('RC Flight Manager Settings', 'rc-flight-manager'),
 				'RC Flight Manager',
 				'manage_options',
 				'rc-flight-manager',
