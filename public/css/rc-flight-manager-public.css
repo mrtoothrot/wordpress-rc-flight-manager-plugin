@@ -25,6 +25,16 @@ p.rcfm-event-label {
 	margin:auto;
 }
 
+/**
+ * RC Flight Manager Widget
+ */
+ p.rcfm-widget {
+
+	color:#5388b4;
+	font-weight: bold;
+
+}
+
  .hidden { display: none; }
  
 button:disabled {

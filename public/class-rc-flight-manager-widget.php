@@ -44,13 +44,13 @@ class RC_Flight_Manager_Widget extends WP_Widget {
                 $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
             }
             else {
-                $name = __('No flight manager assigned!', 'rc-flight-manager');
+                $name = esc_html__('No flight manager assigned!', 'rc-flight-manager');
             }
         }
         else {
-            $name = __('No flight manager at air-field!', 'rc-flight-manager');
+            $name = esc_html__('No flight manager at air-field!', 'rc-flight-manager');
         }
-        echo "<p style='color:#5388b4'><b>$name</b></p>"; // TODO: Move formating to CSS
+        echo "<p class='rcfm-widget'>$name</p>"; 
         echo $args['after_widget'];
     }
 
