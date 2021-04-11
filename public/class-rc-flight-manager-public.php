@@ -594,7 +594,7 @@ class RC_Flight_Manager_Public {
 		$modal .= '  	 <span class="close">&times;</span>';
 		$modal .= '  	 <label for="serviceSelectionField">' . __('Member to swap service with', 'rc-flight-manager') . ':</label>';
 		$modal .= '      <select id="serviceSelectionField" name="serviceSelectionField">';
-		$schedules = RC_Flight_Manager_Schedule::getServiceList();
+		$schedules = RC_Flight_Manager_Schedule::getServiceList('+');
         foreach ( $schedules as $s) {
             if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
                 $userObj = get_userdata($s->user_id);

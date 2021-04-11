@@ -139,22 +139,41 @@ class RC_Flight_Manager_Schedule {
 
 
 	public static function getServiceList($months = NULL) {
-        // Calculating current date
-        $today = date_i18n("Y-m-d");
-        $this_year = date_i18n("Y");
-        $start_this_year = date_i18n("Y-m-d", strtotime($this_year . "-01-01"));
-        $this_month = date_i18n("Y-m");
-        $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
-        $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
-
+        // Prepare table name
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
-        if ($months == NULL){
+        
+        // Get start of current year
+        $this_year = date_i18n("Y");
+        $start_this_year = date_i18n("Y-m-d", strtotime($this_year . "-01-01"));
+        $end_this_year = date_i18n("Y-m-d", strtotime($this_year . "-12-31"));
+        $today = date_i18n("Y-m-d");
+
+        // Checking input parameters
+        if (is_null($months)) {
             $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_year' ORDER BY date", OBJECT );
         }
-        else {
+        elseif (is_string($months)){
+            if ($months == "+") { # Return only services today and in the future
+                $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_this_year' ORDER BY date", OBJECT );    
+            }
+            else {
+                return FALSE;
+            }
+        }
+        elseif (is_numeric($months)) {
+            // Calculating current date
+            $this_month = date_i18n("Y-m");
+            $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
+            $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+            // Getting the list
             $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' and date < '$end_month' ORDER BY date", OBJECT );
         }
+        else {
+            return FALSE;
+        }
+
+        // Creating the schedule array
         $schedules = array();
         foreach ( $list as $x ) {
             // Create new schedule object
