@@ -198,7 +198,9 @@ class RC_Flight_Manager_Public {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
-		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce('rcfm-security-nonce') ) );
 
 		$content = "";
 
@@ -289,7 +291,9 @@ class RC_Flight_Manager_Public {
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/rc-flight-manager-public.js', array( 'jquery' ), $this->version, true );
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
-		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce('rcfm-security-nonce') ) );
 		
 		// Load all schedules from DB
 		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
@@ -384,6 +388,12 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
 		do_action( 'qm/debug', 'botton_takeover() called!' );
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -410,6 +420,12 @@ class RC_Flight_Manager_Public {
 	function button_delete() {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -433,6 +449,12 @@ class RC_Flight_Manager_Public {
 	function button_update_comment() {
 		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -467,6 +489,12 @@ class RC_Flight_Manager_Public {
 	function button_handover() {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -508,6 +536,12 @@ class RC_Flight_Manager_Public {
 	function handover() {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 		$schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 		$new_user_id = $this->validate_rcfm_user_id($_POST["new_user"]);
@@ -536,6 +570,12 @@ class RC_Flight_Manager_Public {
 	function button_assign() {
 		//error_log("RC_Flight_Manager_Public :: button_assign called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -580,6 +620,12 @@ class RC_Flight_Manager_Public {
 	function button_swap() {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 
@@ -622,6 +668,12 @@ class RC_Flight_Manager_Public {
 	function swap() {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 	    $swap_schedule_id = $this->validate_rcfm_schedule_id($_POST["swap_schedule_id"]);
@@ -646,6 +698,13 @@ class RC_Flight_Manager_Public {
 	}
 
 	function button_book_flightslot() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $reservation_id = $this->validate_rcfm_reservation_id($_POST["reservation_id"]);
 
@@ -678,6 +737,13 @@ class RC_Flight_Manager_Public {
 	}
 
 	function button_cancel_flightslot() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $reservation_id = $this->validate_rcfm_reservation_id($_POST["reservation_id"]);
 
@@ -703,6 +769,13 @@ class RC_Flight_Manager_Public {
 	}
 
 	function add_schedule_date() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $date = sanitize_text_field($_POST["date"]);
 
@@ -719,6 +792,13 @@ class RC_Flight_Manager_Public {
 	}
 
 	function update_comment() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 		$comment = sanitize_text_field($_POST["comment"]);
@@ -737,6 +817,13 @@ class RC_Flight_Manager_Public {
 	}
 
 	function assign_user() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
 		// Read ID from HTTP request
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 		$user_id = $this->validate_rcfm_user_id($_POST["user_id"]);
