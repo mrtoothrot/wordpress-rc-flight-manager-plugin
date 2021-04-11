@@ -191,7 +191,7 @@ class RC_Flight_Manager_Public {
 		if (!current_user_can( 'read' ) ) {
 			// If user doesn't have the read capability, he is not allowed to see the reservation system
 			// Users must have at least 'subscriber' role to see the reservation system!
-			$message = __('Members only! Please login!', 'rc-flight-manager');
+			$message = esc_html__('Members only! Please login!', 'rc-flight-manager');
 		 	return '<p><b>' . $message . '</b></p>';
 		}
 
@@ -221,8 +221,8 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    //$header = '<tr><th><p align="center">' . __('Time', 'rc-flight-manager') . '</p></th>' . 
-		//			  '<th><p align="center">' . __('Bookings', 'rc-flight-manager') . '</p></th><th></th></tr>';
+	    //$header = '<tr><th><p align="center">' . esc_html__('Time', 'rc-flight-manager') . '</p></th>' . 
+		//			  '<th><p align="center">' . esc_html__('Bookings', 'rc-flight-manager') . '</p></th><th></th></tr>';
 
 		$lastDay = "";
 		foreach ( $slots as $s ) {
@@ -271,7 +271,7 @@ class RC_Flight_Manager_Public {
 		 if (!current_user_can( 'read' ) ) {
 			// If user doesn't have the read capability, he is not allowed to see the schedule
 			// Users must have at least 'subscriber' role to see the roster!
-			$message = __('Members only! Please login!', 'rc-flight-manager');
+			$message = esc_html__('Members only! Please login!', 'rc-flight-manager');
 		 	return '<p><b>' . $message . '</b></p>';
 		}
 		
@@ -303,17 +303,17 @@ class RC_Flight_Manager_Public {
 
 	    // Preparing the function buttons on top of the table
 		if (current_user_can( 'edit_posts' ) ) {
-			$content .= '<p align="left"><button id="add_date_btn">' . __('Add date', 'rc-flight-manager') . '</button></p>';
+			$content .= '<p align="left"><button id="add_date_btn">' . esc_html__('Add date', 'rc-flight-manager') . '</button></p>';
 
 			// Defining the add_date_btn Modal
 			$content .= '<div id="add_date_btn_modal" class="modal">';
 			// Modal content
 			$content .= '	<div class="modal-content">';
 			$content .= '	<span class="close">&times;</span>';
-			$content .= '	<p align="center"><label for="addDateField">' . __('Select date', 'rc-flight-manager') . ':</label>'
+			$content .= '	<p align="center"><label for="addDateField">' . esc_html__('Select date', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="date" id="addDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
-			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . __('Ok', 'rc-flight-manager') . '</button>';
-			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . esc_html__('Ok', 'rc-flight-manager') . '</button>';
+			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$content .= '	</div>';
 			$content .= '</div>';
 		}
@@ -325,8 +325,8 @@ class RC_Flight_Manager_Public {
 	    $table .= '<col>';
 	    $table .= '<col span="3">';
 	    $table .= '</colgroup>';
-	    //$header = '<tr><th><p align="center">' . __('Date', 'rc-flight-manager') . '</p></th>' .
-		//		      '<th><p align="center">' . __('Assigned Flight-Manager', 'rc-flight-manager') .'</p>' .
+	    //$header = '<tr><th><p align="center">' . esc_html__('Date', 'rc-flight-manager') . '</p></th>' .
+		//		      '<th><p align="center">' . esc_html__('Assigned Flight-Manager', 'rc-flight-manager') .'</p>' .
 		//			  '<th><p align="center"></p></th>';
 
 		$lastMonth = "";
@@ -341,7 +341,7 @@ class RC_Flight_Manager_Public {
 			if ($currentMonth != $lastMonth) {
 				$row .= '<tr>';
 				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div>' 
-				      . '<div align="right" style="font-weight: normal">' . __('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
+				      . '<div align="right" style="font-weight: normal">' . esc_html__('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
 				$row .= '</tr>';
 				//$row .= $header;
 			}
@@ -449,10 +449,10 @@ class RC_Flight_Manager_Public {
 			// Modal content
 			$modal .= '	<div class="modal-content">';
 			$modal .= '	<span class="close">&times;</span>';
-			$modal .= '	<p align="center"><label for="addCommentField">' . __('Enter label', 'rc-flight-manager') . ':</label>'
+			$modal .= '	<p align="center"><label for="addCommentField">' . esc_html__('Enter label', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="text" id="addCommentField" name="addCommentField" value="' . $s->comment . '"></p>';
-			$modal .= '   <p align="center"><button type="button" id="update_comment_btn_ok" class="modal_ok">' . __('Save', 'rc-flight-manager') . '</button>';
-			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+			$modal .= '   <p align="center"><button type="button" id="update_comment_btn_ok" class="modal_ok">' . esc_html__('Save', 'rc-flight-manager') . '</button>';
+			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '	</div>';
 			$modal .= '</div>';
 			echo $modal;
@@ -482,7 +482,7 @@ class RC_Flight_Manager_Public {
 		// Modal content
 		$modal .= '   <div class="modal-content">';
 		$modal .= '  	 <span class="close">&times;</span>';
-		$modal .= '  	 <label for="userSelectionField">' . __('Member to handover service to', 'rc-flight-manager') . ':</label>';
+		$modal .= '  	 <label for="userSelectionField">' . esc_html__('Member to handover service to', 'rc-flight-manager') . ':</label>';
 		$modal .= '      <select id="userSelectionField" name="userSelectionField">';
         $users = get_users();
         foreach ( $users as $u) {
@@ -495,9 +495,9 @@ class RC_Flight_Manager_Public {
 		$modal .= '</select>';
 		// Disclaimer
         $modal .= '      <p><input type="checkbox" id="handover_disclaimer" class="disclaimer" value="' . $schedule_id . '">';
-        $modal .= '      <label for="handover_disclaimer">' . __('The selected person agreed to take over this duty! ', 'rc-flight-manager') . '</label></p>';
-		$modal .= '      <p align="center"><button type="button" id="handover_btn_ok" class="modal_ok" disabled>' . __('Save', 'rc-flight-manager') . '</button>';
-		$modal .= '      <button type="button" id="handover_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+        $modal .= '      <label for="handover_disclaimer">' . esc_html__('The selected person agreed to take over this duty! ', 'rc-flight-manager') . '</label></p>';
+		$modal .= '      <p align="center"><button type="button" id="handover_btn_ok" class="modal_ok" disabled>' . esc_html__('Save', 'rc-flight-manager') . '</button>';
+		$modal .= '      <button type="button" id="handover_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 		$modal .= '   </div>';
 		$modal .= '</div>';
 		echo $modal;
@@ -552,9 +552,9 @@ class RC_Flight_Manager_Public {
 			// Modal content
 			$modal .= '   <div class="modal-content">';
 			$modal .= '  	 <span class="close">&times;</span>';
-			$modal .= '  	 <label for="userSelectionField">' . __('Member to assign to this service', 'rc-flight-manager') . ':</label>';
+			$modal .= '  	 <label for="userSelectionField">' . esc_html__('Member to assign to this service', 'rc-flight-manager') . ':</label>';
 			$modal .= '      <select id="userSelectionField" name="userSelectionField">';
-			$modal .= '      <option value="nobody">' . __('Nobody', 'rc-flight-manager') . '</option>';
+			$modal .= '      <option value="nobody">' . esc_html__('Nobody', 'rc-flight-manager') . '</option>';
 			$users = get_users();
 			foreach ( $users as $u) {
 				if ($u->ID) {
@@ -564,8 +564,8 @@ class RC_Flight_Manager_Public {
 				}
 			}
 			$modal .= '</select>';
-			$modal .= '      <p align="center"><button type="button" id="assign_btn_ok" class="modal_ok">' . __('Save', 'rc-flight-manager') . '</button>';
-			$modal .= '      <button type="button" id="assign_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+			$modal .= '      <p align="center"><button type="button" id="assign_btn_ok" class="modal_ok">' . esc_html__('Save', 'rc-flight-manager') . '</button>';
+			$modal .= '      <button type="button" id="assign_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '   </div>';
 			$modal .= '</div>';
 			echo $modal;
@@ -595,7 +595,7 @@ class RC_Flight_Manager_Public {
 		// Modal content
 		$modal .= '   <div class="modal-content">';
 		$modal .= '  	 <span class="close">&times;</span>';
-		$modal .= '  	 <label for="serviceSelectionField">' . __('Member to swap service with', 'rc-flight-manager') . ':</label>';
+		$modal .= '  	 <label for="serviceSelectionField">' . esc_html__('Member to swap service with', 'rc-flight-manager') . ':</label>';
 		$modal .= '      <select id="serviceSelectionField" name="serviceSelectionField">';
 		$schedules = RC_Flight_Manager_Schedule::getServiceList('+');
         foreach ( $schedules as $s) {
@@ -603,15 +603,15 @@ class RC_Flight_Manager_Public {
                 $userObj = get_userdata($s->user_id);
                 $name = esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname );
                 $date = date_i18n("D j. M", strtotime( $s->date ));
-                $modal .= '<option value="' . $s->schedule_id . '">' . $name . ' ' . __('on', 'rc-flight-manager') .' ' . $date . '</option>';
+                $modal .= '<option value="' . $s->schedule_id . '">' . $name . ' ' . esc_html__('on', 'rc-flight-manager') .' ' . $date . '</option>';
             }
         }
 		$modal .= '</select>';
 		// Disclaimer
         $modal .= '      <p><input type="checkbox" id="swap_disclaimer" class="disclaimer" value="' . $schedule_id . '">';
-        $modal .= '      <label for="swap_disclaimer">' . __('The selected person and me agreed on swaping our duties! ', 'rc-flight-manager') . '</label></p>';
-		$modal .= '      <p align="center"><button type="button" id="swap_btn_ok" class="modal_ok" disabled>' . __('Save', 'rc-flight-manager') . '</button>';
-		$modal .= '      <button type="button" id="swap_btn_abort" class="modal_abort">' . __('Cancel', 'rc-flight-manager') . '</button></p>';
+        $modal .= '      <label for="swap_disclaimer">' . esc_html__('The selected person and me agreed on swaping our duties! ', 'rc-flight-manager') . '</label></p>';
+		$modal .= '      <p align="center"><button type="button" id="swap_btn_ok" class="modal_ok" disabled>' . esc_html__('Save', 'rc-flight-manager') . '</button>';
+		$modal .= '      <button type="button" id="swap_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 		$modal .= '   </div>';
 		$modal .= '</div>';
 		echo $modal;

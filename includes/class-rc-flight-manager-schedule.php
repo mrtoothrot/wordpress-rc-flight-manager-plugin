@@ -287,20 +287,20 @@ class RC_Flight_Manager_Schedule {
         if ( $this->user_id == NULL ) { 
             $id = "takeover_btn_" . $this->schedule_id;
             $class = "rcfm_takeover_btn";
-            $button_text = __('Assign to me', 'rc-flight-manager');
+            $button_text = esc_html__('Assign to me', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         elseif ( $this->user_id == $current_user->ID ) {
             // Swap button
             $id = "swap_btn_" . $this->schedule_id;
             $class = "rcfm_swap_btn";
-            $button_text = __('Swap duty', 'rc-flight-manager');
+            $button_text = esc_html__('Swap duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
 
             // Handover
             $id = "handover_btn_" . $this->schedule_id;
             $class = "rcfm_handover_btn";
-            $button_text = __('Handover duty', 'rc-flight-manager');
+            $button_text = esc_html__('Handover duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
 
@@ -308,19 +308,19 @@ class RC_Flight_Manager_Schedule {
             // Assign button
             $id = "assign_btn_" . $this->schedule_id;
             $class = "rcfm_assign_btn";
-            $button_text = __('Assign duty', 'rc-flight-manager');
+            $button_text = esc_html__('Assign duty', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
             
             // Add comment button
             $id = "update_comment_btn_" . $this->schedule_id;
             $class = "rcfm_update_comment_btn";
-            $button_text = __('Update label', 'rc-flight-manager');
+            $button_text = esc_html__('Update label', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
 
             // Delete button
             $id = "delete_btn_" . $this->schedule_id;
             $class = "rcfm_delete_btn";
-            $button_text = __('Delete Date', 'rc-flight-manager');
+            $button_text = esc_html__('Delete Date', 'rc-flight-manager');
             array_push($buttons, '<a href="javascript:void(0)" id="' . $id . '" class="' . $class . '" data-schedule_id="' . $this->schedule_id . '">' . $button_text . '</a>');
         }
         
@@ -329,7 +329,7 @@ class RC_Flight_Manager_Schedule {
         }
         //elseif (count($buttons) == 1) { // Directly display respective button if only one is possible
             // TODO: IMPLEMENT LATER
-            //$button = '<button id="' . 'takeover_btn_' . $this->schedule_id . '" class="dropbtn" data-schedule_id="' . $this->schedule_id . '">' . __('Test', //'rc-flight-manager') . '</button>';
+            //$button = '<button id="' . 'takeover_btn_' . $this->schedule_id . '" class="dropbtn" data-schedule_id="' . $this->schedule_id . '">' . esc_html__('Test', //'rc-flight-manager') . '</button>';
             //return($button);
         //}
         else {
@@ -338,7 +338,7 @@ class RC_Flight_Manager_Schedule {
             $dropdown_id = "dropdown_id_" . $id;
             $menu = '';
             $menu .= '<div class="dropdown">';
-            $menu .= '  <button id="' . $button_id . '" class="dropbtn" data-schedule_id="' . $id . '">' . __('Change', 'rc-flight-manager') . '</button>'
+            $menu .= '  <button id="' . $button_id . '" class="dropbtn" data-schedule_id="' . $id . '">' . esc_html__('Change', 'rc-flight-manager') . '</button>'
                    . '  <div id="' . $dropdown_id . '" class="dropdown-content">';
             for($x = 0; $x < count($buttons); $x++) {
                 $menu .= $buttons[$x];

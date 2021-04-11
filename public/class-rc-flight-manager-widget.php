@@ -17,9 +17,9 @@ class RC_Flight_Manager_Widget extends WP_Widget {
         // widget ID
         'RC_Flight_Manager_Widget',
         // widget name to be displayed in Dashboard Widget UI
-        __('RC Flight Manager Widget', 'rc-flight-manager'),
+        esc_html__('RC Flight Manager Widget', 'rc-flight-manager'),
         // widget description
-        array ( 'description' => __( 'Displays the current flight manager on duty in the sidebar', 'rc-flight-manager' ), )
+        array ( 'description' => esc_html__( 'Displays the current flight manager on duty in the sidebar', 'rc-flight-manager' ), )
         );
     }
 
@@ -59,12 +59,12 @@ class RC_Flight_Manager_Widget extends WP_Widget {
             $title = $instance[ 'title' ];
         }
         else {
-            $title = __( 'New title', 'rc-flight-manager' );
+            $title = esc_html__( 'New title', 'rc-flight-manager' );
         }
         // Widget admin form
         ?>
         <p>
-        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'rc-flight-manager' ); ?></label> 
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'rc-flight-manager' ); ?></label> 
         <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
         <?php 
