@@ -48,7 +48,7 @@ class RC_Flight_Manager_Schedule {
         $wpdb->insert( 
             $logging_table_name, 
             array( 
-                //'date'          => date(),   MySQL CURRENT_TIMESTAMP is used
+                //'timestamp'          => MySQL CURRENT_TIMESTAMP is used
                 'by_admin'      => $by_admin,
                 'schedule_id'   => $this->schedule_id,
                 'old_user_id'   => $old_user_id,
@@ -151,9 +151,11 @@ class RC_Flight_Manager_Schedule {
 
         // Checking input parameters
         if (is_null($months)) {
+            //do_action( "qm/debug", "months is NULL: " . $months);
             $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_year' ORDER BY date", OBJECT );
         }
         elseif (is_string($months)){
+            //do_action( "qm/debug", "months is string: " . $months);
             if ($months == "+") { # Return only services today and in the future
                 $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_this_year' ORDER BY date", OBJECT );    
             }
@@ -162,6 +164,7 @@ class RC_Flight_Manager_Schedule {
             }
         }
         elseif (is_numeric($months)) {
+            //do_action( "qm/debug", "months is numeric: " . $months);
             // Calculating current date
             $this_month = date_i18n("Y-m");
             $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));

@@ -289,7 +289,7 @@ class RC_Flight_Manager_Public {
 		// Get attribute 'months':
 		$display_months = NULL;
 		if (array_key_exists('months', $atts)) {
-			$display_months = $atts['months'];
+			$display_months = (int)$atts['months']; // Casting $atts['months'] to int, getServiceList handles string and int arguments differently
 		}
 
 		// wp_enqueue_script loads the JS code if shortcode is active
@@ -401,8 +401,8 @@ class RC_Flight_Manager_Public {
 	    $current_user = wp_get_current_user();
 
 	    // Update Duty with current user
-	    $s->updateUser($current_user->ID);
-	
+		$s->updateUser($current_user->ID, "No");
+
 	    // return new table data
 		echo $s->getTableData();
 	
@@ -732,10 +732,10 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 			if ($user_id == "nobody") {
-				$s->updateUser(NULL);
+				$s->updateUser(NULL, "Yes");
 			}
 			else {
-				$s->updateUser($user_id);
+				$s->updateUser($user_id, "Yes");
 			}
 			echo $s->getTableData();
 		}	
