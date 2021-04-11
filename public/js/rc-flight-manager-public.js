@@ -35,7 +35,7 @@
 	//console.log(rc_flight_manager_vars.ajax_url);
 	//console.log(rc_flight_manager_vars.nonce);
 	var ajaxurl = rc_flight_manager_vars.ajax_url;
-	var nonce = rc_flight_manager_vars.nonce;
+	var nonce = rc_flight_manager_vars.security_nonce;
 	//console.log( $ )	
 //
 
@@ -48,7 +48,7 @@
 
 		var data = {
 			'action'   		: 'button_takeover', // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -73,7 +73,7 @@
 
 		var data = {
 			'action'   		: 'button_delete',   // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -98,7 +98,7 @@
 
 		var data = {
 			'action'   		: 'button_update_comment',   // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -133,7 +133,7 @@
 								// Prepare AJAX request
 				var data = {
 					'action'   		: 'update_comment'   , // the name of your PHP function!
-					'security'		: nonce,             // the security nonce
+					'security_nonce'		: nonce,             // the security nonce
 					'schedule_id'   : schedule_id,      // a random value we'd like to pass
 					'comment'		: comment           // a random value we'd like to pass
 				};
@@ -167,7 +167,7 @@
 
 		var data = {
 			'action'   		: 'button_assign',   // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -203,7 +203,7 @@
 				// Prepare AJAX request
 				var data = {
 					'action'   		: 'assign_user'   , // the name of your PHP function!
-					'security'		: nonce,             // the security nonce
+					'security_nonce'		: nonce,             // the security nonce
 					'schedule_id'   : schedule_id,      // a random value we'd like to pass
 					'user_id'		: user              // a random value we'd like to pass
 				};
@@ -237,7 +237,7 @@
 
 		var data = {
 			'action'   		: 'button_swap',   // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -288,7 +288,7 @@
 				// Prepare AJAX request
 				var data = {
 					'action'   			: 'swap'   , // the name of your PHP function!
-					'security'		    : nonce,             // the security nonce
+					'security_nonce'		    : nonce,             // the security nonce
 					'schedule_id'   	: schedule_id,      // a random value we'd like to pass
 					'swap_schedule_id'	: swap_schedule_id              // a random value we'd like to pass
 				};
@@ -327,7 +327,7 @@
 
 		var data = {
 			'action'   		: 'button_handover',   // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'schedule_id'   : schedule_id        // a random value we'd like to pass
 		};
 		
@@ -378,7 +378,7 @@
 				// Prepare AJAX request
 				var data = {
 					'action'   			: 'handover'   , // the name of your PHP function!
-					'security'	    	: nonce,             // the security nonce
+					'security_nonce'	    	: nonce,             // the security nonce
 					'schedule_id'   	: schedule_id,      // a random value we'd like to pass
 					'new_user'			: swap_user              // a random value we'd like to pass
 				};
@@ -415,7 +415,7 @@
 		// Prepare AJAX request
 		var data = {
 			'action'   		: 'button_book_flightslot', // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'reservation_id': reservation_id            // a random value we'd like to pass
 		};
 		
@@ -443,7 +443,7 @@
 		// Prepare AJAX request
 		var data = {
 			'action'   		: 'button_cancel_flightslot', // the name of your PHP function!
-			'security'		: nonce,             // the security nonce
+			'security_nonce'		: nonce,             // the security nonce
 			'reservation_id': reservation_id            // a random value we'd like to pass
 		};
 		
@@ -507,7 +507,7 @@
 			// Prepare AJAX request
 			var data = {
 				'action'   		: 'add_schedule_date'   , // the name of your PHP function!
-				'security'		: nonce,             // the security nonce
+				'security_nonce'		: nonce,             // the security nonce
 				'date'			: date                    // a random value we'd like to pass
 			};
 

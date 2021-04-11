@@ -200,7 +200,7 @@ class RC_Flight_Manager_Public {
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce' => wp_create_nonce('rcfm-security-nonce') ) );
+			'security_nonce' => wp_create_nonce('rcfm-security-nonce') ) );
 
 		$content = "";
 
@@ -293,7 +293,7 @@ class RC_Flight_Manager_Public {
 		// Defining ajax_url: (see https://wordpress.stackexchange.com/questions/223331/using-ajax-in-frontend-with-wordpress-plugin-boilerplate-wppb-io)
 		wp_localize_script( $this->plugin_name, 'rc_flight_manager_vars', array( 
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce' => wp_create_nonce('rcfm-security-nonce') ) );
+			'security_nonce' => wp_create_nonce('rcfm-security-nonce') ) );
 		
 		// Load all schedules from DB
 		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
@@ -389,7 +389,7 @@ class RC_Flight_Manager_Public {
 		do_action( 'qm/debug', 'botton_takeover() called!' );
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -421,7 +421,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -450,7 +450,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -490,7 +490,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -537,7 +537,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -571,7 +571,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_assign called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -621,7 +621,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -669,7 +669,7 @@ class RC_Flight_Manager_Public {
 		//error_log("RC_Flight_Manager_Public :: button_swap called!");
 		
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -700,7 +700,7 @@ class RC_Flight_Manager_Public {
 	function button_book_flightslot() {
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -739,7 +739,7 @@ class RC_Flight_Manager_Public {
 	function button_cancel_flightslot() {
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -771,7 +771,7 @@ class RC_Flight_Manager_Public {
 	function add_schedule_date() {
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -794,7 +794,7 @@ class RC_Flight_Manager_Public {
 	function update_comment() {
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
@@ -819,7 +819,7 @@ class RC_Flight_Manager_Public {
 	function assign_user() {
 
 		// Security nonce check
-		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security', false ) ) {	
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
 			echo "FALSE";
 			wp_die();	  
 		}
