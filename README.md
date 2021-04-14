@@ -67,8 +67,7 @@ None yet
 
 ### 0.9 ###
 
-*
-*
+* Security improvements
 
 ### 0.8 ###
 
