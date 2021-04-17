@@ -9,14 +9,13 @@
  * that starts the plugin.
  *
  * @link              https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since             1.0.0
  * @package           RC_Flight_Manager
  *
  * @wordpress-plugin
  * Plugin Name:       RC Flight Manager
  * Plugin URI:        https://wordpress.org/plugins/rc-flight-manager
  * Description:       A Flight Manager Scheduling System for Modell Airfield Clubs
- * Version:           0.8.0
+ * Version:           0.9.0
  * Author:            Mr Toothrot
  * Author URI:        https://github.com/mrtoothrot
  * License:           GPL-2.0+
@@ -35,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'RC_FLIGHT_MANAGER_VERSION', '0.8.0' );
+define( 'RC_FLIGHT_MANAGER_VERSION', '0.9.0' );
 define( 'RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME', 'rcfm_schedule');
 define( 'RC_FLIGHT_MANAGER_LOGGING_TABLE_NAME', 'rcfm_logging');
 define( 'RC_FLIGHT_MANAGER_FLIGHTSLOT_TABLE_NAME', 'rcfm_slots');
@@ -76,7 +75,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-rc-flight-manager.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
  */
 function run_rc_flight_manager() {
 

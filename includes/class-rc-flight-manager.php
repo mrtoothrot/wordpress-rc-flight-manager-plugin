@@ -7,7 +7,6 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
@@ -22,7 +21,6 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>
@@ -33,7 +31,6 @@ class RC_Flight_Manager {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   protected
 	 * @var      RC_Flight_Manager_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -42,7 +39,6 @@ class RC_Flight_Manager {
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
@@ -51,7 +47,6 @@ class RC_Flight_Manager {
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -64,7 +59,6 @@ class RC_Flight_Manager {
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0.0
 	 */
 	public function __construct() {
 		if ( defined( 'RC_FLIGHT_MANAGER_VERSION' ) ) {
@@ -93,7 +87,6 @@ class RC_Flight_Manager {
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function load_dependencies() {
@@ -146,7 +139,6 @@ class RC_Flight_Manager {
 	 * Uses the RC_Flight_Manager_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function set_locale() {
@@ -161,7 +153,6 @@ class RC_Flight_Manager {
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
@@ -181,7 +172,6 @@ class RC_Flight_Manager {
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function define_public_hooks() {
@@ -228,7 +218,6 @@ class RC_Flight_Manager {
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
 	 */
 	public function run() {
 		$this->loader->run();
@@ -238,7 +227,6 @@ class RC_Flight_Manager {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
@@ -248,7 +236,6 @@ class RC_Flight_Manager {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    RC_Flight_Manager_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -258,7 +245,6 @@ class RC_Flight_Manager {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {

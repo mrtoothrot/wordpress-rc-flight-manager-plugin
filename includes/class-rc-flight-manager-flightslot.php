@@ -6,7 +6,6 @@
  * A class definition that defining the "flightslot" objects
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager_Flightslot
  * @subpackage RC_Flight_Manager_Flightslot/includes
@@ -17,7 +16,6 @@
  *
  * This is used to ...
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager_Flightslot
  * @subpackage RC_Flight_Manager_Flightslot/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>
@@ -165,7 +163,7 @@ class RC_Flight_Manager_Flightslot {
     public function getBookButtonHtml() {
         $id = "button_book_slot_id_" . $this->reservation_id;
         $class = "button_book_flightslot";
-        $button_text = __('Book slot', 'rc-flight-manager');
+        $button_text = esc_html__('Book slot', 'rc-flight-manager');
         // Button
         $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">' . $button_text . '</button>';
         return($html);
@@ -174,7 +172,7 @@ class RC_Flight_Manager_Flightslot {
     public function getCancellationButtonHtml() {
         $id = "button_cancel_slot_id_" . $this->reservation_id;
         $class = "button_cancel_flightslot";
-        $button_text = __('Cancel booking', 'rc-flight-manager');
+        $button_text = esc_html__('Cancel booking', 'rc-flight-manager');
         // Button
         $html = '<button type="button" id="' . $id . '" class="' . $class . '" data-reservation_id="' . $this->reservation_id . '">'. $button_text . '</button>';
         return($html);

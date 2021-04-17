@@ -6,7 +6,6 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/admin/partials

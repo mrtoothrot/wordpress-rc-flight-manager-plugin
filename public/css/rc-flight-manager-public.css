@@ -3,15 +3,6 @@
  * included in this file.
  */
 
- /**.hidden_service_selection { display: none; }
- 
- .shown_service_selection { display: initial; }
- 
- .hidden_user_selection { display: none; }
- 
- .shown_user_selection { display: initial; }
- */
-
 /**
  * Table row for current date
  */
@@ -32,6 +23,16 @@ p.rcfm-event-label {
 	padding:2px;
 	width:120px;
 	margin:auto;
+}
+
+/**
+ * RC Flight Manager Widget
+ */
+ p.rcfm-widget {
+
+	color:#5388b4;
+	font-weight: bold;
+
 }
 
  .hidden { display: none; }

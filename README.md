@@ -6,7 +6,7 @@
 * Requires at least: 5.7.0
 * Tested up to: 5.7.0
 * Requires PHP: 7.4
-* Stable tag: 0.7.0
+* Stable tag: 0.9.0
 * Text Domain: rc-flight-manager
 * Domain Path: /languages
 * Plugin URI: <https://wordpress.org/plugins/rc-flight-manager>
@@ -65,6 +65,10 @@ None yet
 
 ## Changelog ##
 
+### 0.9 ###
+
+* Security improvements
+
 ### 0.8 ###
 
 * Todays service is highlighted with a table row border
@@ -97,15 +101,15 @@ None yet
   * Users with `edit_posts`capability can assign duties to other members => Contributer Role
 * Flight slot reservation limits now customizable
 
-### 0.3 ### 
+### 0.3 ###
 
 * Implemented widget to show current flight manager in sidebar
 
 ### 0.2 ###
 
-* E-Mail notification is customizable in settings page 
+* E-Mail notification is customizable in settings page
 * Placeholders for [flightmanger-name] and [flightmanager-duty-date] are now implemented
-* Shortcode can be configured to only show services in the next x months 
+* Shortcode can be configured to only show services in the next x months
 * Duties are now sorted by date when creating the roster table.
 * Implemented basic email notification two and 14 days before scheduled date
 

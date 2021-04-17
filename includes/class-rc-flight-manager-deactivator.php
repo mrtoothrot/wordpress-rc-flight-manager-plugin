@@ -4,7 +4,6 @@
  * Fired during plugin deactivation
  *
  * @link       https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin
- * @since      1.0.0
  *
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
@@ -15,7 +14,6 @@
  *
  * This class defines all code necessary to run during the plugin's deactivation.
  *
- * @since      1.0.0
  * @package    RC_Flight_Manager
  * @subpackage RC_Flight_Manager/includes
  * @author     Mr Toothrot <mrtoothrot@gmail.com>
@@ -27,7 +25,6 @@ class RC_Flight_Manager_Deactivator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
 	 */
 	public static function deactivate() {
 		// Unscheduling CRON job to send notification emails
