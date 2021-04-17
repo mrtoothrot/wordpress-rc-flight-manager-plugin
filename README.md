@@ -6,7 +6,7 @@
 * Requires at least: 5.7.0
 * Tested up to: 5.7.0
 * Requires PHP: 7.4
-* Stable tag: 0.9.0
+* Stable tag: 1.0.0
 * Text Domain: rc-flight-manager
 * Domain Path: /languages
 * Plugin URI: <https://wordpress.org/plugins/rc-flight-manager>
