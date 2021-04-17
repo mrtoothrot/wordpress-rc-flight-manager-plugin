@@ -18,6 +18,26 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: .git\n"
 "X-Poedit-SearchPathExcluded-1: assets\n"
 
+#. Plugin Name of the plugin
+msgid "RC Flight Manager"
+msgstr "RC Flugleiter"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/rc-flight-manager"
+msgstr "https://wordpress.org/plugins/rc-flight-manager"
+
+#. Author of the plugin
+msgid "Mr Toothrot"
+msgstr "Mr Toothrot"
+
+#. Author URI of the plugin
+msgid "https://github.com/mrtoothrot"
+msgstr "https://github.com/mrtoothrot"
+
+#. Description of the plugin
+msgid "A Flight Manager Scheduling System for Modell Airfield Clubs"
+msgstr "Ein Buchungssystem für Flugleiter-Dienste auf Modellfluggeländen"
+
 #: admin/class-rc-flight-manager-admin.php:118
 msgid "Notifications"
 msgstr "Erinnerungen"
@@ -194,7 +214,7 @@ msgstr "Person, die den Dienst übernehmen soll"
 
 #: public/class-rc-flight-manager-public.php:493
 msgid "The selected person agreed to take over this duty! "
-msgstr "Die ausgewählte Person hat zugestimmt den Dienst zu übernehmen!"
+msgstr "Die ausgewählte Person hat zugestimmt den Dienst zu übernehmen! "
 
 #: public/class-rc-flight-manager-public.php:545
 msgid "Member to assign to this service"
@@ -214,7 +234,7 @@ msgstr "am"
 
 #: public/class-rc-flight-manager-public.php:602
 msgid "The selected person and me agreed on swaping our duties! "
-msgstr "Die ausgewählte Person und ich haben den Tausch abgesprochen!"
+msgstr "Die ausgewählte Person und ich haben den Tausch abgesprochen! "
 
 #: public/class-rc-flight-manager-widget.php:21
 msgid "RC Flight Manager Widget"
