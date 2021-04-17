@@ -1,0 +1,280 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+    /* Modal Content */
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+    /* The Close Button */
+    
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <h3>Flugleiter-Dienstplan (nächste 3 Monate):</h3>
+    <div id="schedule" class="rcfm-schedule">
+        <div id="modal-container" class="rcfm-schedule-modal-container" style="display: none;"></div>
+        <p align="left"><button id="add_date_range_btn">Dienstplan erstellen</button><button id="add_date_btn">Datum hinzufügen</button></p>
+        <div id="add_date_btn_modal" class="modal" style="display: none;">
+            <!-- Start of Modal content -->
+            <div class="modal-content"> <span class="close">×</span>
+                <p align="left">
+                    From when to when do you need flight manager services?<br><br>
+                    <label for="fromDateField">From:</label> <input type="date" id="fromDateField" name="date" min="2021-04-17">
+                    <label for="toDateField">To:</label> <input type="date" id="toDateField" name="date" min="2021-04-17"></p>
+                <p>On which weekdays do you need flight manager services?</p>
+                <p>
+                    <input type="checkbox" id="check_monday" name="check_monday" value="Monday">
+                    <label for="monday"> Monday</label><br>
+                    <input type="checkbox" id="check_tuesday" name="check_tuesday" value="Tuesday">
+                    <label for="tuesday"> Tuesday</label><br>
+                    <input type="checkbox" id="check_wednesday" name="check_wednesday" value="Wednesday">
+                    <label for="wednesday"> Wednesday</label><br>
+                    <input type="checkbox" id="check_thursday" name="check_thursday" value="Thursday">
+                    <label for="thursday"> Thursday</label><br>
+                    <input type="checkbox" id="check_friday" name="check_friday" value="Friday">
+                    <label for="friday"> Friday</label><br>
+                    <input type="checkbox" id="check_saturday" name="check_saturday" value="Saturday">
+                    <label for="saturday"> Saturday</label><br>
+                    <input type="checkbox" id="check_sunday" name="check_sunday" value="Sunday">
+                    <label for="sunday"> Sunday</label><br>
+
+                </p>
+                <p align="center"><button type="button" id="add_date_range_btn_ok" class="modal_ok">Ok</button> <button type="button" id="add_date_range_btn_abort" class="modal_abort">Abbrechen</button></p>
+            </div>
+            <!-- End of Modal content -->
+        </div>
+        <table id="table_rc_flight_manager_schedule">
+            <colgroup>
+                <col>
+                <col span="3">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th style="background-color: #5388b4; color: #ffffff" colspan="3">
+                        <div align="center">April</div>
+                        <div align="right" style="font-weight: normal">Stand vom 17.04.2021</div>
+                    </th>
+                </tr>
+                <tr id="table_row_schedule_id_1" class="rcfm-service-today">
+                    <td>
+                        <p align="center"><b>Sa 17. Apr</b></p>
+                    </td>
+                    <td>
+                        <p>Daniel Düsentrieb</p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_1" class="dropbtn" data-schedule_id="1">Ändern</button>
+                            <div id="dropdown_id_1" class="dropdown-content"><a href="javascript:void(0)" id="assign_btn_1" class="rcfm_assign_btn" data-schedule_id="1">Jemanden einteilen</a><a href="javascript:void(0)" id="update_comment_btn_1" class="rcfm_update_comment_btn" data-schedule_id="1">Label ändern</a>
+                                <a href="javascript:void(0)" id="delete_btn_1" class="rcfm_delete_btn" data-schedule_id="1">Datum löschen</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="table_row_schedule_id_2">
+                    <td>
+                        <p align="center"><b>So 18. Apr</b></p>
+                    </td>
+                    <td>
+                        <p>Micky Maus</p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_2" class="dropbtn" data-schedule_id="2">Ändern</button>
+                            <div id="dropdown_id_2" class="dropdown-content"><a href="javascript:void(0)" id="assign_btn_2" class="rcfm_assign_btn" data-schedule_id="2">Jemanden einteilen</a><a href="javascript:void(0)" id="update_comment_btn_2" class="rcfm_update_comment_btn" data-schedule_id="2">Label ändern</a>
+                                <a href="javascript:void(0)" id="delete_btn_2" class="rcfm_delete_btn" data-schedule_id="2">Datum löschen</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="table_row_schedule_id_3">
+                    <td>
+                        <p align="center"><b>Sa 24. Apr</b></p>
+                    </td>
+                    <td>
+                        <p></p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_3" class="dropbtn" data-schedule_id="3">Ändern</button>
+                            <div id="dropdown_id_3" class="dropdown-content"><a href="javascript:void(0)" id="takeover_btn_3" class="rcfm_takeover_btn" data-schedule_id="3">Mich eintragen</a><a href="javascript:void(0)" id="assign_btn_3" class="rcfm_assign_btn" data-schedule_id="3">Jemanden einteilen</a>
+                                <a href="javascript:void(0)" id="update_comment_btn_3" class="rcfm_update_comment_btn" data-schedule_id="3">Label ändern</a><a href="javascript:void(0)" id="delete_btn_3" class="rcfm_delete_btn" data-schedule_id="3">Datum löschen</a>                                </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="table_row_schedule_id_4">
+                    <td>
+                        <p align="center"><b>So 25. Apr</b></p>
+                        <p class="rcfm-event-label">Awsome Event</p>
+                    </td>
+                    <td>
+                        <p></p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_4" class="dropbtn" data-schedule_id="4">Ändern</button>
+                            <div id="dropdown_id_4" class="dropdown-content"><a href="javascript:void(0)" id="takeover_btn_4" class="rcfm_takeover_btn" data-schedule_id="4">Mich eintragen</a><a href="javascript:void(0)" id="assign_btn_4" class="rcfm_assign_btn" data-schedule_id="4">Jemanden einteilen</a>
+                                <a href="javascript:void(0)" id="update_comment_btn_4" class="rcfm_update_comment_btn" data-schedule_id="4">Label ändern</a><a href="javascript:void(0)" id="delete_btn_4" class="rcfm_delete_btn" data-schedule_id="4">Datum löschen</a>                                </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="background-color: #5388b4; color: #ffffff" colspan="3">
+                        <div align="center">Mai</div>
+                        <div align="right" style="font-weight: normal">Stand vom 17.04.2021</div>
+                    </th>
+                </tr>
+                <tr id="table_row_schedule_id_5">
+                    <td>
+                        <p align="center"><b>Sa 1. Mai</b></p>
+                    </td>
+                    <td style="color:#ff0000">
+                        <p>Kater Karlo</p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_5" class="dropbtn" data-schedule_id="5">Ändern</button>
+                            <div id="dropdown_id_5" class="dropdown-content"><a href="javascript:void(0)" id="swap_btn_5" class="rcfm_swap_btn" data-schedule_id="5">Dienst tauschen</a><a href="javascript:void(0)" id="handover_btn_5" class="rcfm_handover_btn" data-schedule_id="5">Dienst übergeben</a>
+                                <a href="javascript:void(0)" id="assign_btn_5" class="rcfm_assign_btn" data-schedule_id="5">Jemanden einteilen</a><a href="javascript:void(0)" id="update_comment_btn_5" class="rcfm_update_comment_btn" data-schedule_id="5">Label ändern</a>
+                                <a href="javascript:void(0)" id="delete_btn_5" class="rcfm_delete_btn" data-schedule_id="5">Datum löschen</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="table_row_schedule_id_6">
+                    <td>
+                        <p align="center"><b>So 2. Mai</b></p>
+                    </td>
+                    <td>
+                        <p></p>
+                    </td>
+                    <td>
+                        <div class="dropdown"> <button id="button_change_id_6" class="dropbtn" data-schedule_id="6">Ändern</button>
+                            <div id="dropdown_id_6" class="dropdown-content"><a href="javascript:void(0)" id="takeover_btn_6" class="rcfm_takeover_btn" data-schedule_id="6">Mich eintragen</a><a href="javascript:void(0)" id="assign_btn_6" class="rcfm_assign_btn" data-schedule_id="6">Jemanden einteilen</a>
+                                <a href="javascript:void(0)" id="update_comment_btn_6" class="rcfm_update_comment_btn" data-schedule_id="6">Label ändern</a><a href="javascript:void(0)" id="delete_btn_6" class="rcfm_delete_btn" data-schedule_id="6">Datum löschen</a>                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+
+<script>
+    (function($) {
+        'use strict';
+        console.log("jQuery loaded!");
+        // Get the modal
+        var modal = document.getElementById("add_date_btn_modal");
+        // Get the button that opens the modal
+        //var btn = document.getElementById("add_date_btn");
+        // Get the <span> element that closes the modal
+        //var span = document.getElementsByClassName("close")[0];
+        // When the user clicks the button, open the modal 
+        $("#schedule").on("click", "#add_date_btn", (function() {
+            //add_date_btn.onclick = function() {
+            console.log("add_date_btn clicked!");
+            modal.style.display = "block";
+        }));
+        $("#schedule").on("click", "#add_date_range_btn", (function() {
+            console.log("add_date_range_btn clicked!");
+            modal.style.display = "block";
+        }));
+        // When the user clicks on <span> (x), close the modal
+        $("#schedule").on("click", "span", (function() {
+            //span.onclick = function() {
+            modal.style.display = "none";
+        }));
+        // When the user clicks on abort button, close the modal
+        $("#schedule").on("click", "#add_date_range_btn_abort", (function() {
+            //add_date_btn_abort.onclick = function() {
+            modal.style.display = "none";
+        }));
+        // When the user clicks anywhere outside of the modal, close it
+        $(window).on("click", (function() {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }));
+        // When the user clicks on ok button, run the AJAX request and close the model
+        $("#schedule").on("click", "#add_date_range_btn_ok", (function() {
+            //add_date_btn_ok.onclick = function() {
+            // Logging
+            console.log("add_date_range_btn_ok clicked!");
+            var from_date_obj = new Date($('#fromDateField').val());
+            var to_date_obj = new Date($('#toDateField').val());
+
+            if (!(isNaN(from_date_obj.getDate()) || isNaN(to_date_obj.getDate()))) { // Only continue if valid dates are selected
+                var year = from_date_obj.getFullYear();
+                var month = from_date_obj.getMonth() + 1;
+                var day = from_date_obj.getDate();
+                var from_date = [year, month, day].join('-');
+
+                var year = to_date_obj.getFullYear();
+                var month = to_date_obj.getMonth() + 1;
+                var day = to_date_obj.getDate();
+                var to_date = [year, month, day].join('-');
+
+                console.log("from date picked = " + from_date)
+                console.log("to date picked = " + to_date)
+
+                // Prepare AJAX request
+                //var data = {
+                //    'action': 'add_schedule_date', // the name of your PHP function!
+                //    'security_nonce': nonce, // the security nonce
+                //    'date': date // a random value we'd like to pass
+                //};
+
+                // Send AJAX request
+                //$.post(ajaxurl, data, function(response) {
+                //    console.log("Response = " + response);
+                //    if (response == 'FALSE') {
+                //        alert("Could not add date " + date + "!")
+                //    }
+                //    location.reload();
+                //});
+                modal.style.display = "none";
+            }
+        }));
+
+
+    })(jQuery);
+</script>
+
+</html>
