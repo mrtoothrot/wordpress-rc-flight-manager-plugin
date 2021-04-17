@@ -101,15 +101,15 @@ None yet
   * Users with `edit_posts`capability can assign duties to other members => Contributer Role
 * Flight slot reservation limits now customizable
 
-### 0.3 ### 
+### 0.3 ###
 
 * Implemented widget to show current flight manager in sidebar
 
 ### 0.2 ###
 
-* E-Mail notification is customizable in settings page 
+* E-Mail notification is customizable in settings page
 * Placeholders for [flightmanger-name] and [flightmanager-duty-date] are now implemented
-* Shortcode can be configured to only show services in the next x months 
+* Shortcode can be configured to only show services in the next x months
 * Duties are now sorted by date when creating the roster table.
 * Implemented basic email notification two and 14 days before scheduled date
 
