@@ -2,7 +2,7 @@
 
 * Author: mrtoothrot
 * Contributors: mrtoothrot
-* Tags: flightmanager, modell-airfields, booking, schedule, roster
+* Tags: flightmanager, flugleiter, rc, booking, buchung, schedule, stundenplan, roster, dienstplan
 * Requires at least: 5.7.0
 * Tested up to: 5.7.0
 * Requires PHP: 7.4
@@ -17,40 +17,90 @@ Wordpress plugin implementing a Flight Manager Scheduling System for Modell Airf
 
 ## Description ##
 
-Usually modell airfields need to have a flight manager onsite while the members are flying their model planes. Normally there is a roster were each flying day is assigned to one of the members. This member is the flight manager for the day.
+RC Flight Manager provides an online roster for flight manager duties on you model club website.
 
-This plugin implements a scheduling system for these flight manager services. Members can check-in for a free slot and become the flight manager on the given date. They are also able to change their duty with other members of the club.
+Modell airfields need to have a flight manager onsite while the pilots are flying their model aircrafts. Normally one club member is the assigned flight manager for the day and has to take care that the local air safety regulations are obeyed by the pilots.
 
-There is also a small scheduling system for flight slots. Each member of the club can book a time frame during which he/she wants to use the airfield. The number of parallel pilots can be configured. If the maximum is reached, a given timeslot can't be booked any more. This feature can be used for example to limit the number of persons on the airfield due to local COVID-19 regulations.
+### Online Flight Manager Roster ###
+
+Displays a table with all dates for which flight managers need to be assigned. For each date, the assigned flight manager is shown.
+
+Features
+
+* Display the current flight manager roster on any wordpress page or post
+* Duties are saved in the wordpress database
+* Todays date and flight manager is highlighted in the roster
+* Todays flight manager on duty can be shown in a sidebar widget
+* E-Mail notification for flight managers (two weeks and again two days before their duty)
+
+Club Members (Wordpress Subscribers) can
+
+* take over an empty duty
+* swap their duty with other members
+* handover their duty to other members
+
+Club officials (Wordpress Contributers) can
+
+* add new dates to the roster
+* delete dates from the roster
+* assign members to dates
+* add/change/remove labels on dates (e. g. to mark an event on that date)
+
+Administrators (Wordpress Administrators) can
+
+* activate/deactivate E-Mail notification
+* configure notification E-Mail subject and text
+
+### Booking System for flight slots ###
+
+This feature can be used to limit the number of persons on the airfield (e. g. due to local COVID-19 regulations). Flightslots can be booked by up to a maximum number of persons. This maximum limit can be configured by the Administrator.
+
+Features
+
+* Display a table with pilots who have reserved timeslots on current day
+* Each hour is one flightslot
+
+Club Members (Wordpress Subscribers) can
+
+* book multiple flightslots for a day
+
+Administrators (Wordpress Administrators) can 
+
+* configure how many pilots are allowed on the field at the same time
 
 ## Installation ##
 
-This section describes how to install the plugin and get it working.
+Installation of the plugin is easy. You can install and activate the plugin from your wordpress dashbord:
 
-e.g.
+### Automated installation from wordpress directory ###
 
-1. On your wordpress installation, create a directory `/wp-content/plugins/rc-fligh-manager`
-1. Upload all files from the GitHub repository to the `/wp-content/plugins/rc-fligh-manager` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Create a page and use the shortcodes [rc-flight-manager-schedule] (for the flight manager scheduling part) or [rc-flight-slot-reservation] (for the flightslot reservation part)
+1. Make a backup!
+1. Navigate to Plugins -> Add New
+1. Search for "RC Flight Manager"
+1. Click "Install Now"
+1. Activate the plugin with "Activate"
 
-## Usage ##
-
-### Flight Manager Scheduling System ###
+### Display the Online Flight Manager Roster ###
 
 Place the shortcode `[rc-flight-manager-schedule]` on any wordpress page on which you want to show the flight manager roster.
 
 Use the shortcode parameter "months=" to specify how many months starting from current month are displayed in the roster.
 
 Example:
-    `[rc-flight-manager-schedule months=3]`
 
-### Flight Slot Booking System ###
+`[rc-flight-manager-schedule months=3]` => Shows the next 3 months
+
+### Display the Booking System for flight slots ###
 
 Place the shortcode `[rc-flight-slot-reservation]` on any wordpress page on which you want to show the booking system.
 
 Example:
-    `[rc-flight-slot-reservation]`
+
+`[rc-flight-slot-reservation]`
+
+## Usage ##
+
+Just point your browser to the URL of the wordpress page/post where you have placed the shortcode and start adding dates.
 
 ## Frequently Asked Questions ##
 
@@ -64,6 +114,11 @@ None yet
 4. Flightslot reservation table - `/assets/screenshot-4.png`
 
 ## Changelog ##
+
+### 1.0 ###
+
+* Updated readme.txt
+* Provided liesmich.txt
 
 ### 0.9 ###
 
