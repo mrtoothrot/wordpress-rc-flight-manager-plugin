@@ -307,7 +307,12 @@ class RC_Flight_Manager_Public {
 
 	    // Preparing the function buttons on top of the table
 		if (current_user_can( 'edit_posts' ) ) {
-			$content .= '<p align="left"><button id="add_date_btn">' . esc_html__('Add date', 'rc-flight-manager') . '</button></p>';
+			// Display buttons
+
+			$content .= '<p align="left">';
+			$content .= '	<button id="add_date_btn">' . esc_html__('Add date', 'rc-flight-manager') . '</button>';
+			$content .= '	<button id="add_date_range_btn">' . esc_html__('Add date range', 'rc-flight-manager') . '</button>';
+			$content .= '</p>';
 
 			// Defining the add_date_btn Modal
 			$content .= '<div id="add_date_btn_modal" class="modal">';
@@ -319,6 +324,36 @@ class RC_Flight_Manager_Public {
 			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . esc_html__('Ok', 'rc-flight-manager') . '</button>';
 			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$content .= '	</div>';
+			$content .= '</div>';
+	
+			// Defining the add_date__range_btn Modal
+			$content .= '<div id="add_date_range_btn_modal" class="modal">';
+			// Modal content
+            $content .= '	<div class="modal-content">';
+			$content .= '	<span class="close">&times;</span>';
+            $content .= '	<p align="left">From when to when do you need flight manager services?<br><br>'
+			          . '	<label for="fromDateField">From:</label> <input type="date" id="fromDateField" name="date" min="' . date_i18n("Y-m-d") . '">'
+                      . '	<label for="toDateField">To:</label> <input type="date" id="toDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
+			$content .= '	<p>On which weekdays do you need flight manager services?</p>';
+			$content .= '	<p>'
+                      . '	<input type="checkbox" class="weekdayselect" id="0" name="monday" value="Monday">'
+                      . '	<label for="monday"> Monday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="1" name="tuesday" value="Tuesday">'
+                      . '	<label for="tuesday"> Tuesday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="2" name="wednesday" value="Wednesday">'
+                      . '	<label for="wednesday"> Wednesday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="3" name="thursday" value="Thursday">'
+                      . '	<label for="thursday"> Thursday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="4" name="friday" value="Friday">'
+                      . '	<label for="friday"> Friday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="5" name="saturday" value="Saturday" checked>'
+                      . '	<label for="saturday"> Saturday</label><br>'
+                      . '	<input type="checkbox" class="weekdayselect" id="6" name="sunday" value="Sunday" checked>'
+                      . '	<label for="sunday"> Sunday</label><br>'
+					  . '	</p>';
+            $content .= '	<p align="center"><button type="button" id="add_date_range_btn_ok" class="modal_ok">'. esc_html__('Ok', 'rc-flight-manager') .'</button>';
+			$content .= '	<button type="button" id="add_date_range_btn_abort" class="modal_abort">'. esc_html__('Cancel', 'rc-flight-manager') .'</button></p>';
+            $content .= '	</div>';
 			$content .= '</div>';
 		}
 
@@ -791,6 +826,31 @@ class RC_Flight_Manager_Public {
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
+	function add_schedule_date_range() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
+			echo "FALSE";
+			wp_die();	  
+		}
+
+		// Read ID from HTTP request
+	    $fromdate = sanitize_text_field($_POST["fromdate"]);
+		$todate = sanitize_text_field($_POST["todate"]);
+		$weekdays = $this->validate_rcfm_weekday_array($_POST["weekdays"]);
+
+		if (current_user_can( 'edit_posts' ) ) {
+			if (!RC_Flight_Manager_Schedule::addServiceDateRange($fromdate, $todate, $weekdays)) {
+				echo "FALSE";
+			}
+			else {
+				echo "TRUE";
+			}
+		}
+	    // Return
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
 	function update_comment() {
 
 		// Security nonce check
@@ -903,6 +963,26 @@ class RC_Flight_Manager_Public {
 			}
 		}
 		return $safe_user_id;
+	}
+
+	function validate_rcfm_weekday_array( $days ) {
+		/** 
+		 * Validate a weekday array
+		 */
+		// Make sure that $days is an array
+		if (! is_array($days))
+		{
+			return false;
+		}
+		// Make sure that each element only contains true or false
+		foreach($days as $d){
+			if ($d == 'false') { $d = false; }
+			elseif ($d == 'true') { $d = true; }
+			else {
+				return false;
+			}
+		}
+		return $days;
 	}
 }
 

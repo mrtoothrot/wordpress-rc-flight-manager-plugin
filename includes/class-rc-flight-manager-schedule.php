@@ -135,6 +135,9 @@ class RC_Flight_Manager_Schedule {
         }
     }
 
+    public static function addServiceDateRange($fromdate, $todate, $weekdays) {
+        return(TRUE);
+    }
 
 	public static function getServiceList($months = NULL) {
         // Prepare table name
