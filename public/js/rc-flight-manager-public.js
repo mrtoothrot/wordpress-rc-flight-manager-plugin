@@ -499,8 +499,8 @@
             // Send AJAX request
             $.post(ajaxurl, data, function(response) {
                 console.log("Response = " + response);
-                if (response == 'FALSE') {
-                    alert("Could not add date " + date + "!")
+                if (response != 'OK') {
+                    alert(response)
                 }
                 location.reload();
             });
@@ -588,8 +588,8 @@
             // Send AJAX request
             $.post(ajaxurl, data, function(response) {
                 console.log("Response = " + response);
-                if (response == 'FALSE') {
-                    alert("Could not add date range from " + from_date + " to " + to_date + "!")
+                if (response != "OK") {
+                    alert(response)
                 }
                 //location.reload();
             });

@@ -815,12 +815,17 @@ class RC_Flight_Manager_Public {
 	    $date = sanitize_text_field($_POST["date"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
-			if (!RC_Flight_Manager_Schedule::addServiceDate($date)) {
-				echo "FALSE";
+			try {
+				RC_Flight_Manager_Schedule::addServiceDate($date);
 			}
-			else {
-				echo "TRUE";
+			catch(Exception $e) {
+				echo $e->getMessage();
+				wp_die(); // this is required to terminate immediately and return a proper response
 			}
+			echo "OK";
+		}
+		else {
+			echo "You are not allowed to add dates!";
 		}
 	    // Return
 		wp_die(); // this is required to terminate immediately and return a proper response
@@ -840,12 +845,18 @@ class RC_Flight_Manager_Public {
 		$weekdays = $this->validate_rcfm_weekday_array($_POST["weekdays"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
-			if (!RC_Flight_Manager_Schedule::addServiceDateRange($fromdate, $todate, $weekdays)) {
-				echo "FALSE";
+			$results = RC_Flight_Manager_Schedule::addServiceDateRange($fromdate, $todate, $weekdays);
+			if (empty($results)) {
+				echo "OK";
 			}
 			else {
-				echo "TRUE";
+				foreach($results as $r){
+					echo "$r\n";
+				}
 			}
+		}
+		else {
+			echo "You are not allowed to add date ranges!";
 		}
 	    // Return
 		wp_die(); // this is required to terminate immediately and return a proper response
@@ -975,9 +986,10 @@ class RC_Flight_Manager_Public {
 			return false;
 		}
 		// Make sure that each element only contains true or false
-		foreach($days as $d){
-			if ($d == 'false') { $d = false; }
-			elseif ($d == 'true') { $d = true; }
+		#foreach($days as $d){
+		foreach(array_keys($days) as $key) {
+			if ($days[$key] == 'false') { $days[$key] = false; }
+			elseif ($days[$key] == 'true') { $days[$key] = true; }
 			else {
 				return false;
 			}

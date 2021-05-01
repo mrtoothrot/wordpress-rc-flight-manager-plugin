@@ -1,3 +1,4 @@
+# TODO Update German translation
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"

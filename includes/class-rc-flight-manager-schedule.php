@@ -131,12 +131,51 @@ class RC_Flight_Manager_Schedule {
             return($wpdb->insert_id);
         }
         else {
-            return(FALSE);
+            throw new Exception("$date already exists!");
+            return(NULL);
         }
     }
-
+    # TODO Implement addServiceDateRange function!
     public static function addServiceDateRange($fromdate, $todate, $weekdays) {
-        return(TRUE);
+        $results = array();
+        #$results = array("eins", "zwei");
+        #return($results);
+        #echo "From: " . $fromdate . "\n";
+        #echo "To: " . $todate . "\n";
+        #echo "Days: ";
+        #var_dump($weekdays);
+        #echo "Calculating service dates...\n";
+        try {
+            #$begin = date_i18n("Y-m-d", strtotime($fromdate));
+            $begin = new DateTime($fromdate);
+            $end = new DateTime($todate);
+            #$end = date_i18n("Y-m-d", strtotime($todate));
+        }
+        catch(Exception $e) {
+            $results[] = "Invalid time range!";
+            return($results);
+        }
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($begin, $interval, $end);
+    
+        
+        foreach ($period as $date) {
+            #$results[] = $date->format("l N Y-m-d");
+            $wd = $date->format("N") - 1;
+            #$results[] = $wd;
+            #$results[] = $weekdays[$wd];
+            #echo "$wd";
+            if ($weekdays[$wd] === true) {
+                #$results[] = "HIT";
+                try {
+                    self::addServiceDate($date->format("Y-m-d"));
+                }
+                catch (Exception $e) {
+                    $results[] = $e->getMessage();
+                }
+            }
+        } 
+        return($results);
     }
 
 	public static function getServiceList($months = NULL) {
