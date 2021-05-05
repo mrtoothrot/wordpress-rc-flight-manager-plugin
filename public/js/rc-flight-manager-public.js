@@ -29,15 +29,16 @@
     //	 * practising this, we should strive to set a better example in our own work.
     //	 */
     //
-    //	// Some logging to verify if js is loaded
+
+    // Some logging to verify if js is loaded
     //console.log("rc_flight_manager_vars.ajax_url in jQuery:");
     //console.log(rc_flight_manager_vars.ajax_url);
     //console.log(rc_flight_manager_vars.nonce);
+
+    // Define some variables
     var ajaxurl = rc_flight_manager_vars.ajax_url;
     var nonce = rc_flight_manager_vars.security_nonce;
     var weekdays = [false, false, false, false, false, true, true];
-    //console.log( $ )	
-    //
 
     // Function called if any button with class "rcfm_takeover_btn" is called:
     $("#table_rc_flight_manager_schedule").on("click", ".rcfm_takeover_btn", (function() {
@@ -46,20 +47,27 @@
         console.log("schedule_id = " + schedule_id)
             //console.log("nonce = " + nonce)
 
-        var data = {
-            'action': 'button_takeover', // the name of your PHP function!
-            'security_nonce': nonce, // the security nonce
-            'schedule_id': schedule_id // a random value we'd like to pass
-        };
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            data: {
+                'action': 'button_takeover', // the name of your PHP function!
+                'security_nonce': nonce, // the security nonce
+                'schedule_id': schedule_id // a random value we'd like to pass
+            },
+            dataType: "JSON",
+            success: function(response) {
+                console.log(response.success)
+                console.log(response.message)
+                console.log(response.result)
+                if (response.success) {
+                    var receivingElement = "#table_row_schedule_id_" + schedule_id;
+                    console.log("receiving HTML Element: " + receivingElement);
+                    $(receivingElement).html(response.result);
 
-        $.post(ajaxurl, data, function(response) {
-            console.log("Response = " + response);
-            if (response == 'FALSE') {
-                alert("Failed to assign user to service!")
-            } else {
-                var receivingElement = "#table_row_schedule_id_" + schedule_id;
-                console.log("receiving HTML Element: " + receivingElement);
-                $(receivingElement).html(response);
+                } else {
+                    alert(response.message)
+                }
             }
         });
     }));
@@ -70,20 +78,26 @@
         var schedule_id = $(this).data("schedule_id");
         console.log("schedule_id = " + schedule_id)
 
-        var data = {
-            'action': 'button_delete', // the name of your PHP function!
-            'security_nonce': nonce, // the security nonce
-            'schedule_id': schedule_id // a random value we'd like to pass
-        };
-
-        $.post(ajaxurl, data, function(response) {
-            console.log("Response = " + response);
-            if (response == 'FALSE') {
-                alert("Failed to delete date!")
-            } else {
-                // Remove table row
-                var row = "#table_row_schedule_id_" + schedule_id;
-                $(row).html("");
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            data: {
+                'action': 'button_delete', // the name of your PHP function!
+                'security_nonce': nonce, // the security nonce
+                'schedule_id': schedule_id // a random value we'd like to pass
+            },
+            dataType: "JSON",
+            success: function(response) {
+                console.log(response.success)
+                console.log(response.message)
+                console.log(response.result)
+                if (response.success) {
+                    // Remove table row
+                    var row = "#table_row_schedule_id_" + schedule_id;
+                    $(row).html("");
+                } else {
+                    alert(response.message)
+                }
             }
         });
     }));
@@ -94,68 +108,83 @@
         var schedule_id = $(this).data("schedule_id");
         console.log("schedule_id = " + schedule_id)
 
-        var data = {
-            'action': 'button_update_comment', // the name of your PHP function!
-            'security_nonce': nonce, // the security nonce
-            'schedule_id': schedule_id // a random value we'd like to pass
-        };
-
-        $.post(ajaxurl, data, function(response) {
-            console.log("Response = " + response);
-            var receivingElement = "#modal-container";
-            console.log("receiving HTML Element: " + receivingElement);
-            $(receivingElement).html(response);
-            var modal = document.getElementById("update_comment_btn_modal");
-            modal.style.display = "block";
-            //	// When the user clicks on <span> (x), close the modal
-            $("#schedule").on("click", "span", (function() {
-                modal.style.display = "none";
-            }));
-            // When the user clicks on abort button, close the modal
-            $("#schedule").on("click", "#update_comment_btn_abort", (function() {
-                modal.style.display = "none";
-            }));
-            // When the user clicks anywhere outside of the modal, close it
-            $(window).on("click", (function() {
-                if (event.target == modal) {
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            data: {
+                'action': 'button_update_comment', // the name of your PHP function!
+                'security_nonce': nonce, // the security nonce
+                'schedule_id': schedule_id // a random value we'd like to pass
+            },
+            dataType: "JSON",
+            success: function(response) {
+                console.log(response.success)
+                console.log(response.message)
+                console.log(response.result)
+                var receivingElement = "#modal-container";
+                console.log("receiving HTML Element: " + receivingElement);
+                $(receivingElement).html(response.result);
+                var modal = document.getElementById("update_comment_btn_modal");
+                modal.style.display = "block";
+                //	// When the user clicks on <span> (x), close the modal
+                $("#schedule").on("click", "span", (function() {
                     modal.style.display = "none";
-                }
-            }));
-            //	// When the user clicks on ok button, run the AJAX request and close the model
-            $("#schedule").on("click", "#update_comment_btn_ok", (function() {
-                // Logging
-                console.log("update_comment_btn_ok clicked!");
-                console.log("schedule_id = " + schedule_id)
-                var comment = $('#addCommentField').val();
-                console.log("comment entered = " + comment)
-                    // Prepare AJAX request
-                var data = {
-                    'action': 'update_comment', // the name of your PHP function!
-                    'security_nonce': nonce, // the security nonce
-                    'schedule_id': schedule_id, // a random value we'd like to pass
-                    'comment': comment // a random value we'd like to pass
-                };
-                // Send AJAX request
-                $.post(ajaxurl, data, function(response) {
-                    console.log("Response = " + response);
-                    if (response == 'FALSE') {
-                        alert("Comment could not be saved!")
-                    } else {
-                        var receivingElement = "#table_row_schedule_id_" + schedule_id;
-                        console.log("receiving HTML Element: " + receivingElement);
-                        $(receivingElement).html(response);
+                }));
+                // When the user clicks on abort button, close the modal
+                $("#schedule").on("click", "#update_comment_btn_abort", (function() {
+                    modal.style.display = "none";
+                }));
+                // When the user clicks anywhere outside of the modal, close it
+                $(window).on("click", (function() {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
                     }
-                });
-                // Exit modal
-                modal.style.display = "none";
-                // Unbind event handler 
-                $("#schedule").off("click", "#update_comment_btn_ok");
-                // Empty modal-container
-                $("#modal-container").html("");
-            }));
+                }));
+                //	// When the user clicks on ok button, run the AJAX request and close the model
+                $("#schedule").on("click", "#update_comment_btn_ok", (function() {
+                    // Logging
+                    console.log("update_comment_btn_ok clicked!");
+                    console.log("schedule_id = " + schedule_id)
+                    var comment = $('#addCommentField').val();
+                    console.log("comment entered = " + comment)
+                        // Send AJAX request
+                    $.ajax({
+                        type: "POST",
+                        url: ajaxurl,
+                        data: {
+                            'action': 'update_comment', // the name of your PHP function!
+                            'security_nonce': nonce, // the security nonce
+                            'schedule_id': schedule_id, // a random value we'd like to pass
+                            'comment': comment // a random value we'd like to pass
+                        },
+                        dataType: "JSON",
+                        success: function(response) {
+                            console.log(response.success)
+                            console.log(response.message)
+                            console.log(response.result)
+                            if (response.success) {
+                                var receivingElement = "#table_row_schedule_id_" + schedule_id;
+                                console.log("receiving HTML Element: " + receivingElement);
+                                $(receivingElement).html(response.result);
+                            } else {
+                                alert(response.message)
+                            }
+                        }
+                    });
+                    // Exit modal
+                    modal.style.display = "none";
+                    // Unbind event handler 
+                    $("#schedule").off("click", "#update_comment_btn_ok");
+                    // Empty modal-container
+                    $("#modal-container").html("");
+                }));
+            }
         });
     }));
 
+    //
+    // TODO: IMPORTANT: Change to new AJAX call syntax and take data as JSON
+    //
     // Function called if any button with class "rcfm_assign_btn" is called:
     $("#table_rc_flight_manager_schedule").on("click", ".rcfm_assign_btn", (function() {
         console.log("rcfm_assign_btn clicked!");
@@ -207,8 +236,8 @@
                 // Send AJAX request
                 $.post(ajaxurl, data, function(response) {
                     console.log("Response = " + response);
-                    if (response == 'FALSE') {
-                        alert("Could not assign user!")
+                    if (response != 'OK') {
+                        alert(response)
                     } else {
                         var receivingElement = "#table_row_schedule_id_" + schedule_id;
                         console.log("receiving HTML Element: " + receivingElement);
@@ -290,8 +319,8 @@
                 // Send AJAX request
                 $.post(ajaxurl, data, function(response) {
                     console.log("Response = " + response);
-                    if (response == 'FALSE') {
-                        alert("Could not swap!")
+                    if (response != 'OK') {
+                        alert(response)
                     } else {
                         console.log("Response = " + response);
                         var responses = response.split(":SEP:", 2);
@@ -378,8 +407,8 @@
                 // Send AJAX request
                 $.post(ajaxurl, data, function(response) {
                     console.log("Response = " + response);
-                    if (response == 'FALSE') {
-                        alert("Could not handover!")
+                    if (response != 'OK') {
+                        alert(response)
                     } else {
                         console.log("Response = " + response);
                         var receivingElement = "#table_row_schedule_id_" + schedule_id;
@@ -414,8 +443,8 @@
         // Send AJAX request
         $.post(ajaxurl, data, function(response) {
             console.log("Response = " + response);
-            if (response == 'FALSE') {
-                alert("Failed to book flightslot!")
+            if (response != 'OK') {
+                alert(response)
             } else {
                 var receivingElement = "#table_row_reservation_id_" + reservation_id;
                 console.log("receiving HTML Element: " + receivingElement);
@@ -441,8 +470,8 @@
         // Send AJAX request
         $.post(ajaxurl, data, function(response) {
             console.log("Response = " + response);
-            if (response == 'FALSE') {
-                alert("Failed to cancel flightslot!")
+            if (response != 'OK') {
+                alert(response)
             } else {
                 var receivingElement = "#table_row_reservation_id_" + reservation_id;
                 console.log("receiving HTML Element: " + receivingElement);
@@ -501,8 +530,9 @@
                 console.log("Response = " + response);
                 if (response != 'OK') {
                     alert(response)
+                } else {
+                    location.reload();
                 }
-                location.reload();
             });
             modal.style.display = "none";
         }
@@ -590,8 +620,9 @@
                 console.log("Response = " + response);
                 if (response != "OK") {
                     alert(response)
+                } else {
+                    location.reload();
                 }
-                //location.reload();
             });
             modal.style.display = "none";
         }

@@ -421,11 +421,13 @@ class RC_Flight_Manager_Public {
 
 	function button_takeover() {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
-		do_action( 'qm/debug', 'botton_takeover() called!' );
-		
+		//do_action( 'qm/debug', 'botton_takeover() called!' );
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -443,21 +445,27 @@ class RC_Flight_Manager_Public {
 			$s->updateUser($current_user->ID, "No");
 
 			// return new table data
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}
 		else {
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Schedule ID must not be NULL!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_delete() {
-		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
-		
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -474,19 +482,28 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s->delete();
 		}
+		else {
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowd to delete schedules!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
+		}
 	
 	    // return new table data
-		echo '';
+		echo json_encode(array(	'success' => true, 
+								'message' => '',
+								'result'  => ''));
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_update_comment() {
-		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
-		
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -512,21 +529,31 @@ class RC_Flight_Manager_Public {
 			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '	</div>';
 			$modal .= '</div>';
-			echo $modal;
+			//echo $modal;
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $modal));
 		}
 		else {
-			echo '';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to update comments!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
-
+	###
+	# TODO: IMPORTANT: Pass response as JSON during all AJAX requests
+	###
 	function button_handover() {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -573,7 +600,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -607,7 +636,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -657,7 +688,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -705,7 +738,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -736,7 +771,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -775,7 +812,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -807,7 +846,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -835,7 +876,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -866,7 +909,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -874,13 +919,19 @@ class RC_Flight_Manager_Public {
 	    $schedule_id = $this->validate_rcfm_schedule_id($_POST["schedule_id"]);
 		$comment = sanitize_text_field($_POST["comment"]);
 
-		if (current_user_can( 'edit_posts' ) ) {
+		if (! current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 			$s->updateComment($comment);
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}	
 		else {
-			echo 'FALSE';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowd to update comments!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
 		}
 		
 	    // Return
@@ -891,7 +942,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
