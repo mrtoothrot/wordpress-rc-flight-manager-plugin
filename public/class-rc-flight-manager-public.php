@@ -310,50 +310,50 @@ class RC_Flight_Manager_Public {
 			// Display buttons
 
 			$content .= '<p align="left">';
-			$content .= '	<button id="add_date_btn">' . esc_html__('Add entry', 'rc-flight-manager') . '</button>';
-			$content .= '	<button id="add_date_range_btn">' . esc_html__('Add series of entries', 'rc-flight-manager') . '</button>';
+			$content .= '   <button id="add_date_btn">' . esc_html__('Add entry', 'rc-flight-manager') . '</button>';
+			$content .= '   <button id="add_date_range_btn">' . esc_html__('Add series of entries', 'rc-flight-manager') . '</button>';
 			$content .= '</p>';
 
 			// Defining the add_date_btn Modal
 			$content .= '<div id="add_date_btn_modal" class="modal">';
 			// Modal content
-			$content .= '	<div class="modal-content">';
-			$content .= '	<span class="close">&times;</span>';
-			$content .= '	<p align="center"><label for="addDateField">' . esc_html__('Select date', 'rc-flight-manager') . ':</label>'
+			$content .= '   <div class="modal-content">';
+			$content .= '   <span class="close">&times;</span>';
+			$content .= '   <p align="center"><label for="addDateField">' . esc_html__('Select date', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="date" id="addDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
 			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . esc_html__('Ok', 'rc-flight-manager') . '</button>';
 			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
-			$content .= '	</div>';
+			$content .= '   </div>';
 			$content .= '</div>';
 	
 			// Defining the add_date__range_btn Modal
 			$content .= '<div id="add_date_range_btn_modal" class="modal">';
 			// Modal content
-            $content .= '	<div class="modal-content">';
-			$content .= '	<span class="close">&times;</span>';
-            $content .= '	<p align="left">' . esc_html__('From when to when do you need flight manager services?', 'rc-flight-manager') . '<br><br>'
-			          . '	<label for="fromDateField">' . esc_html__('From:', 'rc-flight-manager') .'</label> <input type="date" id="fromDateField" name="date" min="' . date_i18n("Y-m-d") . '">'
-                      . '	<label for="toDateField">' . esc_html__('To:', 'rc-flight-manager') . '</label> <input type="date" id="toDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
-			$content .= '	<p>' . esc_html__('On which weekdays do you need flight manager services?', 'rc-flight-manager') . '</p>';
-			$content .= '	<p>'
-                      . '	<input type="checkbox" class="weekdayselect" id="0" name="monday" value="' . esc_html__('Monday', 'rc-flight-manager') . '">'
-                      . '	<label for="monday"> ' . esc_html__('Monday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="1" name="tuesday" value="' . esc_html__('Tuesday', 'rc-flight-manager') . '">'
-                      . '	<label for="tuesday"> ' . esc_html__('Tuesday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="2" name="wednesday" value="' . esc_html__('Wednesday', 'rc-flight-manager') . '">'
-                      . '	<label for="wednesday"> ' . esc_html__('Wednesday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="3" name="thursday" value="' . esc_html__('Thursday', 'rc-flight-manager') . '">'
-                      . '	<label for="thursday"> ' . esc_html__('Thursday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="4" name="friday" value="' . esc_html__('Friday', 'rc-flight-manager') . '">'
-                      . '	<label for="friday"> ' . esc_html__('Friday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="5" name="saturday" value="' . esc_html__('Saturday', 'rc-flight-manager') . '" checked>'
-                      . '	<label for="saturday"> ' . esc_html__('Saturday', 'rc-flight-manager') . '</label><br>'
-                      . '	<input type="checkbox" class="weekdayselect" id="6" name="sunday" value="' . esc_html__('Sunday', 'rc-flight-manager') . '" checked>'
-                      . '	<label for="sunday"> ' . esc_html__('Sunday', 'rc-flight-manager') . '</label><br>'
-					  . '	</p>';
-            $content .= '	<p align="center"><button type="button" id="add_date_range_btn_ok" class="modal_ok">'. esc_html__('Ok', 'rc-flight-manager') .'</button>';
-			$content .= '	<button type="button" id="add_date_range_btn_abort" class="modal_abort">'. esc_html__('Cancel', 'rc-flight-manager') .'</button></p>';
-            $content .= '	</div>';
+            $content .= '   <div class="modal-content">';
+			$content .= '   <span class="close">&times;</span>';
+            $content .= '   <p align="left">' . esc_html__('From when to when do you need flight manager services?', 'rc-flight-manager') . '<br><br>'
+			          . '   <label for="fromDateField">' . esc_html__('From:', 'rc-flight-manager') .'</label> <input type="date" id="fromDateField" name="date" min="' . date_i18n("Y-m-d") . '">'
+                      . '   <label for="toDateField">' . esc_html__('To:', 'rc-flight-manager') . '</label> <input type="date" id="toDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
+			$content .= '   <p>' . esc_html__('On which weekdays do you need flight manager services?', 'rc-flight-manager') . '</p>';
+			$content .= '   <p>'
+                      . '   <input type="checkbox" class="weekdayselect" id="0" name="monday" value="' . esc_html__('Monday', 'rc-flight-manager') . '">'
+                      . '   <label for="monday"> ' . esc_html__('Monday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="1" name="tuesday" value="' . esc_html__('Tuesday', 'rc-flight-manager') . '">'
+                      . '   <label for="tuesday"> ' . esc_html__('Tuesday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="2" name="wednesday" value="' . esc_html__('Wednesday', 'rc-flight-manager') . '">'
+                      . '   <label for="wednesday"> ' . esc_html__('Wednesday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="3" name="thursday" value="' . esc_html__('Thursday', 'rc-flight-manager') . '">'
+                      . '   <label for="thursday"> ' . esc_html__('Thursday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="4" name="friday" value="' . esc_html__('Friday', 'rc-flight-manager') . '">'
+                      . '   <label for="friday"> ' . esc_html__('Friday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="5" name="saturday" value="' . esc_html__('Saturday', 'rc-flight-manager') . '" checked>'
+                      . '   <label for="saturday"> ' . esc_html__('Saturday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="6" name="sunday" value="' . esc_html__('Sunday', 'rc-flight-manager') . '" checked>'
+                      . '   <label for="sunday"> ' . esc_html__('Sunday', 'rc-flight-manager') . '</label><br>'
+					  . '   </p>';
+            $content .= '   <p align="center"><button type="button" id="add_date_range_btn_ok" class="modal_ok">'. esc_html__('Ok', 'rc-flight-manager') .'</button>';
+			$content .= '   <button type="button" id="add_date_range_btn_abort" class="modal_abort">'. esc_html__('Cancel', 'rc-flight-manager') .'</button></p>';
+            $content .= '   </div>';
 			$content .= '</div>';
 		}
 
