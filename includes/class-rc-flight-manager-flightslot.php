@@ -185,17 +185,17 @@ class RC_Flight_Manager_Flightslot {
         
         // Preparation
         $no_of_reservations = count($this->bookings);
-        if ($no_of_reservations == 0) { # white
-            $background_color = "#ffffff";
+        if ($no_of_reservations == 0) {
+            $class = "";
         }
         elseif ($no_of_reservations < $options['reservation_yellow_limit_field']) { # green
-            $background_color = "#beffbd";
+            $class = "rcfm-limit-color-green";
         }
         elseif ($no_of_reservations < $options['reservation_red_limit_field']) { # yellow
-            $background_color = "#fcffbd";
+            $class = "rcfm-limit-color-yellow";
         }
         elseif ($no_of_reservations >= $options['reservation_red_limit_field']) { # red
-            $background_color = "#ffbdbd";
+            $class = "rcfm-limit-color-red";
         }
 
         $time = date_i18n("H:i", strtotime($this->time));
@@ -220,23 +220,14 @@ class RC_Flight_Manager_Flightslot {
             $userObj = get_userdata($this->bookings[$x]);
             if ($userObj) {
                 if ($this->bookings[$x] == $current_user->ID){
-                    $bookings .= "<p align='left' style='color:#ff0000'>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</p>";
+                    $bookings .= "<p align='left' class='rcfm-highlighted-user'>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</p>";
                 }
                 else {
                     $bookings .= "<p align='left'>" . esc_html( $userObj->user_firstname ) . " " . esc_html( $userObj->user_lastname ) . "</p>";
                 }
             }
         }
-        $row .= "<td style='background-color:${background_color}'>" . $bookings . "</td>";
-        //if ($this->user_id == $current_user->ID) {
-        //    // Own name highlighted in red
-        //    $row .= '<td style="color:#ff0000">' . $name . '</td>';
-        //}
-        //else
-        //{
-        //    // All other names in default color
-        //    $row .= '<td>' . $name . '</td>';
-        //}
+        $row .= "<td class='${class}'>" . $bookings . "</td>";
         
         // Button collumn
         $no_of_reservations = count($this->bookings);

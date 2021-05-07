@@ -131,20 +131,14 @@ class RC_Flight_Manager_Schedule {
             return($wpdb->insert_id);
         }
         else {
-            throw new Exception("$date already exists!");
+            throw new Exception($date . esc_html__(' already exists!', 'rc-flight-manager'));
             return(NULL);
         }
     }
-    # TODO Implement addServiceDateRange function!
+
+
     public static function addServiceDateRange($fromdate, $todate, $weekdays) {
         $results = array();
-        #$results = array("eins", "zwei");
-        #return($results);
-        #echo "From: " . $fromdate . "\n";
-        #echo "To: " . $todate . "\n";
-        #echo "Days: ";
-        #var_dump($weekdays);
-        #echo "Calculating service dates...\n";
         try {
             #$begin = date_i18n("Y-m-d", strtotime($fromdate));
             $begin = new DateTime($fromdate);
@@ -152,7 +146,7 @@ class RC_Flight_Manager_Schedule {
             #$end = date_i18n("Y-m-d", strtotime($todate));
         }
         catch(Exception $e) {
-            $results[] = "Invalid time range!";
+            $results[] = esc_html__('Invalid time range!', 'rc-flight-manager');
             return($results);
         }
         $interval = DateInterval::createFromDateString('1 day');
@@ -160,11 +154,7 @@ class RC_Flight_Manager_Schedule {
     
         
         foreach ($period as $date) {
-            #$results[] = $date->format("l N Y-m-d");
             $wd = $date->format("N") - 1;
-            #$results[] = $wd;
-            #$results[] = $weekdays[$wd];
-            #echo "$wd";
             if ($weekdays[$wd] === true) {
                 #$results[] = "HIT";
                 try {
@@ -302,7 +292,7 @@ class RC_Flight_Manager_Schedule {
         // 2. Flight Manager field
 		if ($this->user_id == $current_user->ID) {
             // Own name highlighted in red
-            $row .= '<td style="color:#ff0000">' 
+            $row .= '<td class="rcfm-highlighted-user">' 
                   . '<p>' . $name . '</p>'
                   . '</td>';
         }
@@ -369,8 +359,8 @@ class RC_Flight_Manager_Schedule {
         if (count($buttons) == 0) { // Don't show a dropdown if user is not allowed to do anything
             return('');
         }
-        //elseif (count($buttons) == 1) { // Directly display respective button if only one is possible
-            // TODO: IMPLEMENT LATER
+        //elseif (count($buttons) == 1) { 
+            // TODO: IMPLEMENT LATER: Directly display respective button if only one is possible
             //$button = '<button id="' . 'takeover_btn_' . $this->schedule_id . '" class="dropbtn" data-schedule_id="' . $this->schedule_id . '">' . esc_html__('Test', //'rc-flight-manager') . '</button>';
             //return($button);
         //}

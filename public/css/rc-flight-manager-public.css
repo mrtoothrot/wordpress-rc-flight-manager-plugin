@@ -3,40 +3,77 @@
  * included in this file.
  */
 
+
 /**
  * Table row for current date
  */
+
 tr.rcfm-service-today {
-	/** background-color: #00d9ffa1; **/
-	border: 2px solid #5388b4;
+    /** background-color: #00d9ffa1; **/
+    border: 2px solid #5388b4;
 }
+
 
 /**
  * Event label
  */
+
 p.rcfm-event-label {
-	background-color: #fbff00da;
-	color: #000000;
-	text-align: center;
-	font-weight: bold;
-	border-radius: 20px;
-	padding:2px;
-	width:120px;
-	margin:auto;
+    background-color: #fbff00da;
+    color: #000000;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 2px;
+    width: 120px;
+    margin: auto;
 }
+
 
 /**
  * RC Flight Manager Widget
  */
- p.rcfm-widget {
 
-	color:#5388b4;
-	font-weight: bold;
-
+p.rcfm-widget {
+    color: #5388b4;
+    font-weight: bold;
 }
 
- .hidden { display: none; }
- 
+
+/**
+ * RCFM table elements
+ */
+
+th.rcfm-table-headers {
+    background-color: #5388b4;
+    color: #ffffff;
+}
+
+td.rcfm-highlighted-user,
+p.rcfm-highlighted-user {
+    color: #ff0000;
+}
+
+td.rcfm-limit-color-red {
+    background-color: #ffbdbd;
+}
+
+td.rcfm-limit-color-yellow {
+    background-color: #fcffbd;
+}
+
+td.rcfm-limit-color-green {
+    background-color: #beffbd;
+}
+
+div.rcfm-table-header-date {
+    font-weight: normal
+}
+
+.hidden {
+    display: none;
+}
+
 button:disabled {
     background-color: grey
 }
@@ -44,112 +81,149 @@ button:disabled {
 .button_takeover_schedule,
 .button_handover_schedule,
 .button_assign_schedule,
-.button_swap_schedule
-{
-	display: inline-block;
+.button_swap_schedule {
+    display: inline-block;
     /**display: inline-table;**/
-	margin-bottom: 2px;
-	width: 40%;
+    margin-bottom: 2px;
+    width: 40%;
 }
 
 .ok_button,
-.abort_button
- {
-	display: inline-block;
+.abort_button {
+    display: inline-block;
     /**display: inline-table;**/
-	margin-bottom: 0px;
-	width: 40%;
+    margin-bottom: 0px;
+    width: 40%;
 }
+
 
 /* ***************************
 /* The Modal (background) */
+
 .modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0,0,0); /* Fallback color */
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-  
-/* Modal Content */
-.modal-content {
-	background-color: #fefefe;
-	margin: auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 30%;
-}
-  
-/* The Close Button */
-.close {
-	color: #aaaaaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-}
-  
-.close:hover,
-.close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+
+/* The Close Button */
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 /* END The Modal (background) */
+
+
 /* ***************************
 
 /* *********************
 /* Dropdown Button */
+
 .dropbtn {
-	background-color: #3498DB;
-	color: white;
-	/*padding: 16px;*/
-	font-size: 16px;
-	border: none;
-	cursor: pointer;
-	margin-bottom: 0;
+    background-color: #3498DB;
+    color: white;
+    /*padding: 16px;*/
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0;
 }
-  
+
+
 /* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-	background-color: #2980B9;
+
+.dropbtn:hover,
+.dropbtn:focus {
+    background-color: #2980B9;
 }
-  
+
+
 /* The container <div> - needed to position the dropdown content */
+
 .dropdown {
-	position: relative;
-	display: inline-block;
+    position: relative;
+    display: inline-block;
 }
-  
+
+
 /* Dropdown Content (Hidden by Default) */
+
 .dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f1f1f1;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
-  
+
+
 /* Links inside the dropdown */
+
 .dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
-  
+
+
 /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd}
-  
+
+.dropdown-content a:hover {
+    background-color: #ddd
+}
+
+
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-  .show {display:block;}
+
+.show {
+    display: block;
+}
+
 
 /* END Dropdown Button */
+
+
 /* *********************
