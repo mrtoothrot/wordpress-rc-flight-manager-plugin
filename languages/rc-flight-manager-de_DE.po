@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-05-07 18:42+0200\n"
+"POT-Creation-Date: 2021-05-07 18:53+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mr Toothrot <mrtoothrot@gmail.com>\n"
 "Language-Team: \n"
@@ -381,34 +381,3 @@ msgstr "https://github.com/mrtoothrot"
 #: rc-flight-manager.php:32
 msgid "A Flight Manager Scheduling System for Modell Airfield Clubs"
 msgstr "Ein Buchungssystem für Flugleiter-Dienste auf Modellfluggeländen"
-
-#~ msgid "Add date"
-#~ msgstr "Datum hinzufügen"
-
-#, fuzzy
-#~| msgid "Add date"
-#~ msgid "Add date range"
-#~ msgstr "Datum hinzufügen"
-
-#, fuzzy
-#~| msgid "No flight manager service available!"
-#~ msgid "No flight manager available!"
-#~ msgstr "Kein Flugleiter vor Ort!"
-
-#~ msgid "Time"
-#~ msgstr "Zeit"
-
-#~ msgid "Bookings"
-#~ msgstr "Reservierungen"
-
-#~ msgid "Date"
-#~ msgstr "Datum"
-
-#~ msgid "Assigned Flight-Manager"
-#~ msgstr "Eingeteilter Flugleiter"
-
-#~ msgid "Nobody assigned!"
-#~ msgstr "Niemand eingeteilt!"
-
-#~ msgid "Notification E-Mail subject"
-#~ msgstr "Betreff der Erinnerungs-E-Mail"
