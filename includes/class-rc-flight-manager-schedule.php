@@ -139,17 +139,20 @@ class RC_Flight_Manager_Schedule {
 
     public static function addServiceDateRange($fromdate, $todate, $weekdays) {
         $results = array();
+        $interval = DateInterval::createFromDateString('1 day');
         try {
             #$begin = date_i18n("Y-m-d", strtotime($fromdate));
             $begin = new DateTime($fromdate);
             $end = new DateTime($todate);
+            // Add one day to $end, to make end date inclusive
+            $end->add($interval);
             #$end = date_i18n("Y-m-d", strtotime($todate));
         }
         catch(Exception $e) {
             $results[] = esc_html__('Invalid time range!', 'rc-flight-manager');
             return($results);
         }
-        $interval = DateInterval::createFromDateString('1 day');
+        
         $period = new DatePeriod($begin, $interval, $end);
     
         
