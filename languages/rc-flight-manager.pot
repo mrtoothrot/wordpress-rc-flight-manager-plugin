@@ -1,8 +1,7 @@
-# TODO !!! Update German translation before checkin to Wordpress Subversion Repository!!!
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-05-07 19:41+0200\n"
+"POT-Creation-Date: 2021-05-08 10:47+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mr Toothrot <mrtoothrot@gmail.com>\n"
 "Language-Team: \n"
@@ -119,35 +118,35 @@ msgstr ""
 msgid " already exists!"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:149
+#: includes/class-rc-flight-manager-schedule.php:152
 msgid "Invalid time range!"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:322
+#: includes/class-rc-flight-manager-schedule.php:325
 msgid "Assign to me"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:329
+#: includes/class-rc-flight-manager-schedule.php:332
 msgid "Swap duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:335
+#: includes/class-rc-flight-manager-schedule.php:338
 msgid "Handover duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:343
+#: includes/class-rc-flight-manager-schedule.php:346
 msgid "Assign duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:349
+#: includes/class-rc-flight-manager-schedule.php:352
 msgid "Update label"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:355
+#: includes/class-rc-flight-manager-schedule.php:358
 msgid "Delete Date"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:373
+#: includes/class-rc-flight-manager-schedule.php:376
 msgid "Change"
 msgstr ""
 
