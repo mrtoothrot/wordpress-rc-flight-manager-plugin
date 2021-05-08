@@ -674,6 +674,7 @@
                         location.reload();
                     } else {
                         alert(response.message)
+                        location.reload();
                     }
                 }
             });
