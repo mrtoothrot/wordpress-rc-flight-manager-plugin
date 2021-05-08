@@ -17,6 +17,8 @@ Wordpress plugin implementing a Flight Manager Scheduling System for Modell Airf
 
 ## Description ##
 
+Link zur deutschen Version: [LIESMICH](https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin/blob/main/LIESMICH.md)
+
 RC Flight Manager provides an online roster for flight manager duties on you model club website.
 
 Modell airfields need to have a flight manager onsite while the pilots are flying their model aircrafts. Normally one club member is the assigned flight manager for the day and has to take care that the local air safety regulations are obeyed by the pilots.
@@ -64,7 +66,7 @@ Club Members (Wordpress Subscribers) can
 
 * book multiple flightslots for a day
 
-Administrators (Wordpress Administrators) can 
+Administrators (Wordpress Administrators) can
 
 * configure how many pilots are allowed on the field at the same time
 
@@ -109,16 +111,24 @@ None yet
 ## Screenshots ##
 
 1. Flight Manager roster - `/assets/screenshot-1.png`
-2. Members can swap duties between each other - `/assets/screenshot-2.png`
-3. Other members can be assigned to a duty - `/assets/screenshot-3.png`
-4. Flightslot reservation table - `/assets/screenshot-4.png`
+1. Members can swap duties between each other - `/assets/screenshot-2.png`
+1. Other members can be assigned to a duty - `/assets/screenshot-3.png`
+1. Flightslot reservation table - `/assets/screenshot-4.png`
+1. Adding new date entries - `/assets/screenshot-5.png`
+1. Adding a series of date entries - `/assets/screenshot-6.png`
 
 ## Changelog ##
 
 ### 1.0 ###
 
+* New entries can be added by administrators
+* Series of date entries can be added by administrators
+* Hard-coded style definitions moved to CSS file
+* Updated translation template file and german translation
 * Updated readme.txt
-* Provided liesmich.txt
+* Added liesmich.txt
+* Better error handling
+* Security improvements
 
 ### 0.9 ###
 

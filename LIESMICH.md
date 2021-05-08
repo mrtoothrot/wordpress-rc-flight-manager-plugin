@@ -6,7 +6,7 @@
 * Requires at least: 5.7.0
 * Tested up to: 5.7.0
 * Requires PHP: 7.4
-* Stable tag: 0.9.0
+* Stable tag: 1.0.0
 * Text Domain: rc-flight-manager
 * Domain Path: /languages
 * Plugin URI: <https://wordpress.org/plugins/rc-flight-manager>
@@ -16,6 +16,8 @@
 Wordpress Plugin: Buchungssystem für Flugleiterdienste auf Modellflugplätzen
 
 ## Beschreibung ##
+
+Link to english version: [README](https://github.com/mrtoothrot/wordpress-rc-flight-manager-plugin/blob/main/README.md)
 
 RC Flight Manager ist ein Online Dienstplan für Flugleiter-Dienste auf Modellflugplätzen.
 
@@ -109,16 +111,24 @@ Noch keine
 ## Screenshots ##
 
 1. Flugleiter Dienstplan - `/assets/screenshot-1.png`
-2. Mitglieder können Dienste miteinander tauschen - `/assets/screenshot-2.png`
-3. Mitglieder können für Dienste eingeteilt werden - `/assets/screenshot-3.png`
-4. Flugzeiten Buchungssystem - `/assets/screenshot-4.png`
+1. Mitglieder können Dienste miteinander tauschen - `/assets/screenshot-2.png`
+1. Mitglieder können für Dienste eingeteilt werden - `/assets/screenshot-3.png`
+1. Flugzeiten Buchungssystem - `/assets/screenshot-4.png`
+1. Neue Termine hinzufügen - `/assets/screenshot-5.png`
+1. Eine Terminserie hinzufügen  - `/assets/screenshot-6.png`
 
 ## Changelog ##
 
 ### 1.0 ###
 
-* Updated readme.txt
-* Provided liesmich.txt
+* Administratoren können neue Termine hinzufügen
+* Administratoren können neue Terminserien hinzufügen
+* Hard-coded Style-Definitionen nach CSS verschoben
+* Übersetzungs-Template und deutsche Übersetzung aktualisiert
+* Aktualisierte readme.txt
+* liesmich.txt hinzugefügt
+* Bessere Fehlerbehandlung
+* Sicherheitsverbesserungen
 
 ### 0.9 ###
 
