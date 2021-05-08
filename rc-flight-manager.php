@@ -15,7 +15,7 @@
  * Plugin Name:       RC Flight Manager
  * Plugin URI:        https://wordpress.org/plugins/rc-flight-manager
  * Description:       A Flight Manager Scheduling System for Modell Airfield Clubs
- * Version:           1.0.0 #TODO !!! Check Version number before checkin to Wordpress Subversion Repository!!!
+ * Version:           1.0.0
  * Author:            Mr Toothrot
  * Author URI:        https://github.com/mrtoothrot
  * License:           GPL-2.0+
