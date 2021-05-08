@@ -106,7 +106,14 @@ Just point your browser to the URL of the wordpress page/post where you have pla
 
 ## Frequently Asked Questions ##
 
-None yet
+**Some of the buttons are not translated into my language. How can I fix this?**
+
+Wordpress seems to cache the translation files and might not update them correctly during a plugin update. Open the `[wp-content\languages\plugins\]` folder of your Wordpress installation and delete the following files:
+
+* rc-flight-manager-de_DE.po
+* rc-flight-manager-de_DE.mo
+
+The new tranlation files should be loaded on the next refresh of the page.
 
 ## Screenshots ##
 

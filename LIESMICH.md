@@ -106,7 +106,14 @@ Einfach mit dem Browser die Seite aufrufen, auf der Du den shortcode platziert h
 
 ## Häufig gestellte Fragen ##
 
-Noch keine
+**Manche Buttons werden nicht korrekt in meine Sprache übersetzt. Wie kann ich das beheben?**
+
+Wordpress scheint die Übersetzungen zu cachen und bei einem Plugin Update manchmal nicht korrekt zu aktualisieren. Öffne den Ordner `[wp-content\languages\plugins\]` deiner Wordpress Installation und lösche folgende Dateien:
+
+* rc-flight-manager-de_DE.po
+* rc-flight-manager-de_DE.mo
+
+Beim nächsten Refresh der Seite sollten die neuen Übersetzungsdateien geladen werden.
 
 ## Screenshots ##
 
