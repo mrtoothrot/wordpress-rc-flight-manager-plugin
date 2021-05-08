@@ -234,7 +234,7 @@ class RC_Flight_Manager_Public {
 			if ($s->date != $lastDay) {
 				$headline_date = date_i18n("l, d. F", strtotime("$s->date"));
 				$row .= "<tr>";
-				$row .= "<th style=\"background-color: #5388b4; color: #ffffff\" colspan=\"3\">$headline_date</th>"; // TODO:  Better format using Theme CSS later
+				$row .= "<th class=\"rcfm-table-headers\" colspan=\"3\">$headline_date</th>";
 				$row .= "</tr>";
 				//$row .= $header;
 			}
@@ -307,18 +307,53 @@ class RC_Flight_Manager_Public {
 
 	    // Preparing the function buttons on top of the table
 		if (current_user_can( 'edit_posts' ) ) {
-			$content .= '<p align="left"><button id="add_date_btn">' . esc_html__('Add date', 'rc-flight-manager') . '</button></p>';
+			// Display buttons
+
+			$content .= '<p align="left">';
+			$content .= '   <button id="add_date_btn">' . esc_html__('Add entry', 'rc-flight-manager') . '</button>';
+			$content .= '   <button id="add_date_range_btn">' . esc_html__('Add series of entries', 'rc-flight-manager') . '</button>';
+			$content .= '</p>';
 
 			// Defining the add_date_btn Modal
 			$content .= '<div id="add_date_btn_modal" class="modal">';
 			// Modal content
-			$content .= '	<div class="modal-content">';
-			$content .= '	<span class="close">&times;</span>';
-			$content .= '	<p align="center"><label for="addDateField">' . esc_html__('Select date', 'rc-flight-manager') . ':</label>'
+			$content .= '   <div class="modal-content">';
+			$content .= '   <span class="close">&times;</span>';
+			$content .= '   <p align="center"><label for="addDateField">' . esc_html__('Select date', 'rc-flight-manager') . ':</label>'
 			          . '   <input type="date" id="addDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
 			$content .= '   <p align="center"><button type="button" id="add_date_btn_ok" class="modal_ok">' . esc_html__('Ok', 'rc-flight-manager') . '</button>';
 			$content .= '   <button type="button" id="add_date_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
-			$content .= '	</div>';
+			$content .= '   </div>';
+			$content .= '</div>';
+	
+			// Defining the add_date__range_btn Modal
+			$content .= '<div id="add_date_range_btn_modal" class="modal">';
+			// Modal content
+            $content .= '   <div class="modal-content">';
+			$content .= '   <span class="close">&times;</span>';
+            $content .= '   <p align="left">' . esc_html__('From when to when do you need flight manager services?', 'rc-flight-manager') . '<br><br>'
+			          . '   <label for="fromDateField">' . esc_html__('From:', 'rc-flight-manager') .'</label> <input type="date" id="fromDateField" name="date" min="' . date_i18n("Y-m-d") . '">'
+                      . '   <label for="toDateField">' . esc_html__('To:', 'rc-flight-manager') . '</label> <input type="date" id="toDateField" name="date" min="' . date_i18n("Y-m-d") . '"></p>';
+			$content .= '   <p>' . esc_html__('On which weekdays do you need flight manager services?', 'rc-flight-manager') . '</p>';
+			$content .= '   <p>'
+                      . '   <input type="checkbox" class="weekdayselect" id="0" name="monday" value="' . esc_html__('Monday', 'rc-flight-manager') . '">'
+                      . '   <label for="monday"> ' . esc_html__('Monday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="1" name="tuesday" value="' . esc_html__('Tuesday', 'rc-flight-manager') . '">'
+                      . '   <label for="tuesday"> ' . esc_html__('Tuesday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="2" name="wednesday" value="' . esc_html__('Wednesday', 'rc-flight-manager') . '">'
+                      . '   <label for="wednesday"> ' . esc_html__('Wednesday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="3" name="thursday" value="' . esc_html__('Thursday', 'rc-flight-manager') . '">'
+                      . '   <label for="thursday"> ' . esc_html__('Thursday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="4" name="friday" value="' . esc_html__('Friday', 'rc-flight-manager') . '">'
+                      . '   <label for="friday"> ' . esc_html__('Friday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="5" name="saturday" value="' . esc_html__('Saturday', 'rc-flight-manager') . '" checked>'
+                      . '   <label for="saturday"> ' . esc_html__('Saturday', 'rc-flight-manager') . '</label><br>'
+                      . '   <input type="checkbox" class="weekdayselect" id="6" name="sunday" value="' . esc_html__('Sunday', 'rc-flight-manager') . '" checked>'
+                      . '   <label for="sunday"> ' . esc_html__('Sunday', 'rc-flight-manager') . '</label><br>'
+					  . '   </p>';
+            $content .= '   <p align="center"><button type="button" id="add_date_range_btn_ok" class="modal_ok">'. esc_html__('Ok', 'rc-flight-manager') .'</button>';
+			$content .= '   <button type="button" id="add_date_range_btn_abort" class="modal_abort">'. esc_html__('Cancel', 'rc-flight-manager') .'</button></p>';
+            $content .= '   </div>';
 			$content .= '</div>';
 		}
 
@@ -344,8 +379,8 @@ class RC_Flight_Manager_Public {
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= '<tr>';
-				$row .= '<th style="background-color: #5388b4; color: #ffffff" colspan="3"><div align="center">' . $currentMonth. '</div>' 
-				      . '<div align="right" style="font-weight: normal">' . esc_html__('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>'; // TODO:  Better format using Theme CSS later
+				$row .= '<th class="rcfm-table-headers" colspan="3"><div align="center">' . $currentMonth. '</div>' 
+				      . '<div class="rcfm-table-header-date" align="right">' . esc_html__('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>';
 				$row .= '</tr>';
 				//$row .= $header;
 			}
@@ -386,11 +421,13 @@ class RC_Flight_Manager_Public {
 
 	function button_takeover() {
 		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
-		do_action( 'qm/debug', 'botton_takeover() called!' );
-		
+		//do_action( 'qm/debug', 'botton_takeover() called!' );
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -408,21 +445,27 @@ class RC_Flight_Manager_Public {
 			$s->updateUser($current_user->ID, "No");
 
 			// return new table data
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}
 		else {
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Schedule ID must not be NULL!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_delete() {
-		//error_log("RC_Flight_Manager_Public :: button_takeover called!");
-		
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -439,19 +482,28 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s->delete();
 		}
+		else {
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to delete schedules!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
+		}
 	
 	    // return new table data
-		echo '';
+		echo json_encode(array(	'success' => true, 
+								'message' => '',
+								'result'  => ''));
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
 	function button_update_comment() {
-		//error_log("RC_Flight_Manager_Public :: button_update_comment called!");
-		
+
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -477,21 +529,30 @@ class RC_Flight_Manager_Public {
 			$modal .= '   <button type="button" id="update_comment_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '	</div>';
 			$modal .= '</div>';
-			echo $modal;
+			//echo $modal;
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $modal));
 		}
 		else {
-			echo '';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to update comments!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
+
 
 	function button_handover() {
 		//error_log("RC_Flight_Manager_Public :: button_handover called!");
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -528,7 +589,10 @@ class RC_Flight_Manager_Public {
 		$modal .= '      <button type="button" id="handover_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 		$modal .= '   </div>';
 		$modal .= '</div>';
-		echo $modal;
+		//echo $modal;
+		echo json_encode(array(	'success' => true, 
+								'message' => '',
+								'result'  => $modal));
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -538,7 +602,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -557,12 +623,16 @@ class RC_Flight_Manager_Public {
 			$s->updateUser($new_user_id);
 			
 			// return new table data
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}
 		else {
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Schedule or user ID does not exist!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
-   		
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
 
@@ -572,7 +642,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -608,10 +680,15 @@ class RC_Flight_Manager_Public {
 			$modal .= '      <button type="button" id="assign_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '   </div>';
 			$modal .= '</div>';
-			echo $modal;
+			//echo $modal;
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $modal));
 		}
 		else {
-			echo '';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to assign users!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
@@ -622,7 +699,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -660,7 +739,9 @@ class RC_Flight_Manager_Public {
 		$modal .= '      <button type="button" id="swap_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 		$modal .= '   </div>';
 		$modal .= '</div>';
-		echo $modal;
+		echo json_encode(array(	'success' => true, 
+								'message' => '',
+								'result'  => $modal));
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -670,7 +751,9 @@ class RC_Flight_Manager_Public {
 		
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -690,9 +773,12 @@ class RC_Flight_Manager_Public {
 		$s2->updateUser($temp);
 	
 	    // return new table data
-		echo $s->getTableData();
-		echo ":SEP:";
-		echo $s2->getTableData();
+		echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData() . ":SEP:" . $s2->getTableData()));
+		//echo $s->getTableData();
+		//echo ":SEP:";
+		//echo $s2->getTableData();
 
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -701,7 +787,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -716,9 +804,11 @@ class RC_Flight_Manager_Public {
 			$slot = RC_Flight_Manager_Flightslot::get_flightslot($reservation_id);
 			$arrlength = count($slot->bookings);
 			if ($arrlength >= $options['reservation_red_limit_field'])  {
-				do_action( "qm/error", "Max reservations reached!" );
 				// Return existing table data
-				echo $slot->getTableData();
+				//echo $slot->getTableData();
+				echo json_encode(array(	'success' => false, 
+										'message' => esc_html__('Max number of reservations reached!', 'rc-flight-manager'),
+										'result'  => $slot->getTableData()));
 			}
 
 		    // Get current Wordpress User
@@ -728,10 +818,16 @@ class RC_Flight_Manager_Public {
 		    $slot->book($current_user->ID);
 
 		    // return new table data
-			echo $slot->getTableData();
+			//echo $slot->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $slot->getTableData()));
+
 		}
 		else {
-			echo 'FALSE';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Reservation id does not exist!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	    wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -740,7 +836,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -758,11 +856,16 @@ class RC_Flight_Manager_Public {
 	    	$slot->cancel($current_user->ID);
 
 	    	// return new table data
-			echo $slot->getTableData();
-			//echo "Test";// ${reservation_id}";
+			//echo $slot->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $slot->getTableData()));
+			
 		}
 		else {
-			echo 'FALSE';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Reservation id does not exist!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	
 	    wp_die(); // this is required to terminate immediately and return a proper response
@@ -772,7 +875,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -780,12 +885,65 @@ class RC_Flight_Manager_Public {
 	    $date = sanitize_text_field($_POST["date"]);
 
 		if (current_user_can( 'edit_posts' ) ) {
-			if (!RC_Flight_Manager_Schedule::addServiceDate($date)) {
-				echo "FALSE";
+			try {
+				RC_Flight_Manager_Schedule::addServiceDate($date);
+			}
+			catch(Exception $e) {
+				//echo $e->getMessage();
+				echo json_encode(array(	'success' => false, 
+									'message' => $e->getMessage(),
+									'result'  => ''));
+				wp_die(); // this is required to terminate immediately and return a proper response
+			}
+			//echo "OK";
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => ''));
+		}
+		else {
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to add schedule dates!', 'rc-flight-manager'),
+									'result'  => ''));
+		}
+	    // Return
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+	function add_schedule_date_range() {
+
+		// Security nonce check
+		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();	  
+		}
+
+		// Read ID from HTTP request
+	    $fromdate = sanitize_text_field($_POST["fromdate"]);
+		$todate = sanitize_text_field($_POST["todate"]);
+		$weekdays = $this->validate_rcfm_weekday_array($_POST["weekdays"]);
+
+		if (current_user_can( 'edit_posts' ) ) {
+			$results = RC_Flight_Manager_Schedule::addServiceDateRange($fromdate, $todate, $weekdays);
+			if (empty($results)) {
+				echo json_encode(array(	'success' => true, 
+										'message' => '',
+										'result'  => ''));
 			}
 			else {
-				echo "TRUE";
+				//foreach($results as $r){
+				//	echo "$r\n";
+				//}
+				echo json_encode(array(	'success' => false, 
+										'message' => $results,
+										'result'  => ''));
 			}
+		}
+		else {
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to add schedule date ranges!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 	    // Return
 		wp_die(); // this is required to terminate immediately and return a proper response
@@ -795,7 +953,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -806,10 +966,16 @@ class RC_Flight_Manager_Public {
 		if (current_user_can( 'edit_posts' ) ) {
 			$s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
 			$s->updateComment($comment);
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}	
 		else {
-			echo 'FALSE';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to update comments!', 'rc-flight-manager'),
+									'result'  => ''));
+			wp_die();
 		}
 		
 	    // Return
@@ -820,7 +986,9 @@ class RC_Flight_Manager_Public {
 
 		// Security nonce check
 		if ( ! check_ajax_referer( 'rcfm-security-nonce', 'security_nonce', false ) ) {	
-			echo "FALSE";
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('Security check failed (rcfm-security-nonce)!', 'rc-flight-manager'),
+									'result'  => ''));
 			wp_die();	  
 		}
 
@@ -836,10 +1004,15 @@ class RC_Flight_Manager_Public {
 			else {
 				$s->updateUser($user_id, "Yes");
 			}
-			echo $s->getTableData();
+			//echo $s->getTableData();
+			echo json_encode(array(	'success' => true, 
+									'message' => '',
+									'result'  => $s->getTableData()));
 		}	
 		else {
-			echo 'FALSE';
+			echo json_encode(array(	'success' => false, 
+									'message' => esc_html__('You are not allowed to assign users!', 'rc-flight-manager'),
+									'result'  => ''));
 		}
 		
 	    // Return
@@ -903,6 +1076,27 @@ class RC_Flight_Manager_Public {
 			}
 		}
 		return $safe_user_id;
+	}
+
+	function validate_rcfm_weekday_array( $days ) {
+		/** 
+		 * Validate a weekday array
+		 */
+		// Make sure that $days is an array
+		if (! is_array($days))
+		{
+			return false;
+		}
+		// Make sure that each element only contains true or false
+		#foreach($days as $d){
+		foreach(array_keys($days) as $key) {
+			if ($days[$key] == 'false') { $days[$key] = false; }
+			elseif ($days[$key] == 'true') { $days[$key] = true; }
+			else {
+				return false;
+			}
+		}
+		return $days;
 	}
 }
 

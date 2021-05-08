@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-04-05 13:53+0200\n"
+"POT-Creation-Date: 2021-05-08 10:47+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mr Toothrot <mrtoothrot@gmail.com>\n"
 "Language-Team: \n"
@@ -18,241 +18,359 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: .git\n"
 "X-Poedit-SearchPathExcluded-1: assets\n"
 
-#: admin/class-rc-flight-manager-admin.php:118
+#: admin/class-rc-flight-manager-admin.php:111
 msgid "Notifications"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:125
+#: admin/class-rc-flight-manager-admin.php:118
 msgid "Send E-Mail notifications"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:133
+#: admin/class-rc-flight-manager-admin.php:126
 msgid "Flight Managers are notified by E-Mail"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:141
+#: admin/class-rc-flight-manager-admin.php:134
 msgid "Additional address to be notified by E-Mail"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:149
+#: admin/class-rc-flight-manager-admin.php:142
 msgid "Template for notification E-Mail"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:156
+#: admin/class-rc-flight-manager-admin.php:149
 msgid "Subject"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:164
+#: admin/class-rc-flight-manager-admin.php:157
 msgid "Text"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:172
+#: admin/class-rc-flight-manager-admin.php:165
 msgid "Flight Slot Reservation Limits"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:179
+#: admin/class-rc-flight-manager-admin.php:172
 msgid "Red limit (max)"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:187
+#: admin/class-rc-flight-manager-admin.php:180
 msgid "Yellow limit"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:195
+#: admin/class-rc-flight-manager-admin.php:188
 msgid "Hi"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:196
+#: admin/class-rc-flight-manager-admin.php:189
 msgid ""
 "You are assigned as flight manager on duty for [flightmanager-duty-date]! "
 "This is a reminder! Don't forget your service!"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:198
+#: admin/class-rc-flight-manager-admin.php:191
 msgid "This notification E-Mail was sent by RC Flight Manager"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:203
+#: admin/class-rc-flight-manager-admin.php:198
 msgid "Please mind your flight manager service on [flightmanager-duty-date]!"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:226
+#: admin/class-rc-flight-manager-admin.php:230
 msgid "Configure E-Mail notification for scheduled flight managers."
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:229
+#: admin/class-rc-flight-manager-admin.php:233
 msgid "Configure limits for flight slot reservations."
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:233
+#: admin/class-rc-flight-manager-admin.php:237
 msgid ""
 "You can use the following placeholders in the subject line and body of the "
 "notification E-Mail:"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:234
+#: admin/class-rc-flight-manager-admin.php:238
 msgid "Date on which the notified user is assigned flight manager"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:235
+#: admin/class-rc-flight-manager-admin.php:239
 msgid "Name of the user who is assigned flight manager"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:306
+#: admin/class-rc-flight-manager-admin.php:326
 msgid "Save Changes"
 msgstr ""
 
-#: admin/class-rc-flight-manager-admin.php:319
+#: admin/class-rc-flight-manager-admin.php:339
 msgid "RC Flight Manager Settings"
 msgstr ""
 
-#: includes/class-rc-flight-manager-flightslot.php:168
+#: includes/class-rc-flight-manager-flightslot.php:166
 msgid "Book slot"
 msgstr ""
 
-#: includes/class-rc-flight-manager-flightslot.php:177
+#: includes/class-rc-flight-manager-flightslot.php:175
 msgid "Cancel booking"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:391
+#: includes/class-rc-flight-manager-schedule.php:134
+msgid " already exists!"
+msgstr ""
+
+#: includes/class-rc-flight-manager-schedule.php:152
+msgid "Invalid time range!"
+msgstr ""
+
+#: includes/class-rc-flight-manager-schedule.php:325
 msgid "Assign to me"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:398
+#: includes/class-rc-flight-manager-schedule.php:332
 msgid "Swap duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:404
+#: includes/class-rc-flight-manager-schedule.php:338
 msgid "Handover duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:412
+#: includes/class-rc-flight-manager-schedule.php:346
 msgid "Assign duty"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:418
+#: includes/class-rc-flight-manager-schedule.php:352
 msgid "Update label"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:424
+#: includes/class-rc-flight-manager-schedule.php:358
 msgid "Delete Date"
 msgstr ""
 
-#: includes/class-rc-flight-manager-schedule.php:442
+#: includes/class-rc-flight-manager-schedule.php:376
 msgid "Change"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:203
-#: public/class-rc-flight-manager-public.php:282
+#: public/class-rc-flight-manager-public.php:194
+#: public/class-rc-flight-manager-public.php:276
 msgid "Members only! Please login!"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:314
-msgid "Add date"
+#: public/class-rc-flight-manager-public.php:313
+msgid "Add entry"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:321
+#: public/class-rc-flight-manager-public.php:314
+msgid "Add series of entries"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:322
 msgid "Select date"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:323
+#: public/class-rc-flight-manager-public.php:324
+#: public/class-rc-flight-manager-public.php:354
 msgid "Ok"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:324
-#: public/class-rc-flight-manager-public.php:450
-#: public/class-rc-flight-manager-public.php:495
-#: public/class-rc-flight-manager-public.php:558
-#: public/class-rc-flight-manager-public.php:604
+#: public/class-rc-flight-manager-public.php:325
+#: public/class-rc-flight-manager-public.php:355
+#: public/class-rc-flight-manager-public.php:529
+#: public/class-rc-flight-manager-public.php:589
+#: public/class-rc-flight-manager-public.php:680
+#: public/class-rc-flight-manager-public.php:739
 msgid "Cancel"
 msgstr ""
 
+#: public/class-rc-flight-manager-public.php:334
+msgid "From when to when do you need flight manager services?"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:335
+msgid "From:"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:336
+msgid "To:"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:337
+msgid "On which weekdays do you need flight manager services?"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:339
+#: public/class-rc-flight-manager-public.php:340
+msgid "Monday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:341
+#: public/class-rc-flight-manager-public.php:342
+msgid "Tuesday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:343
+#: public/class-rc-flight-manager-public.php:344
+msgid "Wednesday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:345
+#: public/class-rc-flight-manager-public.php:346
+msgid "Thursday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:347
+#: public/class-rc-flight-manager-public.php:348
+msgid "Friday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:349
+#: public/class-rc-flight-manager-public.php:350
+msgid "Saturday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:351
 #: public/class-rc-flight-manager-public.php:352
+msgid "Sunday"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:383
 msgid "as of"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:447
+#: public/class-rc-flight-manager-public.php:429
+#: public/class-rc-flight-manager-public.php:467
+#: public/class-rc-flight-manager-public.php:505
+#: public/class-rc-flight-manager-public.php:554
+#: public/class-rc-flight-manager-public.php:606
+#: public/class-rc-flight-manager-public.php:646
+#: public/class-rc-flight-manager-public.php:703
+#: public/class-rc-flight-manager-public.php:755
+#: public/class-rc-flight-manager-public.php:791
+#: public/class-rc-flight-manager-public.php:840
+#: public/class-rc-flight-manager-public.php:879
+#: public/class-rc-flight-manager-public.php:917
+#: public/class-rc-flight-manager-public.php:957
+#: public/class-rc-flight-manager-public.php:990
+msgid "Security check failed (rcfm-security-nonce)!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:455
+msgid "Schedule ID must not be NULL!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:487
+msgid "You are not allowed to delete schedules!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:526
 msgid "Enter label"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:449
-#: public/class-rc-flight-manager-public.php:494
-#: public/class-rc-flight-manager-public.php:557
-#: public/class-rc-flight-manager-public.php:603
+#: public/class-rc-flight-manager-public.php:528
+#: public/class-rc-flight-manager-public.php:588
+#: public/class-rc-flight-manager-public.php:679
+#: public/class-rc-flight-manager-public.php:738
 msgid "Save"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:480
+#: public/class-rc-flight-manager-public.php:539
+#: public/class-rc-flight-manager-public.php:976
+msgid "You are not allowed to update comments!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:574
 msgid "Member to handover service to"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:493
+#: public/class-rc-flight-manager-public.php:587
 msgid "The selected person agreed to take over this duty! "
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:545
+#: public/class-rc-flight-manager-public.php:633
+msgid "Schedule or user ID does not exist!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:667
 msgid "Member to assign to this service"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:547
+#: public/class-rc-flight-manager-public.php:669
 msgid "Nobody"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:588
+#: public/class-rc-flight-manager-public.php:690
+#: public/class-rc-flight-manager-public.php:1014
+msgid "You are not allowed to assign users!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:723
 msgid "Member to swap service with"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:596
+#: public/class-rc-flight-manager-public.php:731
 msgid "on"
 msgstr ""
 
-#: public/class-rc-flight-manager-public.php:602
+#: public/class-rc-flight-manager-public.php:737
 msgid "The selected person and me agreed on swaping our duties! "
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:21
+#: public/class-rc-flight-manager-public.php:810
+msgid "Max number of reservations reached!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:829
+#: public/class-rc-flight-manager-public.php:867
+msgid "Reservation id does not exist!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:905
+msgid "You are not allowed to add schedule dates!"
+msgstr ""
+
+#: public/class-rc-flight-manager-public.php:945
+msgid "You are not allowed to add schedule date ranges!"
+msgstr ""
+
+#: public/class-rc-flight-manager-widget.php:20
 msgid "RC Flight Manager Widget"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:23
+#: public/class-rc-flight-manager-widget.php:22
 msgid "Displays the current flight manager on duty in the sidebar"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:48
+#: public/class-rc-flight-manager-widget.php:47
 msgid "No flight manager assigned!"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:52
+#: public/class-rc-flight-manager-widget.php:51
 msgid "No flight manager at air-field!"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:63
+#: public/class-rc-flight-manager-widget.php:62
 msgid "New title"
 msgstr ""
 
-#: public/class-rc-flight-manager-widget.php:68
+#: public/class-rc-flight-manager-widget.php:67
 msgid "Title:"
 msgstr ""
 
-#, fuzzy
-#~| msgid "No flight manager service available!"
-#~ msgid "No flight manager available!"
-#~ msgstr "Kein Flugleiter vor Ort!"
+#: rc-flight-manager.php:28
+msgid "RC Flight Manager"
+msgstr ""
 
-#~ msgid "Time"
-#~ msgstr "Zeit"
+#: rc-flight-manager.php:29
+msgid "https://wordpress.org/plugins/rc-flight-manager"
+msgstr ""
 
-#~ msgid "Bookings"
-#~ msgstr "Reservierungen"
+#: rc-flight-manager.php:30
+msgid "Mr Toothrot"
+msgstr ""
 
-#~ msgid "Date"
-#~ msgstr "Datum"
+#: rc-flight-manager.php:31
+msgid "https://github.com/mrtoothrot"
+msgstr ""
 
-#~ msgid "Assigned Flight-Manager"
-#~ msgstr "Eingeteilter Flugleiter"
-
-#~ msgid "Nobody assigned!"
-#~ msgstr "Niemand eingeteilt!"
-
-#~ msgid "Notification E-Mail subject"
-#~ msgstr "Betreff der Erinnerungs-E-Mail"
+#: rc-flight-manager.php:32
+msgid "A Flight Manager Scheduling System for Modell Airfield Clubs"
+msgstr ""
