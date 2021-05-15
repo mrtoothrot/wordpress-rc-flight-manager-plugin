@@ -43,7 +43,7 @@ Vereinsmitglieder (Wordpress Abonnenten) können
 
 Vereinsvorstände (Wordpress Mitarbeiter) können
 
-* neue Dienste im Dienstplan eintragen
+* Neue Dienste im Dienstplan eintragen
 * Dienste aus dem Dienstplan löschen
 * Mitglieder zum Dienst einteilen
 * Labels für Dienste eintragen, ändern oder löschen (z. B. um Veranstaltungen zu markieren)
@@ -100,7 +100,7 @@ Beispiel:
 
 `[rc-flight-slot-reservation]`
 
-## Usage ##
+## Benutzung ##
 
 Einfach mit dem Browser die Seite aufrufen, auf der Du den shortcode platziert hast, und mit dem Eintragen von Diensten anfangen.
 
@@ -139,55 +139,55 @@ Beim nächsten Refresh der Seite sollten die neuen Übersetzungsdateien geladen 
 
 ### 0.9 ###
 
-* Security improvements
+* Sicherheitsverbesserungen
 
 ### 0.8 ###
 
-* Todays service is highlighted with a table row border
-* If no monts are specified in the `[rc-flight-manager-schedule]` shortcode, the whole current year is shown
-* Swapping services is only possible with services in future
-* Fixed logging issue
+* Der heutige Dienst wird mit einer Umrahmung hervorgehoben
+* Wenn keine Monate im `[rc-flight-manager-schedule]` shortcode angegeben sind, wird das ganze Jahr gezeigt
+* Dienste können nur noch mit Einträgen in der Zukunft getauscht werden
+* Fehler im logging korrigiert
 
 ### 0.7 ###
 
-* Plugin tables are now removed from the wordpress DB during plugin uninstallation
-* Flight Manager Service dates can now be added
-* Implemented dropdown button which accumulates all plugin functions like takeover, swap, handover, etc.
-* Added function to delete service dates
-* Plugin will now show past services in the current month
-* Comments/Labels can now be changed
-* Comments/Labels can now be styled via CSS (p.rcfm-event-label)
-* Removed table headers, as the tables should be self explaining
+* Plugin Tabellen werden bei der Plugin Entfernung aus der Wordpress DB gelöscht
+* Flugleiter Dienste können nun hinzugefügt werden
+* Dropdown button implementiert, in dem alle Plugin-Funktionen wie Übernehmen, Tauschen und Übergeben, etc. vereint werden
+* Funktion zum löschen von Diensten hinzugefügt
+* Plugin zeigt vergangene Dienste des aktuellen Monats
+* Kommentare/Labels können nun geändert werden
+* Kommentare/Labels können jetzt via CSS gestyled werden (p.rcfm-event-label)
+* Tabellenüberschriften entfernt, da selbsterklärend
 
 ### 0.6 ###
 
-* Preparations for internationalization
-* German Localization (added rc-flight-manager-de_DE.[po|mo] with German translation)
-* Added POT file for tranlation to other languages
+* Vorbereitung für Internationalisierung
+* Deutsche Lokalisierung (rc-flight-manager-de_DE.[po|mo] mit deutscher Übersetzung hinzugefügt)
+* POT Datei für Übersetzung in andere Sprachen hinzugefügt
 
 ### 0.5 ###
 
 * Security improvements
-  * Changing options now requires `manage_options` capability => Administrator Role
-  * Viewing the flight manager roster needs `read` capability => Subscriber Role
-  * Users with `edit_posts`capability can assign duties to other members => Contributer Role
-* Flight slot reservation limits now customizable
+  * Das ändern von Optionen erfordert `manage_options` capability => Administrator Role
+  * Dienstplan wird nur mit `read` capability angezeigt => Subscriber Role
+  * Benutzer mit `edit_posts`capability Benutzer mit => Contributer Role
+* Flugzeiten Reservierungs-Limits können nun angepasst werden
 
 ### 0.3 ###
 
-* Implemented widget to show current flight manager in sidebar
+* Widget implementiert, dass den aktuellen Flugleiter in der Sidebar anzeigt
 
 ### 0.2 ###
 
-* E-Mail notification is customizable in settings page
-* Placeholders for [flightmanger-name] and [flightmanager-duty-date] are now implemented
-* Shortcode can be configured to only show services in the next x months
-* Duties are now sorted by date when creating the roster table.
-* Implemented basic email notification two and 14 days before scheduled date
+* E-Mail Benachrichtigung kann auf Einstellungs-Seite angepasst werden
+* Platzhalter [flightmanger-name] und [flightmanager-duty-date] implementiert
+* Shortcode kann nun so konfiguriert werden, dass nur Dienste der nächsten x Monate angezeigt werden
+* Dienste werden beim erstellen des Dienstplans nach datum sortiert
+* Einfache E-Mail Benachrichtigung zwei und 14 Tage vor dem Dienst implementiert
 
 ### 0.1 ###
 
-* Minimum viable product, only basic functionality
+* Minimum viable product, nur Basis-Funktionalität
 
 ## Upgrade Notice ##
 
