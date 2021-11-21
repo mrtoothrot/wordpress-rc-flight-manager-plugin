@@ -130,6 +130,9 @@ The new tranlation files should be loaded on the next refresh of the page.
 
 * Add filter to specify flightmanager services for a specific year
 * Show Year behind month names in flightmanager schedule
+TODO: Fix Bug: Swap Duti in future year does not work!
+TODO: When assigning services, show how many services are already assigned to a member
+TODO: Update german LIESMICH.md!!!
 
 ### 1.0 ###
 
