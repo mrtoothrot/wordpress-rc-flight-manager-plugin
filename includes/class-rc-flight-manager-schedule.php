@@ -171,26 +171,31 @@ class RC_Flight_Manager_Schedule {
         return($results);
     }
 
-	public static function getServiceList($months = NULL) {
+	public static function getServiceList($months = NULL, $selected_year = NULL) {
         // Prepare table name
         global $wpdb;
         $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;		
         
         // Get start of current year
-        $this_year = date_i18n("Y");
-        $start_this_year = date_i18n("Y-m-d", strtotime($this_year . "-01-01"));
-        $end_this_year = date_i18n("Y-m-d", strtotime($this_year . "-12-31"));
+        if (is_null($selected_year)) {
+            $year = date_i18n("Y");
+        }
+        else {
+            $year = $selected_year;
+        }
+        $start_year = date_i18n("Y-m-d", strtotime($year . "-01-01"));
+        $end_year = date_i18n("Y-m-d", strtotime($year . "-12-31"));
         $today = date_i18n("Y-m-d");
 
         // Checking input parameters
         if (is_null($months)) {
             //do_action( "qm/debug", "months is NULL: " . $months);
-            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_year' ORDER BY date", OBJECT );
+            $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_year' and date < '$end_year' ORDER BY date", OBJECT );
         }
         elseif (is_string($months)){
             //do_action( "qm/debug", "months is string: " . $months);
             if ($months == "+") { # Return only services today and in the future
-                $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_this_year' ORDER BY date", OBJECT );    
+                $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_year' ORDER BY date", OBJECT );    
             }
             else {
                 return FALSE;
@@ -199,9 +204,21 @@ class RC_Flight_Manager_Schedule {
         elseif (is_numeric($months)) {
             //do_action( "qm/debug", "months is numeric: " . $months);
             // Calculating current date
-            $this_month = date_i18n("Y-m");
-            $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
-            $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+            //do_action( "qm/debug", "year is: " . $year);
+            if ($year == date_i18n("Y")) {  # Now we calculate a plan for the current year
+                //do_action( "qm/debug", "Calculating for current year!");
+                $this_month = date_i18n("Y-m");
+                $start_this_month = date_i18n("Y-m-d", strtotime($this_month . "-01"));
+                $end_month = date_i18n("Y-m-d", strtotime("$this_month + $months months"));
+            } 
+            else # Now we calculate plan for past or future year
+            {
+                //do_action( "qm/debug", "Calculating for future/past year!");
+                $start_this_month = date_i18n("Y-m-d", strtotime($year . "-01-01"));
+                $end_month = date_i18n("Y-m-d", strtotime("$start_this_month + $months months"));
+            }
+            //do_action( "qm/debug", "start_this_month is: " . $start_this_month);
+            //do_action( "qm/debug", "end_month is: " . $end_month);
             // Getting the list
             $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_this_month' and date < '$end_month' ORDER BY date", OBJECT );
         }

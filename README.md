@@ -4,7 +4,7 @@
 * Contributors: mrtoothrot
 * Tags: flightmanager, flugleiter, rc, booking, buchung, schedule, stundenplan, roster, dienstplan
 * Requires at least: 5.7.0
-* Tested up to: 5.7.0
+* Tested up to: 5.8.2
 * Requires PHP: 7.4
 * Stable tag: 1.0.0
 * Text Domain: rc-flight-manager
@@ -125,6 +125,11 @@ The new tranlation files should be loaded on the next refresh of the page.
 1. Adding a series of date entries - `/assets/screenshot-6.png`
 
 ## Changelog ##
+
+### 1.1 ###
+
+* Add filter to specify flightmanager services for a specific year
+* Show Year behind month names in flightmanager schedule
 
 ### 1.0 ###
 

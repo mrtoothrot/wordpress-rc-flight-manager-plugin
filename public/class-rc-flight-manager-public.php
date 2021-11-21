@@ -286,6 +286,12 @@ class RC_Flight_Manager_Public {
 			$display_months = (int)$atts['months']; // Casting $atts['months'] to int, getServiceList handles string and int arguments differently
 		}
 
+		// Get attribute 'year':
+		$display_year = NULL;
+		if (array_key_exists('year', $atts)) {
+			$display_year = (int)$atts['year']; // Casting $atts['year'] to int, getServiceList handles string and int arguments differently
+		}
+
 		// wp_enqueue_script loads the JS code if shortcode is active
 		// (see https://kinsta.com/de/blog/wp-enqueue-scripts/)
 		// Last Parameter = true => Load script in footer, so that jQuery can do the action bindings
@@ -296,7 +302,7 @@ class RC_Flight_Manager_Public {
 			'security_nonce' => wp_create_nonce('rcfm-security-nonce') ) );
 		
 		// Load all schedules from DB
-		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months);
+		$schedules = RC_Flight_Manager_Schedule::getServiceList($display_months, $display_year);
 		
 		// Begin enclosing <div>
 		$content .= '<div id="schedule" class="rcfm-schedule">';
@@ -373,13 +379,13 @@ class RC_Flight_Manager_Public {
 		// Filling table with data
 		foreach ( $schedules as $s ) {
 			$date = strtotime( $s->date );
-			$currentMonth = date_i18n("F", $date);
+			$currentMonth = date_i18n("F Y", $date);
 		
 			// Create a sub-header row for each month
 			$row = "";
 			if ($currentMonth != $lastMonth) {
 				$row .= '<tr>';
-				$row .= '<th class="rcfm-table-headers" colspan="3"><div align="center">' . $currentMonth. '</div>' 
+				$row .= '<th class="rcfm-table-headers" colspan="3"><div align="center">' . $currentMonth . '</div>' 
 				      . '<div class="rcfm-table-header-date" align="right">' . esc_html__('as of', 'rc-flight-manager') . ' ' . $today . '</div></th>';
 				$row .= '</tr>';
 				//$row .= $header;
@@ -722,7 +728,7 @@ class RC_Flight_Manager_Public {
 		$modal .= '  	 <span class="close">&times;</span>';
 		$modal .= '  	 <label for="serviceSelectionField">' . esc_html__('Member to swap service with', 'rc-flight-manager') . ':</label>';
 		$modal .= '      <select id="serviceSelectionField" name="serviceSelectionField">';
-		$schedules = RC_Flight_Manager_Schedule::getServiceList('+');
+		$schedules = RC_Flight_Manager_Schedule::getServiceList('+', $display_year);
         foreach ( $schedules as $s) {
             if (($s->user_id != NULL) && ($s->user_id != $current_user->ID)) {
                 $userObj = get_userdata($s->user_id);
