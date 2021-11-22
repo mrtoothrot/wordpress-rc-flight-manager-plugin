@@ -195,7 +195,7 @@ class RC_Flight_Manager_Schedule {
         elseif (is_string($months)){
             //do_action( "qm/debug", "months is string: " . $months);
             if ($months == "+") { # Return only services today and in the future
-                $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$today' and date < '$end_year' ORDER BY date", OBJECT );    
+                $list = $wpdb->get_results( "SELECT * FROM $schedule_table_name WHERE date >= '$start_year' and date >= '$today' and date < '$end_year' ORDER BY date", OBJECT );    
             }
             else {
                 return FALSE;

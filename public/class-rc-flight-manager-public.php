@@ -716,6 +716,8 @@ class RC_Flight_Manager_Public {
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+		// Get year of selected duty: Because only duties in the same year are valid for swapping!
+		$display_year = date_i18n("Y", strtotime( $s->date ));
 	
 	    // Get current Wordpress User
 	    $current_user = wp_get_current_user();
