@@ -273,6 +273,31 @@ class RC_Flight_Manager_Schedule {
         }
     }
 
+    public static function get_no_of_duties($user = NULL, $selected_year = NULL) {
+        if ( is_null($user) ) {
+            throw new Exception(esc_html__('function get_no_of_duties: No user specified!', 'rc-flight-manager'));
+        }
+        if ( is_null($selected_year) ) {
+            throw new Exception(esc_html__('function get_no_of_duties: No year selected!', 'rc-flight-manager'));
+        }
+        
+        $start_year = date_i18n("Y-m-d", strtotime($selected_year . "-01-01"));
+        $end_year = date_i18n("Y-m-d", strtotime($selected_year . "-12-31"));
+        
+        global $wpdb;
+        $schedule_table_name = $wpdb->prefix . RC_FLIGHT_MANAGER_SCHEDULE_TABLE_NAME;	
+        //SELECT COUNT(*) FROM `wp_rcfm_schedule` WHERE user_id='42' and date >= '$start_year' and date < '$end_year'
+        //SELECT COUNT(*) FROM `wp_rcfm_schedule` WHERE user_id='42' and date >= '2022-01-01' and date <= '2022-12-31';
+        $result = $wpdb->get_var( "SELECT COUNT(*) FROM $schedule_table_name WHERE user_id='$user' and date >= '$start_year' and date <= '$end_year'");
+        //$result = $wpdb->get_var( "SELECT COUNT(*) FROM $schedule_table_name WHERE user_id='$user'" );
+        if ( is_null($result) ) {
+            return 0;
+        }
+        else {
+            return $result;
+        }
+    }
+
     // Public methods
     public function updateUser( $new_id, $by_admin = 'No' ) {
         //do_action( 'qm/debug', "by_admin = $by_admin" );

@@ -659,6 +659,8 @@ class RC_Flight_Manager_Public {
 
 	    // Load Duty from DB
 	    $s = RC_Flight_Manager_Schedule::getServiceById($schedule_id);
+		// Get year of selected duty: Needed to calculate how many services are already assigned to a user
+		$display_year = date_i18n("Y", strtotime( $s->date ));
 	
 	    // Get current Wordpress User
 	    $current_user = wp_get_current_user();
@@ -676,12 +678,14 @@ class RC_Flight_Manager_Public {
 			$users = get_users();
 			foreach ( $users as $u) {
 				if ($u->ID) {
-					$name = esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
+					$no_of_duties = RC_Flight_Manager_Schedule::get_no_of_duties($u->ID, $display_year);
+					$name = " (" . esc_html( $no_of_duties) . ") - " . esc_html( $u->user_firstname ) . " " . esc_html( $u->user_lastname );
 					//$date = date_i18n("D j. M", strtotime( $s->date ));
 					$modal .= '      <option value="' . $u->ID . '">' . $name . '</option>';
 				}
 			}
 			$modal .= '</select>';
+			$modal .= '      <p align="left">' . esc_html__('* Number in parentheses shows how many services are already assigned to this user!', 'rc-flight-manager') . '</p>';
 			$modal .= '      <p align="center"><button type="button" id="assign_btn_ok" class="modal_ok">' . esc_html__('Save', 'rc-flight-manager') . '</button>';
 			$modal .= '      <button type="button" id="assign_btn_abort" class="modal_abort">' . esc_html__('Cancel', 'rc-flight-manager') . '</button></p>';
 			$modal .= '   </div>';
