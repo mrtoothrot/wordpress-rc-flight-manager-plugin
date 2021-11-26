@@ -6,7 +6,7 @@
 * Requires at least: 5.7.0
 * Tested up to: 5.8.2
 * Requires PHP: 7.4
-* Stable tag: 1.0.0
+* Stable tag: 1.1.0
 * Text Domain: rc-flight-manager
 * Domain Path: /languages
 * Plugin URI: <https://wordpress.org/plugins/rc-flight-manager>
@@ -92,6 +92,18 @@ Example:
 
 `[rc-flight-manager-schedule months=3]` => Shows the next 3 months
 
+Use the shortcode parameter "year=" to specify the year to be displayed.
+
+Example:
+
+`[rc-flight-manager-schedule year=2022]` => Shows the schedule for 2022.
+
+Both shortcode parmeters can be combined:
+
+Example:
+
+`[rc-flight-manager-schedule year=2022 months=3]` => Shows the next 3 months of schedule for 2022.
+
 ### Display the Booking System for flight slots ###
 
 Place the shortcode `[rc-flight-slot-reservation]` on any wordpress page on which you want to show the booking system.
@@ -103,17 +115,6 @@ Example:
 ## Usage ##
 
 Just point your browser to the URL of the wordpress page/post where you have placed the shortcode and start adding dates.
-
-## Frequently Asked Questions ##
-
-**Some of the buttons are not translated into my language. How can I fix this?**
-
-Wordpress seems to cache the translation files and might not update them correctly during a plugin update. Open the `[wp-content\languages\plugins\]` folder of your Wordpress installation and delete the following files:
-
-* rc-flight-manager-de_DE.po
-* rc-flight-manager-de_DE.mo
-
-The new tranlation files should be loaded on the next refresh of the page.
 
 ## Screenshots ##
 
@@ -128,10 +129,9 @@ The new tranlation files should be loaded on the next refresh of the page.
 
 ### 1.1 ###
 
-* Add filter to specify flightmanager services for a specific year
-* Show Year behind month names in flightmanager schedule
-* When assigning services, show how many services are already assigned to a member
-TODO: Update german LIESMICH.md!!!
+* Added a shortcode parameter to specify the year to be displayed
+* Headlines for each month now show the year
+* When assigning services, it is now displayed how many services are already assigned to a member
 
 ### 1.0 ###
 

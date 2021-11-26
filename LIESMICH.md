@@ -4,9 +4,9 @@
 * Contributors: mrtoothrot
 * Tags: flightmanager, flugleiter, rc, booking, buchung, schedule, stundenplan, roster, dienstplan
 * Requires at least: 5.7.0
-* Tested up to: 5.7.0
+* Tested up to: 5.8.2
 * Requires PHP: 7.4
-* Stable tag: 1.0.0
+* Stable tag: 1.1.0
 * Text Domain: rc-flight-manager
 * Domain Path: /languages
 * Plugin URI: <https://wordpress.org/plugins/rc-flight-manager>
@@ -92,6 +92,18 @@ Beispiel:
 
 `[rc-flight-manager-schedule months=3]` => Zeigt die nächsten 3 Monate an.
 
+Mit dem Shortcode-Parameter "year=" legst Du fest welches Jahr angezeigt werden soll.
+
+Beispiel:
+
+`[rc-flight-manager-schedule year=2022]` => Zeigt den Dienstplan für 2022.
+
+Beide Shortcode-Parameter können kombiniert werden.
+
+Beispiel:
+
+`[rc-flight-manager-schedule year=2022 months=3]` => Zeigt die nächsten 3 Monate des Dienstplans für 2022.
+
 ### Buchungssystem für Flugzeiten anzeigen ###
 
 Verwende den Shortcode `[rc-flight-slot-reservation]` auf einer beliebigen Wordpress Seite oder Blog-Post, auf der das Buchungssystem angezeigt werden soll.
@@ -104,17 +116,6 @@ Beispiel:
 
 Einfach mit dem Browser die Seite aufrufen, auf der Du den shortcode platziert hast, und mit dem Eintragen von Diensten anfangen.
 
-## Häufig gestellte Fragen ##
-
-**Manche Buttons werden nicht korrekt in meine Sprache übersetzt. Wie kann ich das beheben?**
-
-Wordpress scheint die Übersetzungen zu cachen und bei einem Plugin Update manchmal nicht korrekt zu aktualisieren. Öffne den Ordner `[wp-content\languages\plugins\]` deiner Wordpress Installation und lösche folgende Dateien:
-
-* rc-flight-manager-de_DE.po
-* rc-flight-manager-de_DE.mo
-
-Beim nächsten Refresh der Seite sollten die neuen Übersetzungsdateien geladen werden.
-
 ## Screenshots ##
 
 1. Flugleiter Dienstplan - `/assets/screenshot-1.png`
@@ -125,6 +126,12 @@ Beim nächsten Refresh der Seite sollten die neuen Übersetzungsdateien geladen 
 1. Eine Terminserie hinzufügen  - `/assets/screenshot-6.png`
 
 ## Changelog ##
+
+### 1.1 ###
+
+* Per Shortcode-Parameter kann jetzt festgelegt werden, welches Jahr gezeigt werden soll
+* In den Monatsüberschriften des Dienstplans wird jetzt das Jahr angezeigt
+* Beim zuseisen von Diensten wird nun angezeigt wie viele Dienste einem Mitglied bereits zugewiesen sind.
 
 ### 1.0 ###
 
